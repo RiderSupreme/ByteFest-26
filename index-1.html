@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ByteFest 2026 · GEMS New Millennium School</title>
+<meta name="description" content="ByteFest 2026 — designing the future, one prompt at a time. Six tracks across four arenas at GEMS New Millennium School, Dubai Hills.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============ EDIT THESE FIRST ============
+   Event date lives in the <script> at the bottom (EVENT_DATE).
+   Track copy lives in the EVENTS array at the bottom.
+   Image files expected next to this page (all fall back gracefully if missing):
+     bytefest-logo.png · nms-logo.png · semper-sursum.png                       */
+
+/* ---------- DARK (default, the ByteFest house look) ---------- */
+:root{
+  --void:#000000;
+  --signal:#003DA6;
+  --signal-hot:#4D8BFF;
+  --ember:#0A2A6B;
+  --bone:#EEF2FA;
+  --ash:#8E9AB3;
+  --grid:rgba(77,139,255,.08);
+  --panel:#000614;
+  --teal:#19D3C5;
+  --teal-deep:#0B8F85;
+  --sel:#065EAD;                       /* blue carrying a teal lean */
+  /* glass */
+  --glass-bg:rgba(255,255,255,.06);
+  --glass-brd:rgba(25,211,197,.45);
+  --glass-hi:rgba(255,255,255,.14);
+  --glass-shadow:0 6px 28px rgba(0,0,0,.45);
+  /* hero sky — midnight. The toggle drives these live from JS so the sky
+     actually cycles rather than cross-fading two fixed gradients. */
+  --hero1:#000000; --hero2:#000512; --hero3:#001033; --hero4:#001d5c;
+  /* celestial bodies: moon up, sun still below the horizon */
+  --moon-top:14%; --moon-right:12%; --moon-op:1;
+  --sun-top:118%; --sun-right:34%; --sun-op:0;
+  /* skyline art */
+  --sk-body:#001a52; --sk-lit:#7FB0FF;
+  --dune1:#000c29; --dune2:#000000;
+  /* scroll-canvas bands */
+  --sky1:#0B2C6E; --sky2:#07204F; --sky3:#040F2C; --sky-lit:#4D8BFF;
+  /* page body behind sections */
+  --under1:rgba(0,29,92,.96); --under2:rgba(0,6,20,.74); --under3:rgba(0,0,0,.6);
+  --footer:#000000;
+  --px:"Silkscreen", "Courier New", monospace;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+/* ---------- LIGHT (opt-in via the header toggle) ---------- */
+:root[data-theme="light"]{
+  --void:#F2F4F9;
+  --signal:#003DA6;
+  --signal-hot:#0B4FBC;
+  --ember:#C6D3E8;
+  --bone:#131C30;
+  --ash:#5A6579;
+  --grid:rgba(0,61,166,.09);
+  --panel:#FFFFFF;
+  --teal:#0E9E93;
+  --teal-deep:#0A6F67;
+  --sel:#4E92DE;
+  --glass-bg:rgba(255,255,255,.58);
+  --glass-brd:rgba(14,158,147,.5);
+  --glass-hi:rgba(255,255,255,.85);
+  --glass-shadow:0 6px 24px rgba(10,22,48,.12);
+  /* daybreak: cool morning sky warming at the horizon */
+  --hero1:#9EC2F5; --hero2:#BBD5FA; --hero3:#DCEAFD; --hero4:#F7EBD9;
+  --moon-top:-24%; --moon-right:6%; --moon-op:0;
+  --sun-top:28%; --sun-right:20%; --sun-op:1;
+  --sk-body:#8CA6CE; --sk-lit:#FFE0A8;
+  --dune1:#6E88B4; --dune2:#4E6690;
+  --sky1:#C6D8F0; --sky2:#AFC5E4; --sky3:#93A9CE; --sky-lit:#F3CB92;
+  --under1:rgba(240,240,246,.96); --under2:rgba(246,246,250,.82); --under3:rgba(250,250,252,.72);
+  --footer:#EDEEF4;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--void)}
+body{-webkit-tap-highlight-color:transparent;background:var(--void);color:var(--bone);font-family:var(--mono);font-size:1rem;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* ---------- THEME CROSS-FADE ----------
+   .theming is added to <html> only while the toggle is switching, so the slow
+   sweep never interferes with ordinary hover and reveal timings. */
+:root.theming,:root.theming *,:root.theming *::before,:root.theming *::after{
+  transition-property:background-color,color,border-color,fill,stroke,box-shadow,opacity,backdrop-filter!important;
+  transition-duration:1100ms!important;
+  transition-timing-function:cubic-bezier(.4,0,.2,1)!important;
+  transition-delay:0s!important}
+/* the wheel keeps its own timing so a mid-switch click still spins properly */
+:root.theming .dial{transition:transform .7s cubic-bezier(.2,.8,.2,1)!important}
+@media (prefers-reduced-motion:reduce){
+  :root.theming,:root.theming *,:root.theming *::before,:root.theming *::after{transition-duration:1ms!important}
+}
+body.locked{overflow:hidden}
+img,svg{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.wrap{width:min(1100px,100% - 2.5rem);margin-inline:auto}
+
+/* ============ GLASS ============ */
+.glass{position:relative;background:var(--glass-bg);border:1px solid var(--glass-brd);
+  backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);
+  box-shadow:var(--glass-shadow), inset 0 1px 0 var(--glass-hi);overflow:hidden;
+  transition:border-color .25s, box-shadow .25s, transform .18s, background .25s}
+/* sheen that sweeps on hover */
+.glass::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.22) 48%,transparent 62%);
+  transform:translateX(-120%);transition:transform .7s cubic-bezier(.3,.7,.3,1)}
+.glass:hover::before{transform:translateX(120%)}
+button.glass,a.glass{cursor:pointer}
+button.glass:hover,a.glass:hover{border-color:var(--teal);transform:translateY(-2px);
+  box-shadow:0 10px 34px rgba(0,0,0,.5), 0 0 22px rgba(25,211,197,.28), inset 0 1px 0 var(--glass-hi)}
+button.glass:active,a.glass:active{transform:translateY(0)}
+
+/* ---------- BACKGROUND FX CANVAS (scroll-driven skyline) ---------- */
+#bgfx{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ---------- TOP BAR ---------- */
+.topbar{position:fixed;inset:0 0 auto 0;z-index:60;pointer-events:none;
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1rem;
+  padding:.85rem clamp(.9rem,3vw,2rem);transition:background .3s, backdrop-filter .3s, box-shadow .3s}
+.topbar.stuck{background:linear-gradient(var(--void),transparent);backdrop-filter:blur(8px);box-shadow:0 1px 0 var(--glass-brd)}
+.crest{pointer-events:auto;display:flex;align-items:center;text-decoration:none}
+.crest img{height:clamp(38px,5.2vw,54px);width:auto;object-fit:contain}
+.crest .ph{height:clamp(38px,5.2vw,54px);min-width:96px;display:grid;place-items:center;padding:0 .6rem;
+  border:1px dashed var(--ember);font-family:var(--px);font-size:.52rem;color:var(--ash);letter-spacing:.06em;text-align:center;line-height:1.3}
+.bar-right{display:flex;align-items:center;gap:.7rem;pointer-events:auto}
+.themetog{width:38px;height:38px;display:grid;place-items:center;border-radius:50%;padding:0;
+  font-size:1rem;line-height:1;color:var(--teal);background:var(--glass-bg);border:1px solid var(--glass-brd);
+  backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);cursor:pointer;
+  transition:border-color .25s, transform .18s, color .25s}
+.themetog:hover{border-color:var(--teal);transform:rotate(-18deg) scale(1.08)}
+.navlinks{pointer-events:auto;list-style:none;display:flex;justify-content:center;gap:clamp(.5rem,1.8vw,1.5rem);flex-wrap:wrap}
+.navlinks a{position:relative;display:block;padding:.3rem .1rem;font-family:var(--px);font-size:.72rem;text-decoration:none;color:var(--ash);
+  letter-spacing:.04em;transition:color .2s;white-space:nowrap}
+.navlinks a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:2px;background:var(--teal);transition:right .25s}
+.navlinks a:hover,.navlinks a.on{color:var(--bone)}
+.navlinks a:hover::after,.navlinks a.on::after{right:0}
+.progress{position:fixed;top:0;left:0;height:2px;width:0;z-index:70;pointer-events:none;
+  background:linear-gradient(90deg,var(--signal),var(--teal))}
+@media (max-width:820px){
+  .topbar{grid-template-columns:auto auto;row-gap:.4rem;padding:.6rem .9rem}
+  /* the grid item is <nav>, not the <ul> inside it — place and clamp that */
+  .topbar nav{grid-column:1 / -1;order:3;min-width:0}
+  /* one scrollable row rather than wrapping to two — keeps the bar short */
+  .navlinks{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;min-width:0;
+    gap:.9rem;padding-bottom:.15rem;scrollbar-width:none;-ms-overflow-style:none}
+  .navlinks::-webkit-scrollbar{display:none}
+  .navlinks a{font-size:.66rem}
+  .hero-copy{padding-top:10rem}
+}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;z-index:1;height:100vh;min-height:700px;overflow:hidden;
+  background:linear-gradient(var(--hero1) 0%,var(--hero2) 45%,var(--hero3) 78%,var(--hero4) 100%)}
+/* dissolve the bottom of the hero into the page so the city doesn't end on a
+   hard rule where the next section starts. Sits above the skyline layers (1)
+   but below the copy (5) and the scroll cue (6). */
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;z-index:4;pointer-events:none;
+  height:clamp(80px,13vh,170px);
+  background:linear-gradient(to bottom,transparent 0%,var(--void) 92%,var(--void) 100%)}
+.layer{position:absolute;left:0;right:0;z-index:1;will-change:transform}
+.stars{inset:0}
+.stars i{position:absolute;width:3px;height:3px;background:var(--bone);opacity:.7}
+:root[data-theme="light"] .stars{opacity:0}
+.stars{transition:opacity 900ms ease}
+/* Moon and sun ride the same pixel silhouette along opposite ends of one arc.
+   Position comes from custom properties so the JS cycle can drive them live —
+   transform is off-limits here, the parallax already owns it. */
+.moon,.sun{position:absolute;width:clamp(60px,9vw,120px);aspect-ratio:1;
+  clip-path:polygon(30% 0,70% 0,70% 10%,90% 10%,90% 30%,100% 30%,100% 70%,90% 70%,90% 90%,70% 90%,70% 100%,30% 100%,30% 90%,10% 90%,10% 70%,0 70%,0 30%,10% 30%,10% 10%,30% 10%)}
+.moon{top:var(--moon-top);right:var(--moon-right);opacity:var(--moon-op);
+  background:#CFE0FF;box-shadow:0 0 60px 10px rgba(77,139,255,.35)}
+.sun{top:var(--sun-top);right:var(--sun-right);opacity:var(--sun-op);z-index:1;
+  background:#FFDFA6;box-shadow:0 0 70px 18px rgba(255,196,120,.55),0 0 160px 60px rgba(255,170,90,.25)}
+.far{bottom:0;height:46%}
+.near{bottom:0;height:30%}
+.layer svg{width:100%;height:100%}
+.sk-body{fill:var(--sk-body)}
+.sk-lit{fill:var(--sk-lit);opacity:.85}
+.hero-copy{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7rem 1rem 18vh;z-index:5}
+.school{font-size:.85rem;color:var(--ash);margin-bottom:1.5rem;letter-spacing:.02em;line-height:1.5}
+.school span{display:block}
+
+/* ByteFest wordmark: image when supplied, pixel type as the fallback */
+.logo{font-family:var(--px);font-weight:700;line-height:.9;font-size:clamp(3.2rem,12.5vw,9rem);color:var(--bone)}
+.logo-img{max-height:min(34vh,300px);width:auto;margin-inline:auto}
+.logo-text{display:none}
+.logo.nologo .logo-text{display:block;text-shadow:.06em .06em 0 var(--ember),.09em .09em 0 rgba(0,0,0,.6), 0 0 40px rgba(77,139,255,.45)}
+.logo-text span{display:block}
+.year{font-family:var(--px);color:var(--signal-hot);font-size:clamp(1rem,3vw,1.6rem);margin-top:1rem}
+.tagline{margin-top:.55rem;color:var(--bone);opacity:.88;font-size:clamp(.92rem,2vw,1.08rem)}
+.cta{margin-top:1.9rem;display:inline-flex;align-items:center;gap:.6rem;color:var(--bone);text-decoration:none;
+  font-family:var(--px);font-size:1.05rem;padding:1rem 2.2rem;letter-spacing:.04em}
+
+/* countdown — bigger, and sitting lower under Register */
+.clock{margin-top:3.2rem;display:flex;gap:.65rem;justify-content:center}
+.clock .cell{min-width:clamp(70px,11vw,94px);padding:.75rem .4rem .6rem;
+  background:var(--glass-bg);border:1px solid var(--glass-brd);
+  backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);
+  box-shadow:var(--glass-shadow), inset 0 1px 0 var(--glass-hi)}
+.clock b{display:block;font-family:var(--px);font-size:clamp(1.6rem,4.6vw,2.4rem);line-height:1;color:var(--teal);
+  font-variant-numeric:tabular-nums}
+.clock span{display:block;margin-top:.42rem;font-size:.62rem;letter-spacing:.16em;color:var(--ash);text-transform:uppercase}
+.clock.done{font-family:var(--px);color:var(--teal);font-size:1.4rem}
+.scrollcue{position:absolute;bottom:1.2rem;left:50%;translate:-50% 0;z-index:6;font-size:.75rem;color:var(--ash)}
+
+/* ---------- SECTIONS ---------- */
+.under{position:relative;z-index:1;
+  background:linear-gradient(transparent 0,var(--under1) 160px,var(--under2) 430px,var(--under3) 820px)}
+/* The grid rides its own layer so it can be masked in at the top without
+   fading the section copy with it — it arrives rather than starting on a rule.
+   z-index:-1 keeps it above .under's background but under the content. */
+.under::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:
+    linear-gradient(var(--grid) 1px,transparent 1px) 0 0/48px 48px,
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/48px 48px;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 clamp(120px,20vh,260px));
+          mask-image:linear-gradient(to bottom,transparent 0,#000 clamp(120px,20vh,260px))}
+/* dissolve the grid into the footer instead of stopping it dead at the skyline.
+   z-index:-1 sits it above .under's own background but under the section copy. */
+/* fades to --void, which is exactly what the strip below it starts on, so the
+   two meet on the same colour and leave no visible rule */
+.under::after{content:"";position:absolute;left:0;right:0;bottom:0;z-index:-1;pointer-events:none;
+  height:min(40vh,360px);background:linear-gradient(to bottom,transparent,var(--void))}
+section{padding:clamp(4.5rem,10vw,8rem) 0;position:relative}
+h2{font-family:var(--px);font-weight:700;font-size:clamp(2rem,6vw,3.4rem);line-height:1;color:var(--bone);margin-bottom:1.25rem;
+  text-shadow:4px 4px 0 var(--ember)}
+.lede{max-width:62ch;color:var(--bone);opacity:.82}
+.lede + .lede{margin-top:1rem}
+
+.rv{opacity:0;transform:translateY(28px);transition:opacity .75s cubic-bezier(.2,.7,.2,1),transform .75s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+/* About signposts */
+.posts{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem;align-items:end}
+.post{display:flex;flex-direction:column;align-items:center}
+.sign{width:100%;max-width:240px;padding:1.1rem .8rem 1rem;text-align:center;
+  background:var(--glass-bg);border:1px solid var(--glass-brd);
+  backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);
+  box-shadow:var(--glass-shadow), inset 0 1px 0 var(--glass-hi)}
+.sign b{display:block;font-family:var(--px);font-size:clamp(2rem,5.4vw,3rem);line-height:1;color:var(--signal-hot)}
+.sign span{display:block;margin-top:.4rem;font-size:.85rem;color:var(--bone)}
+.stick{width:14px;height:70px;background:repeating-linear-gradient(var(--ember) 0 10px,transparent 10px 20px)}
+.post:nth-child(2) .stick{height:104px}
+.post:nth-child(3) .stick{height:58px}
+.ground{height:14px;margin-top:-1px;background:repeating-linear-gradient(90deg,var(--signal) 0 14px,var(--ember) 14px 28px)}
+
+/* Tracks dial */
+.events-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:3rem;align-items:center;margin-top:2.5rem}
+.dial-box{position:relative;width:min(460px,100%);aspect-ratio:1;margin-inline:auto}
+.pointer{position:absolute;top:-6px;left:50%;translate:-50% 0;z-index:3;width:0;height:0;border:14px solid transparent;
+  border-top:20px solid var(--teal);filter:drop-shadow(0 2px 0 var(--teal-deep)) drop-shadow(0 0 10px rgba(25,211,197,.55))}
+.dial{width:100%;height:100%;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.dial .seg{cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent}
+.dial .seg:focus,.dial .seg:focus-visible{outline:none}
+.dial .seg:focus-visible path{stroke:var(--teal);stroke-width:4}
+.dial .seg path{fill:var(--panel);stroke:var(--signal);stroke-width:3;transition:fill .2s}
+.dial .seg:hover path{fill:var(--ember)}
+.dial .seg.on path{fill:var(--sel);stroke:var(--teal);filter:drop-shadow(0 0 12px rgba(25,211,197,.45))}
+.dial .seg text{font-family:var(--px);font-size:14px;fill:var(--bone);pointer-events:none}
+.dial .seg.on text{fill:#fff}
+.hub{position:absolute;inset:32%;border-radius:50%;background:var(--glass-bg);border:2px solid var(--glass-brd);
+  backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);
+  display:grid;place-items:center;text-align:center;z-index:2;
+  box-shadow:0 0 0 8px var(--void),0 0 0 10px var(--ember)}
+.hub b{font-family:var(--px);font-size:clamp(.72rem,2.4vw,1rem);color:var(--signal-hot);line-height:1.1;padding:0 .5rem}
+.detail{border-left:4px solid var(--signal);padding:.5rem 0 .5rem 1.5rem;min-height:15rem}
+/* arena tag — glass with a thin teal border */
+.arena{display:inline-block;font-family:var(--px);font-size:.68rem;letter-spacing:.08em;color:var(--teal);
+  padding:.4rem .8rem;margin-bottom:1rem;
+  background:var(--glass-bg);border:1px solid var(--teal);
+  backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);
+  box-shadow:inset 0 1px 0 var(--glass-hi)}
+.detail h3{font-family:var(--px);font-size:clamp(2rem,5vw,2.8rem);line-height:1;color:var(--signal-hot);margin-bottom:.9rem}
+.detail p{max-width:42ch}
+.detail .hint{margin-top:1.2rem;font-size:.85rem;color:var(--ash)}
+.readmore{margin-top:1.3rem;font:inherit;font-family:var(--px);font-size:.85rem;color:var(--teal);
+  padding:.7rem 1.3rem;letter-spacing:.04em}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+.chips button{font:inherit;font-size:.82rem;color:var(--ash);padding:.4rem .85rem;
+  background:var(--glass-bg);border:1px solid var(--ember);
+  backdrop-filter:blur(10px) saturate(140%);-webkit-backdrop-filter:blur(10px) saturate(140%);cursor:pointer;
+  transition:color .2s,border-color .2s,transform .18s}
+.chips button:hover{color:var(--bone);border-color:var(--teal);transform:translateY(-2px)}
+.chips button[aria-pressed="true"]{color:var(--bone);border-color:var(--teal);box-shadow:0 0 18px rgba(25,211,197,.25)}
+
+/* ---------- TRACK MODAL ---------- */
+.modal{position:fixed;inset:0;z-index:100;display:flex;justify-content:center;align-items:flex-start;
+  padding:clamp(1rem,5vh,3rem) 1rem;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);
+  opacity:0;pointer-events:none;transition:opacity .35s}
+:root[data-theme="light"] .modal{background:rgba(20,36,66,.45)}
+.modal.open{opacity:1;pointer-events:auto}
+.modal-card{position:relative;width:min(900px,100%);max-height:86vh;overflow-y:auto;overscroll-behavior:contain;
+  background:var(--glass-bg);border:1px solid var(--glass-brd);
+  backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);
+  box-shadow:0 20px 70px rgba(0,0,0,.55), inset 0 1px 0 var(--glass-hi);
+  padding:clamp(1.4rem,4vw,2.6rem);transform:scale(.92);transition:transform .35s cubic-bezier(.2,.8,.2,1);
+  /* the scrollbar Grover flagged */
+  scrollbar-width:thin;scrollbar-color:var(--teal) transparent}
+:root[data-theme="light"] .modal-card{background:rgba(255,255,255,.88)}
+.modal-card{scrollbar-gutter:stable}
+.modal-card::-webkit-scrollbar{width:10px;background:transparent}
+.modal-card::-webkit-scrollbar-button{display:none;width:0;height:0}   /* kill the arrow caps */
+.modal-card::-webkit-scrollbar-corner{background:transparent}
+.modal-card::-webkit-scrollbar-track{background:transparent;margin:10px 0}
+.modal-card::-webkit-scrollbar-thumb{border-radius:10px;background:var(--teal);
+  border:3px solid transparent;background-clip:padding-box}
+.modal-card::-webkit-scrollbar-thumb:hover{background:var(--signal-hot);border:2px solid transparent;background-clip:padding-box}
+.modal.open .modal-card{transform:scale(1)}
+.modal-close{position:absolute;top:.8rem;right:.9rem;z-index:2;font:inherit;font-size:1.1rem;line-height:1;
+  width:36px;height:36px;display:grid;place-items:center;border-radius:50%;padding:0;color:var(--teal);
+  background:var(--glass-bg);border:1px solid var(--glass-brd);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);cursor:pointer;
+  transition:transform .2s,border-color .2s,color .2s}
+.modal-close:hover{transform:rotate(90deg);border-color:var(--teal);color:var(--bone)}
+.modal-head{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem;padding-right:3rem}
+.modal-head .ico{font-size:clamp(2rem,6vw,2.8rem);line-height:1}
+.modal-head h3{font-family:var(--px);font-size:clamp(1.6rem,5vw,2.6rem);line-height:1;color:var(--signal-hot)}
+.modal-body p{margin-bottom:1rem;color:var(--bone);opacity:.84;max-width:72ch}
+.modal-grade{margin:1.6rem 0;padding:1rem 1.2rem;border-left:3px solid var(--teal);background:rgba(25,211,197,.07)}
+.modal-grade b{display:block;font-family:var(--px);font-size:.78rem;color:var(--teal);margin-bottom:.4rem;letter-spacing:.06em}
+.team-toggle{font:inherit;font-family:var(--px);font-size:.85rem;color:var(--bone);padding:.8rem 1.5rem;letter-spacing:.04em}
+.team-panel{max-height:0;overflow:hidden;transition:max-height .5s ease}
+.team-grid{display:flex;flex-wrap:wrap;gap:1.6rem;padding-top:1.6rem}
+.team-member{text-align:center;width:130px}
+.team-member .avatar{width:110px;height:110px;margin:0 auto .6rem;border-radius:50%;display:grid;place-items:center;
+  font-family:var(--px);font-size:2rem;color:var(--signal-hot);
+  background:var(--glass-bg);border:1px solid var(--glass-brd);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.team-member span{font-size:.82rem;color:var(--bone)}
+
+/* ---------- SPONSORS (centred) ---------- */
+#sponsors .wrap{text-align:center}
+#sponsors .lede{margin-inline:auto}
+.tier{margin-top:2.8rem}
+.tier h3{font-family:var(--px);font-size:.95rem;color:var(--teal);letter-spacing:.08em;margin-bottom:1rem}
+.sponsor-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:1.2rem}
+.sponsor{width:min(220px,100%);aspect-ratio:16/9;display:grid;place-items:center;padding:1rem;text-align:center;
+  background:var(--glass-bg);border:1px solid var(--ember);
+  backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);
+  transition:border-color .25s,transform .25s}
+.sponsor:hover{border-color:var(--teal);transform:translateY(-3px)}
+.sponsor img{max-height:100%;width:auto;object-fit:contain}
+.sponsor .slot{font-family:var(--px);font-size:.62rem;color:var(--ash);letter-spacing:.06em;line-height:1.5}
+.sponsor-cta{margin-top:2.6rem;font-size:.92rem;color:var(--ash)}
+.sponsor-cta a{color:var(--teal)}
+
+/* Speakers */
+#speakers .wrap{text-align:center}
+#speakers .lede{margin-inline:auto}
+#speakers .orbs{justify-content:center}
+.orbs{display:flex;flex-wrap:wrap;gap:3rem;margin-top:3rem}
+.orb{display:flex;flex-direction:column;align-items:center;gap:1rem}
+.orb div{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;font-family:var(--px);font-size:3.5rem;color:var(--signal-hot);
+  background:var(--glass-bg);border:1px solid var(--glass-brd);
+  backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);
+  box-shadow:var(--glass-shadow), inset 0 1px 0 var(--glass-hi)}
+.orb span{font-family:var(--px);font-size:.95rem;color:var(--ash)}
+
+/* ---------- FAQ (centred + animated) ---------- */
+#faq .wrap{text-align:center}
+.faq{margin:2.5rem auto 0;max-width:820px;border-top:1px solid var(--ember)}
+details{border-bottom:1px solid var(--ember)}
+summary{list-style:none;cursor:pointer;padding:1.25rem 3rem;position:relative;font-weight:600;font-size:1.05rem;
+  transition:color .2s}
+summary:hover{color:var(--teal)}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:1rem;top:50%;font-family:var(--px);font-size:1.4rem;color:var(--teal);
+  transform:translateY(-50%) rotate(0deg);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+details[open] summary::after{transform:translateY(-50%) rotate(135deg)}
+.ans{height:0;overflow:hidden;transition:height .38s cubic-bezier(.2,.8,.2,1)}
+.ans p{padding:0 1rem 1.5rem;max-width:68ch;margin-inline:auto;color:var(--bone);opacity:.82}
+.ans a{color:var(--teal)}
+
+/* skyline strip shared by hero and footer.
+   Two stacked copies of the same artwork — a blurred one that owns the top of
+   the band and a sharp one that takes over lower down — so the city resolves
+   out of haze instead of arriving on a hard cut line. */
+.skyline-cut{position:relative;z-index:1;line-height:0;
+  background:linear-gradient(to bottom,var(--void) 0%,var(--void) 30%,var(--footer) 100%)}
+.skyline-cut svg{width:100%;height:auto;aspect-ratio:4/1;display:block;opacity:.92}
+.skyline-cut .sk-sharp{position:absolute;inset:0;height:100%}
+.skyline-cut .sk-haze{filter:blur(9px);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 2%,rgba(0,0,0,.9) 26%,transparent 72%);
+          mask-image:linear-gradient(to bottom,transparent 2%,rgba(0,0,0,.9) 26%,transparent 72%)}
+.skyline-cut .sk-sharp{
+  -webkit-mask-image:linear-gradient(to bottom,transparent 14%,#000 58%);
+          mask-image:linear-gradient(to bottom,transparent 14%,#000 58%)}
+
+/* Footer */
+footer{position:relative;z-index:1;padding:3rem 0;text-align:center;border-top:1px solid var(--ember);background:var(--footer)}
+.team-btn{display:inline-block;font-family:var(--px);font-size:1.05rem;text-decoration:none;color:var(--bone);
+  padding:1rem 2.2rem;letter-spacing:.04em}
+.foot-meta{margin-top:2.5rem;display:grid;gap:.35rem;color:var(--ash);font-size:.9rem}
+.foot-meta a{color:var(--bone)}
+.made{margin-top:2.5rem;font-family:var(--px);font-size:.95rem;color:var(--bone)}
+.made em{font-style:normal;color:var(--teal)}
+
+@media (max-width:760px){
+  .events-grid{grid-template-columns:1fr;gap:2rem}
+  .detail{min-height:0}
+  .sign{padding:.8rem .4rem}
+  .sign span{font-size:.75rem}
+  .orb div{width:110px;height:110px;font-size:2.6rem}
+  .team-member{width:104px}
+  .team-member .avatar{width:88px;height:88px;font-size:1.6rem}
+  summary{padding:1.1rem 2.4rem}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .dial{transition:none}
+  .layer{transform:none!important}
+  .rv{opacity:1;transform:none;transition:none}
+  .ans{transition:none}
+  .glass::before{display:none}
+  #bgfx{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+<canvas id="bgfx" aria-hidden="true"></canvas>
+
+<!-- ============ SHARED SKYLINE ARTWORK ============
+     One definition, used by both the hero and the footer so they match exactly.
+     Left to right: Emirates Towers · Dubai Frame · Burj Al Arab · Atlantis The Palm ·
+     Museum of the Future · Cayan Tower · Burj Khalifa · Almas Tower ·
+     JW Marriott Marquis · Index Tower · Gevora · Address Downtown             -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="skyline" viewBox="0 0 1600 400">
+    <g class="sk-body">
+      <!-- Emirates Towers (twin, triangular crowns) -->
+      <rect x="48" y="182" width="40" height="218"/>
+      <polygon points="48,182 68,138 88,182"/>
+      <rect x="100" y="212" width="34" height="188"/>
+      <polygon points="100,212 117,176 134,212"/>
+      <!-- Dubai Frame -->
+      <rect x="176" y="152" width="18" height="248"/>
+      <rect x="252" y="152" width="18" height="248"/>
+      <rect x="176" y="152" width="94" height="20"/>
+      <!-- Burj Al Arab, the sail -->
+      <polygon points="300,400 300,210 312,210 312,222 324,222 324,240 336,240 336,262 346,262 346,290 356,290 356,330 364,330 364,400"/>
+      <!-- Atlantis The Palm (twin + central arch) -->
+      <rect x="404" y="248" width="34" height="152"/>
+      <rect x="404" y="234" width="34" height="14"/>
+      <rect x="466" y="248" width="34" height="152"/>
+      <rect x="466" y="234" width="34" height="14"/>
+      <rect x="438" y="248" width="28" height="44"/>
+      <!-- Museum of the Future (torus on podium) -->
+      <rect x="548" y="358" width="56" height="42"/>
+      <path fill-rule="evenodd" d="M576,296 m-46,0 a46,56 0 1,0 92,0 a46,56 0 1,0 -92,0 Z M576,296 m-20,0 a20,26 0 1,0 40,0 a20,26 0 1,0 -40,0 Z"/>
+      <!-- Cayan Tower (the twist, as offset pixel courses) -->
+      <rect x="664" y="142" width="30" height="26"/><rect x="662" y="168" width="30" height="26"/>
+      <rect x="658" y="194" width="30" height="26"/><rect x="654" y="220" width="30" height="26"/>
+      <rect x="652" y="246" width="30" height="26"/><rect x="654" y="272" width="30" height="26"/>
+      <rect x="658" y="298" width="30" height="26"/><rect x="662" y="324" width="30" height="26"/>
+      <rect x="666" y="350" width="30" height="50"/>
+      <!-- filler block -->
+      <rect x="744" y="262" width="30" height="138"/><rect x="782" y="302" width="34" height="98"/>
+      <!-- Burj Khalifa — slender, long needle -->
+      <rect x="886" y="8" width="4" height="62"/>
+      <rect x="882" y="70" width="12" height="40"/>
+      <rect x="876" y="110" width="24" height="40"/>
+      <rect x="868" y="150" width="40" height="40"/>
+      <rect x="858" y="190" width="60" height="45"/>
+      <rect x="846" y="235" width="84" height="50"/>
+      <rect x="836" y="285" width="104" height="115"/>
+      <!-- Almas Tower -->
+      <rect x="976" y="202" width="38" height="198"/>
+      <polygon points="976,202 995,170 1014,202"/>
+      <!-- JW Marriott Marquis (twin) -->
+      <rect x="1054" y="192" width="32" height="208"/><rect x="1054" y="180" width="32" height="12"/>
+      <rect x="1096" y="192" width="32" height="208"/><rect x="1096" y="180" width="32" height="12"/>
+      <!-- Index Tower -->
+      <rect x="1164" y="232" width="52" height="168"/>
+      <!-- Gevora -->
+      <rect x="1256" y="172" width="34" height="228"/><rect x="1271" y="146" width="4" height="26"/>
+      <!-- Address Downtown -->
+      <rect x="1336" y="242" width="44" height="158"/><rect x="1336" y="230" width="44" height="12"/>
+      <!-- filler -->
+      <rect x="1424" y="282" width="48" height="118"/><rect x="1486" y="252" width="36" height="148"/>
+      <rect x="1534" y="302" width="50" height="98"/>
+    </g>
+    <g class="sk-lit">
+      <rect x="887" y="4" width="2" height="4"/>
+      <rect x="60" y="210" width="4" height="4"/><rect x="74" y="250" width="4" height="4"/>
+      <rect x="112" y="240" width="4" height="4"/><rect x="316" y="256" width="4" height="4"/>
+      <rect x="414" y="272" width="4" height="4"/><rect x="480" y="300" width="4" height="4"/>
+      <rect x="568" y="372" width="4" height="4"/><rect x="668" y="200" width="4" height="4"/>
+      <rect x="664" y="280" width="4" height="4"/><rect x="752" y="290" width="4" height="4"/>
+      <rect x="872" y="168" width="4" height="4"/><rect x="866" y="250" width="4" height="4"/>
+      <rect x="856" y="320" width="4" height="4"/><rect x="988" y="240" width="4" height="4"/>
+      <rect x="1064" y="220" width="4" height="4"/><rect x="1106" y="260" width="4" height="4"/>
+      <rect x="1180" y="270" width="4" height="4"/><rect x="1266" y="210" width="4" height="4"/>
+      <rect x="1348" y="280" width="4" height="4"/><rect x="1434" y="310" width="4" height="4"/>
+      <rect x="1496" y="290" width="4" height="4"/><rect x="1546" y="330" width="4" height="4"/>
+    </g>
+  </symbol>
+</svg>
+
+<header class="topbar" id="topbar">
+  <a class="crest" href="#top" aria-label="GEMS New Millennium School">
+    <img src="nms-logo.png" alt="GEMS New Millennium School"
+         onerror="this.outerHTML='&lt;span class=\'ph\'&gt;NMS&lt;br&gt;LOGO&lt;/span&gt;'">
+  </a>
+  <nav aria-label="Sections">
+    <ul class="navlinks">
+      <li><a href="#top">home</a></li>
+      <li><a href="#about">about</a></li>
+      <li><a href="#tracks">tracks</a></li>
+      <li><a href="#sponsors">sponsors</a></li>
+      <li><a href="#speakers">speakers</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="core_team.html">core team</a></li>
+    </ul>
+  </nav>
+  <div class="bar-right">
+    <button class="themetog" id="themetog" type="button" aria-label="Switch to light mode" title="Switch theme">☀</button>
+    <span class="crest" aria-label="Semper Sursum">
+      <img src="semper-sursum.png" alt="Semper Sursum"
+           onerror="this.outerHTML='&lt;span class=\'ph\'&gt;SEMPER&lt;br&gt;SURSUM&lt;/span&gt;'">
+    </span>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<div class="hero" id="top">
+  <div class="layer stars" id="stars" data-speed="0.1"></div>
+  <div class="moon layer" data-speed="0.2" aria-hidden="true"></div>
+  <div class="sun layer" data-speed="0.2" aria-hidden="true"></div>
+
+  <div class="layer far" data-speed="0.3" aria-hidden="true">
+    <svg viewBox="0 0 1600 400" preserveAspectRatio="xMidYMax slice" shape-rendering="crispEdges">
+      <use href="#skyline"/>
+    </svg>
+  </div>
+
+  <div class="layer near" data-speed="0.55" aria-hidden="true">
+    <svg viewBox="0 0 1600 240" preserveAspectRatio="xMidYMax slice" shape-rendering="crispEdges">
+      <polygon fill="var(--dune1)" points="0,240 0,120 80,120 80,104 180,104 180,90 300,90 300,104 420,104 420,120 560,120 560,140 700,140 700,120 820,120 820,100 960,100 960,84 1080,84 1080,100 1200,100 1200,116 1340,116 1340,100 1480,100 1480,120 1600,120 1600,240"/>
+      <polygon fill="var(--dune2)" points="0,240 0,180 120,180 120,166 260,166 260,180 460,180 460,196 640,196 640,180 800,180 800,164 980,164 980,180 1160,180 1160,196 1360,196 1360,176 1600,176 1600,240"/>
+    </svg>
+  </div>
+
+  <div class="hero-copy">
+    <p class="school"><span>GEMS New Millennium School, Dubai Hills</span><span>Presents</span></p>
+    <h1 class="logo" aria-label="ByteFest">
+      <img class="logo-img" src="bytefest-logo.png" alt="ByteFest"
+           onerror="this.closest('.logo').classList.add('nologo');this.remove()">
+      <span class="logo-text"><span>BYTE</span><span>FEST</span></span>
+    </h1>
+    <p class="year" id="dateline">2026</p>
+    <p class="tagline">Designing the future, one prompt at a time.</p>
+    <a class="cta glass" href="mailto:bytefestgnms@gmail.com?subject=ByteFest%202026%20registration">Register</a>
+    <div class="clock" id="clock" role="timer" aria-label="Time until ByteFest 2026">
+      <div class="cell"><b id="cd-d">--</b><span>days</span></div>
+      <div class="cell"><b id="cd-h">--</b><span>hrs</span></div>
+      <div class="cell"><b id="cd-m">--</b><span>min</span></div>
+      <div class="cell"><b id="cd-s">--</b><span>sec</span></div>
+    </div>
+  </div>
+  <p class="scrollcue" aria-hidden="true">scroll to descend ▾</p>
+</div>
+
+<main class="under">
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about">
+    <div class="wrap">
+      <h2 class="rv">About</h2>
+      <p class="lede rv">ByteFest is GEMS New Millennium School's annual tech festival — a day where coders, robot-builders, AI tinkerers and gamers take over the campus. It started as a hackathon and grew into six tracks across four arenas.</p>
+      <p class="lede rv">Whether you ship code in your sleep or you've never written a line, there's a track built for you. Bring an idea, a team, or just curiosity.</p>
+
+      <div class="posts rv" aria-label="ByteFest at a glance">
+        <div class="post"><div class="sign"><b>6</b><span>tracks</span></div><div class="stick"></div></div>
+        <div class="post"><div class="sign"><b>4</b><span>arenas</span></div><div class="stick"></div></div>
+        <div class="post"><div class="sign"><b>1</b><span>epic day</span></div><div class="stick"></div></div>
+      </div>
+      <div class="ground rv" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- ============ TRACKS ============ -->
+  <section id="tracks">
+    <div class="wrap">
+      <h2 class="rv">Tracks</h2>
+      <p class="lede rv">Each track runs as its own competition with its own judges. Tap a segment on the wheel to see what it's about, then open the full brief.</p>
+
+      <div class="events-grid">
+        <div class="dial-box rv">
+          <div class="pointer" aria-hidden="true"></div>
+          <svg class="dial" id="dial" viewBox="-230 -230 460 460" role="group" aria-label="Track wheel"></svg>
+          <div class="hub" aria-hidden="true"><b id="hubName">HACKRUSH</b></div>
+        </div>
+
+        <div class="detail rv" aria-live="polite">
+          <span class="arena" id="dArena">Code</span>
+          <h3 id="dName">HackRush</h3>
+          <p id="dDesc"></p>
+          <button class="readmore glass" id="readmore" type="button">Read more →</button>
+          <div class="chips" id="chips" aria-label="Choose a track"></div>
+          <p class="hint">Rules, team sizes and eligibility for each track will be posted before registration opens.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SPONSORS ============ -->
+  <!-- TODO: replace each .slot placeholder with <img src="sponsors/NAME.png" alt="NAME"> -->
+  <section id="sponsors">
+    <div class="wrap">
+      <h2 class="rv">Sponsors</h2>
+      <p class="lede rv">ByteFest runs on the backing of people who care about what students build. Partner slots for 2026 are open.</p>
+
+      <div class="tier rv">
+        <h3>// TITLE PARTNER</h3>
+        <div class="sponsor-grid">
+          <div class="sponsor"><span class="slot">SLOT<br>AVAILABLE</span></div>
+        </div>
+      </div>
+
+      <div class="tier rv">
+        <h3>// GOLD</h3>
+        <div class="sponsor-grid">
+          <div class="sponsor"><span class="slot">SLOT<br>AVAILABLE</span></div>
+          <div class="sponsor"><span class="slot">SLOT<br>AVAILABLE</span></div>
+          <div class="sponsor"><span class="slot">SLOT<br>AVAILABLE</span></div>
+        </div>
+      </div>
+
+      <div class="tier rv">
+        <h3>// SUPPORTING PARTNERS</h3>
+        <div class="sponsor-grid">
+          <div class="sponsor"><span class="slot">SLOT<br>AVAILABLE</span></div>
+          <div class="sponsor"><span class="slot">SLOT<br>AVAILABLE</span></div>
+          <div class="sponsor"><span class="slot">SLOT<br>AVAILABLE</span></div>
+          <div class="sponsor"><span class="slot">SLOT<br>AVAILABLE</span></div>
+        </div>
+      </div>
+
+      <p class="sponsor-cta rv">Want your name on the grid? Write to <a href="mailto:bytefestgnms@gmail.com?subject=ByteFest%202026%20sponsorship">bytefestgnms@gmail.com</a>.</p>
+    </div>
+  </section>
+
+  <!-- ============ SPEAKERS ============ -->
+  <section id="speakers">
+    <div class="wrap">
+      <h2 class="rv">Speakers &amp; judges</h2>
+      <p class="lede rv">We're lining up people from industry and academia to judge and speak. Names drop here soon.</p>
+      <div class="orbs rv">
+        <div class="orb"><div aria-hidden="true">?</div><span>Coming soon</span></div>
+        <div class="orb"><div aria-hidden="true">?</div><span>Coming soon</span></div>
+        <div class="orb"><div aria-hidden="true">?</div><span>Coming soon</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq">
+    <div class="wrap">
+      <h2 class="rv">FAQ</h2>
+      <div class="faq rv">
+        <details>
+          <summary>What is ByteFest?</summary>
+          <div class="ans"><p>A one-day tech festival hosted by GEMS New Millennium School, Dubai Hills. Six tracks spanning competitive coding, robotics, AI and e-sports, all under one roof.</p></div>
+        </details>
+        <details>
+          <summary>Who can take part?</summary>
+          <div class="ans"><p>ByteFest is for school students. Each track has its own age group and team rules — open a track's full brief on the wheel above to see its grade and capacity.</p></div>
+        </details>
+        <details>
+          <summary>What if I can't code yet?</summary>
+          <div class="ans"><p>Come anyway. GameGrid and the robotics tracks reward very different skills from coding, and every track is a chance to learn something.</p></div>
+        </details>
+        <details>
+          <summary>Can I enter more than one track?</summary>
+          <div class="ans"><p>Some tracks run at the same time, so check the schedule once it's published. The organising team will confirm which combinations are possible.</p></div>
+        </details>
+        <details>
+          <summary>How do I register?</summary>
+          <div class="ans"><p>Registration details will be posted here and sent to participating schools. Until then, reach the team at <a href="mailto:bytefestgnms@gmail.com">bytefestgnms@gmail.com</a>.</p></div>
+        </details>
+        <details>
+          <summary>Who do I contact with questions?</summary>
+          <div class="ans"><p>Email <a href="mailto:bytefestgnms@gmail.com">bytefestgnms@gmail.com</a> — the core team reads every message.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- same artwork as the hero skyline, hazy copy behind a sharp one -->
+<div class="skyline-cut" aria-hidden="true">
+  <svg class="sk-haze" viewBox="0 0 1600 400" preserveAspectRatio="xMidYMax meet" shape-rendering="crispEdges">
+    <use href="#skyline"/>
+  </svg>
+  <svg class="sk-sharp" viewBox="0 0 1600 400" preserveAspectRatio="xMidYMax meet" shape-rendering="crispEdges">
+    <use href="#skyline"/>
+  </svg>
+</div>
+
+<footer>
+  <div class="wrap">
+    <a class="team-btn glass" href="core_team.html">&gt;&gt; CORE TEAM &lt;&lt;</a>
+    <div class="foot-meta">
+      <span>Organised by GEMS New Millennium School, Dubai Hills</span>
+      <span><a href="mailto:bytefestgnms@gmail.com">bytefestgnms@gmail.com</a></span>
+    </div>
+    <p class="made">Made with <em>♥</em> by the ByteFest team</p>
+  </div>
+</footer>
+
+<!-- ============ TRACK MODAL ============ -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mName" hidden>
+  <div class="modal-card" id="modalCard">
+    <button class="modal-close" id="modalClose" type="button" aria-label="Close">✕</button>
+    <div class="modal-head">
+      <span class="ico" id="mIcon" aria-hidden="true">🚀</span>
+      <h3 id="mName">HackRush</h3>
+    </div>
+    <span class="arena" id="mArena">Code</span>
+    <div class="modal-body" id="mBody"></div>
+    <div class="modal-grade" id="mGradeBox">
+      <b>GRADE &amp; CAPACITY</b>
+      <span id="mGrade"></span>
+    </div>
+    <button class="team-toggle glass" id="teamToggle" type="button" aria-expanded="false">MEET THE CORE TEAM</button>
+    <div class="team-panel" id="teamPanel"><div class="team-grid" id="teamGrid"></div></div>
+  </div>
+</div>
+
+<script>
+/* ======== EDIT: confirmed ByteFest 2026 date (Dubai time, +04:00) ======== */
+const EVENT_DATE = new Date("2026-11-16T08:00:00+04:00");
+
+/* ======== TRACK DATA ========
+   arena: Code | Robotics | E-sports | AI                                   */
+const EVENTS = [
+  {
+    name:"HackRush", arena:"Code", icon:"🚀",
+    desc:"A high-stakes, multi-round coding marathon. Teams solve harder problems each round until one crew is left standing.",
+    long:[
+      "HackRush sets the stage for a thrilling test of skill where logic, strategy, and pure programming talent collide. This competition is designed for those who thrive on solving problems, think creatively under pressure, and enjoy the rush of seeing code come to life flawlessly. It isn't just about writing Python — it's about understanding challenges, breaking them down, and turning ideas into efficient, elegant solutions.",
+      "Participants will be handed a structured question sheet composed of 15 algorithmic challenges, carefully divided across three tiers of difficulty — Easy, Medium, and Hard. Each challenge explores a crucial concept in problem-solving with Python, from fundamentals every programmer should master to advanced logic that demands deep analytical thinking.",
+      "Easy problems serve as quick wins: small puzzles that validate your speed, confidence, and grasp of the basics. These questions cover simple operations involving strings, loops, arithmetic, and decision-making. They may look straightforward, but even the simplest problem rewards clean logic and attention to detail — especially when every mark matters.",
+      "Medium-difficulty problems step up the excitement. Here, participants encounter tasks requiring structured reasoning, careful planning, and stronger algorithmic concepts. These are the types of problems where data structures such as lists, sets, and dictionaries begin to shine, and corner cases must be handled with precision.",
+      "Then come the Hard problems — the crown jewels of HackRush. These challenges push the boundaries of logic and problem-solving ability. Whether it's optimizing performance, implementing clever algorithms, or orchestrating multiple techniques into one seamless function, these puzzles separate the exceptional from the ordinary.",
+      "To maintain consistency and elevate coding standards, each question includes a specific function name that participants must use exactly as given. This reinforces best practices in modular coding and sharpens the ability to interpret requirements correctly — a skill essential to real-world programming.",
+      "With a maximum of 45 marks, every decision — which question to tackle first, when to switch strategies, where to push for extra refinement — becomes a strategic choice that could determine the final leaderboard.",
+      "Welcome to HackRush."
+    ],
+    grade:"Open to Grades 9-12 / Year 10-13. Maximum 5 students per school.",
+    team:["Rushmil Goel","Shayan Amin Usmani"]
+  },
+  {
+    name:"Circuit Riot", arena:"Robotics", icon:"🤖",
+    desc:"A thrilling robotics tournament. Design, wire and program a bot that can complete the challenge course faster and cleaner than anyone else.",
+    long:[
+      "Welcome to CIRCUIT RIOT, the premier robotics challenge hosted by GEMS New Millennium School. This event celebrates innovation, technical precision, and creative problem-solving, giving students a platform to showcase their talents in robotics and programming. It is not just a competition — it is an immersive experience where participants bring their ideas to life.",
+      "At the heart of this challenge is the Arduino-based line-following robot, a device that must navigate intricate circuit tracks with complete control and accuracy. The course tests coding, mechanical design, sensor integration, and strategic problem-solving. Each twist, turn, and junction demands careful calibration, logical thinking, and precision programming.",
+      "Participants are encouraged to think beyond basic functionality. CIRCUIT RIOT emphasises design aesthetics, encouraging teams to develop bots that are visually striking as well as technically capable. From sleek chassis designs to glowing LED arrangements, every detail counts in creating a robot that is not only fast and accurate but also captivating to watch.",
+      "The challenge also fosters collaboration and critical thinking. Teams must plan their design, write and debug code, and test their robots repeatedly to ensure flawless performance. This iterative process develops resilience and adaptability, teaching participants to approach complex problems methodically.",
+      "Join us as we celebrate creativity, engineering mastery, and competitive spirit at CIRCUIT RIOT — where every circuit completed and every line followed brings the world of robotics to life."
+    ],
+    grade:"Grade 9-12 / Year 10-13. Maximum 5 students per school, 20 teams total.",
+    team:["Karsten George","Mohammed Mifzal Maharoof","Shaurya Navadiya"]
+  },
+  {
+    name:"Codalo", arena:"Robotics", icon:"🧱",
+    desc:"The premier robotics battle competition. Bots go head-to-head in the arena — last one moving wins.",
+    long:[
+      "Welcome to CODALO, the flagship robotics challenge of ByteFest. CODALO provides the ultimate platform for young engineers, programmers, and innovators to showcase creativity, strategic thinking, and technical skill in a competitive yet inspiring environment. Unlike standard robotics contests, CODALO challenges participants across mechanical design, programming, tactical execution, and digital presentation.",
+      "CODALO is built on the principle that creativity, technical mastery, and strategic thinking must work together. Teams are encouraged to push the boundaries of conventional robotics design, integrating unique sensors, coding techniques, and mechanical innovations that reflect their individual approach and ingenuity.",
+      "Beyond competition, CODALO promotes collaboration, critical thinking, and resilience. Participants learn to troubleshoot, iterate, and refine their robots in preparation for high-stakes challenges, gaining practical insight into the engineering and programming process.",
+      "In essence, CODALO is more than a robotics competition — it is a celebration of ingenuity, engineering, and competitive spirit. Join us for a showcase of strategy, creativity, and engineering brilliance."
+    ],
+    grade:"Grade 9-12 / Year 10-13. Maximum 6 students per school.",
+    team:["Vishnu Narayanan","Siya Jaiswal"]
+  },
+  {
+    name:"VybeCode", arena:"AI", icon:"💡",
+    desc:"A rapid real-world problem-solving sprint. You get a genuine problem, a short clock, and the freedom to build whatever solves it.",
+    long:[
+      "Welcome to VybeCode, the flagship AI arena of ByteFest. VybeCode is the ultimate testing ground for young builders, innovators, and problem solvers, combining speed, logic, and creativity in a high-stakes competitive environment.",
+      "VybeCode invites interschool teams to enter the arena. Each team is encouraged to bring together diverse skills — prompting, analytical thinking, and creative problem-solving — to craft solutions that are both efficient and innovative. Teams work under a fixed time constraint that tests not only build speed but clarity of thought, organisation, and composure under pressure.",
+      "VybeCode is structured to foster both collaboration and individual excellence. Team members must communicate effectively, delegate tasks strategically, and coordinate their efforts to ensure seamless integration of multiple components.",
+      "As teams progress through successive challenges they encounter increasingly complex problems requiring careful planning, precise execution, and creative solutions. VybeCode rewards not only knowledge and skill but adaptability, resilience, and ingenuity.",
+      "Join us at VybeCode, where strategy meets creativity and every prompt is an opportunity to demonstrate brilliance."
+    ],
+    grade:"Grade 7-10 / Year 8-11. Maximum 5 students per school.",
+    team:["Kavin Grover","Darsh Sharma"]
+  },
+  {
+    name:"GameGrid", arena:"E-sports", icon:"🎮",
+    desc:"A competitive 1v1 e-sports tournament. Bracket play, live on the big screen.",
+    long:[
+      "Welcome to GAMEGRID, the ultimate e-sports showdown of ByteFest. GAMEGRID brings together the fastest reflexes, sharpest strategies, and most passionate gamers from across schools in an electrifying competitive environment.",
+      "Players compete across two arenas — EA SPORTS FC and ROCKET LEAGUE — both running simultaneously on PlayStation 5 consoles. EA SPORTS FC demands precision, timing, and tactical understanding to control the pitch and score decisive goals. ROCKET LEAGUE combines high-speed vehicle control, teamwork, and split-second decision-making in a physics-driven environment.",
+      "GAMEGRID celebrates not just individual talent but strategy and adaptability. Competitors must analyse opponents' patterns, make real-time decisions, and execute flawlessly to advance through the brackets.",
+      "Participants compete in a professional-style environment, complete with structured rounds, real-time scoring, and audience engagement. Beyond the competition itself, GAMEGRID encourages sportsmanship, critical thinking, and resilience.",
+      "Represent your school, showcase your skills, and compete for the ultimate title at ByteFest 2026."
+    ],
+    grade:"Grade 9-12 / Year 10-13. Maximum 1 student per game.",
+    team:["Sameer Mishra","Arjun Choudhary"]
+  },
+  {
+    /* TODO — copy not confirmed yet. Fill in desc / long / grade / team. */
+    name:"Nex.AI", arena:"AI", icon:"🧠",
+    desc:"Details for ByteFest's newest track are being finalised. Full brief lands here shortly.",
+    long:[
+      "Nex.AI is the newest addition to the ByteFest line-up — a track built around applied artificial intelligence, where participants put models to work on problems that matter rather than just talking about them.",
+      "The full brief, format and judging criteria for Nex.AI are being finalised by the core team and will be published here before registration opens."
+    ],
+    grade:"To be announced.",
+    team:[]
+  }
+];
+
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ----- theme toggle: a live midnight <-> sunrise cycle -----
+   The sky gradient and the two celestial bodies are driven frame by frame from
+   here rather than cross-faded, because CSS can neither interpolate a gradient
+   nor animate a custom property — so the sun genuinely rises and the colours
+   genuinely travel. Everything else (text, panels, borders) rides the CSS
+   .theming transition over the same window. */
+(() => {
+  const root = document.documentElement, btn = document.getElementById("themetog");
+  const CYCLE = 1800;
+
+  const SKY = {                                  // hero1 → hero4, top to horizon
+    dark:  ["#000000","#000512","#001033","#001d5c"],
+    light: ["#9EC2F5","#BBD5FA","#DCEAFD","#F7EBD9"]
+  };
+  const ARC = {                                  // moon: top/right/opacity, then sun
+    dark:  [ 14, 12, 1, 118, 34, 0],
+    light: [-24,  6, 0,  28, 20, 1]
+  };
+
+  const rgb = h => { h=h.replace("#",""); const n=parseInt(h,16); return [n>>16&255,n>>8&255,n&255]; };
+  const mix = (a,b,t) => `rgb(${Math.round(a[0]+(b[0]-a[0])*t)},${Math.round(a[1]+(b[1]-a[1])*t)},${Math.round(a[2]+(b[2]-a[2])*t)})`;
+  const lerp = (a,b,t) => a+(b-a)*t;
+
+  // t = 0 is midnight, 1 is sunrise
+  function paintSky(t){
+    const A = SKY.dark.map(rgb), B = SKY.light.map(rgb);
+    for (let i=0;i<4;i++) root.style.setProperty("--hero"+(i+1), mix(A[i],B[i],t));
+    const a = ARC.dark, b = ARC.light;
+    root.style.setProperty("--moon-top",   lerp(a[0],b[0],t)+"%");
+    root.style.setProperty("--moon-right", lerp(a[1],b[1],t)+"%");
+    root.style.setProperty("--moon-op",    lerp(a[2],b[2],t));
+    root.style.setProperty("--sun-top",    lerp(a[3],b[3],t)+"%");
+    root.style.setProperty("--sun-right",  lerp(a[4],b[4],t)+"%");
+    root.style.setProperty("--sun-op",     lerp(a[5],b[5],t));
+  }
+  function clearSky(){                            // hand back to the stylesheet
+    ["--hero1","--hero2","--hero3","--hero4","--moon-top","--moon-right","--moon-op",
+     "--sun-top","--sun-right","--sun-op"].forEach(p => root.style.removeProperty(p));
+  }
+  window.__skyAt = paintSky;                      // test hook
+
+  const read = () => { try { return localStorage.getItem("bf-theme"); } catch(e){ return null; } };
+  const save = v => { try { localStorage.setItem("bf-theme", v); } catch(e){} };
+  let fadeTimer = null, cycle = null;
+
+  function setTheme(v){
+    if (v === "light") root.setAttribute("data-theme","light");
+    else root.removeAttribute("data-theme");
+    btn.textContent = v === "light" ? "☾" : "☀";
+    btn.setAttribute("aria-label", v === "light" ? "Switch to dark mode" : "Switch to light mode");
+  }
+  setTheme(read() === "light" ? "light" : "dark");   // no animation on first paint
+
+  btn.addEventListener("click", () => {
+    const next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+    const from = next === "light" ? 0 : 1, to = next === "light" ? 1 : 0;
+
+    root.classList.add("theming");
+    setTheme(next); save(next);
+    if (window.__bgfxTheme) window.__bgfxTheme(CYCLE);
+
+    if (reduce){ clearSky(); root.classList.remove("theming"); return; }
+
+    cancelAnimationFrame(cycle);
+    const t0 = performance.now();
+    (function step(now){
+      const raw = Math.min(1, (now - t0) / CYCLE);
+      const e = raw < .5 ? 2*raw*raw : 1 - Math.pow(-2*raw + 2, 2)/2;
+      paintSky(from + (to - from) * e);
+      if (raw < 1) cycle = requestAnimationFrame(step);
+      else clearSky();
+    })(t0);
+
+    clearTimeout(fadeTimer);
+    fadeTimer = setTimeout(() => root.classList.remove("theming"), CYCLE + 120);
+  });
+})();
+
+/* ----- dateline + countdown ----- */
+const fmt = EVENT_DATE.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric",timeZone:"Asia/Dubai"});
+document.getElementById("dateline").textContent = fmt.toUpperCase();
+const clock = document.getElementById("clock");
+const cd = {d:document.getElementById("cd-d"),h:document.getElementById("cd-h"),m:document.getElementById("cd-m"),s:document.getElementById("cd-s")};
+const pad = n => String(n).padStart(2,"0");
+function tick(){
+  const diff = EVENT_DATE - Date.now();
+  if (diff <= 0){ clock.classList.add("done"); clock.textContent = "LIVE NOW"; return; }
+  const t = Math.floor(diff/1000);
+  cd.d.textContent = Math.floor(t/86400);
+  cd.h.textContent = pad(Math.floor(t/3600)%24);
+  cd.m.textContent = pad(Math.floor(t/60)%60);
+  cd.s.textContent = pad(t%60);
+}
+tick(); setInterval(tick, 1000);
+
+/* ----- stars ----- */
+(() => {
+  const s = document.getElementById("stars");
+  for (let i=0;i<90;i++){
+    const e=document.createElement("i");
+    e.style.left=Math.random()*100+"%"; e.style.top=Math.random()*62+"%";
+    if (Math.random()<.18) e.style.background="#4D8BFF";
+    if (Math.random()<.3) {e.style.width=e.style.height="2px"}
+    s.appendChild(e);
+  }
+})();
+
+/* ----- hero parallax ----- */
+const layers = [...document.querySelectorAll(".layer")];
+if (!reduce){
+  let ticking=false;
+  addEventListener("scroll",()=>{
+    if (ticking) return; ticking=true;
+    requestAnimationFrame(()=>{
+      const y = scrollY;
+      if (y < innerHeight*1.2) layers.forEach(l=>l.style.transform=`translateY(${y*parseFloat(l.dataset.speed)}px)`);
+      ticking=false;
+    });
+  },{passive:true});
+}
+
+/* ----- scroll-driven background skyline ----- */
+(() => {
+  if (reduce) return;
+  const cv = document.getElementById("bgfx"), ctx = cv.getContext("2d");
+  let W=0, H=0, dpr=1, C={};
+
+  function readPalette(){
+    const s = getComputedStyle(document.documentElement);
+    return {
+      b1: s.getPropertyValue("--sky1").trim(),
+      b2: s.getPropertyValue("--sky2").trim(),
+      b3: s.getPropertyValue("--sky3").trim(),
+      lit: s.getPropertyValue("--sky-lit").trim(),
+      burj: s.getPropertyValue("--ember").trim(),
+      spire: s.getPropertyValue("--teal").trim()
+    };
+  }
+  function palette(){ C = readPalette(); }
+  /* CSS custom properties are not animatable — they flip the instant the
+     attribute changes. So the canvas tweens its own colours to match the
+     page's cross-fade instead of snapping. */
+  const toRGB = h => {
+    h = h.replace("#","");
+    if (h.length === 3) h = h.split("").map(c=>c+c).join("");
+    const n = parseInt(h,16);
+    return [n>>16 & 255, n>>8 & 255, n & 255];
+  };
+  const mixRGB = (a,b,t) =>
+    `rgb(${Math.round(a[0]+(b[0]-a[0])*t)},${Math.round(a[1]+(b[1]-a[1])*t)},${Math.round(a[2]+(b[2]-a[2])*t)})`;
+  function resize(){
+    dpr = Math.min(devicePixelRatio||1, 2);
+    W = innerWidth; H = innerHeight;
+    cv.width = W*dpr; cv.height = H*dpr;
+    cv.style.width = W+"px"; cv.style.height = H+"px";
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  palette(); resize();
+
+  function band(seed, count){
+    const out=[]; let x=0, s=seed;
+    const rnd = () => (s = (s*1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+    for (let i=0;i<count;i++){
+      const w = 26 + Math.floor(rnd()*70);
+      const h = 40 + Math.floor(rnd()*190);
+      out.push({x, w, h, lit: rnd() < .55 ? rnd() : -1});
+      x += w + 6 + Math.floor(rnd()*18);
+    }
+    return {blocks: out, span: x};
+  }
+  const BANDS = [
+    {data: band(7, 46),  speed: .10, alpha: .16, key:"b1", base: .96, scale: 1.25},
+    {data: band(29, 40), speed: .22, alpha: .22, key:"b2", base: .99, scale: 1.0},
+    {data: band(53, 34), speed: .38, alpha: .30, key:"b3", base: 1.02, scale: .8}
+  ];
+
+  /* Burj Khalifa.
+     The giveaway is the profile: a handful of deep, evenly-stepped blocks reads
+     as the Empire State. The Burj is ~7:1 slender, tapers continuously through
+     many shallow setbacks, and its needle is close to a third of the height. */
+  const COURSES = 13, COURSE_H = 24, BASE_W = 56, NEEDLE = 96;
+  /* `groundY` is the line the tower STANDS ON — everything is drawn upward from
+     it, so the base can never end up floating mid-page. */
+  function burj(x, groundY, u, alpha){
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = C.burj;
+    for (let i = 0; i < COURSES; i++){
+      const t = i / (COURSES - 1);                   // 0 at the base, 1 at the top
+      const w = BASE_W * Math.pow(1 - t, 0.72) + 4;  // smooth taper to a 4-unit tip
+      ctx.fillRect(x - (w/2)*u, groundY - (i+1)*COURSE_H*u, w*u, COURSE_H*u);
+    }
+    ctx.fillStyle = C.spire;
+    ctx.globalAlpha = Math.min(1, alpha*1.9);
+    ctx.fillRect(x - u, groundY - (COURSES*COURSE_H + NEEDLE)*u, 2*u, NEEDLE*u);
+  }
+
+  let queued=false;
+  function draw(){
+    queued = false;
+    const y = scrollY, doc = Math.max(1, document.body.scrollHeight - innerHeight);
+    const p = Math.min(1, y/doc);
+    ctx.clearRect(0,0,W,H);
+    if (y < innerHeight*0.55) return;
+    const enter = Math.min(1, (y - innerHeight*0.55) / (innerHeight*0.5));
+    /* Hand off to the real footer skyline near the end of the page. Without this
+       the bottom fade blacks out the tower's shaft while its bright needle stays
+       visible above the fade — a spire floating on nothing. */
+    const exit = Math.max(0, Math.min(1, (0.97 - p) / 0.19));
+    const vis  = enter * exit;
+    if (vis <= 0) return;
+
+    BANDS.forEach(b => {
+      const span = b.data.span * b.scale;
+      const off  = -(((y*b.speed) % span) + span) % span;   // always in (-span, 0]
+      const reps = Math.ceil((W - off) / span) + 1;         // cover the full width, no gaps
+      const baseY = H*b.base - p*H*0.10;
+
+      ctx.globalAlpha = b.alpha*vis;
+      ctx.fillStyle = C[b.key];
+      for (let rep=0; rep<reps; rep++){
+        const ox = off + rep*span;
+        b.data.blocks.forEach(bl => {
+          const bx = ox + bl.x*b.scale, bw = bl.w*b.scale, bh = bl.h*b.scale;
+          if (bx > W || bx+bw < 0) return;
+          ctx.fillRect(bx, baseY-bh, bw, bh);
+        });
+      }
+      ctx.globalAlpha = b.alpha*vis*1.5;
+      ctx.fillStyle = C.lit;
+      for (let rep=0; rep<reps; rep++){
+        const ox = off + rep*span;
+        b.data.blocks.forEach(bl => {
+          if (bl.lit < 0) return;
+          const bx = ox + bl.x*b.scale + bl.w*b.scale*bl.lit;
+          if (bx > W || bx < 0) return;
+          ctx.fillRect(bx, baseY - bl.h*b.scale*(.35+bl.lit*.4), 3, 3);
+        });
+      }
+    });
+
+    /* The Burj stands on the same ground line as the bands and drifts with them,
+       so it reads as part of the city rather than a shape floating past. */
+    /* Ground sits below the fold so the shaft runs off the bottom edge instead
+       of ending on a visible flat base part-way down the page. */
+    const ground = H*1.06 - p*H*0.05;
+    const bu = (H/900) * (1.25 + p*0.45);
+    burj(W*(1.06 - p*1.06), ground, bu, 0.6*vis);   // ends at the left edge, still in frame
+    ctx.globalAlpha = 1;
+  }
+
+  addEventListener("scroll", () => { if (queued) return; queued = true; requestAnimationFrame(draw); }, {passive:true});
+  addEventListener("resize", () => { resize(); draw(); }, {passive:true});
+  let themeFade = null;
+  window.__bgfxTheme = (ms) => {
+    const from = C, to = readPalette();
+    if (!ms){ C = to; draw(); return; }
+    let a = {}, b = {}, ok = true;
+    for (const k in to){
+      if (!/^#/.test(from[k]) || !/^#/.test(to[k])){ ok = false; break; }
+      a[k] = toRGB(from[k]); b[k] = toRGB(to[k]);
+    }
+    if (!ok){ C = to; draw(); return; }          // non-hex value, just swap
+    const t0 = Date.now();
+    clearInterval(themeFade);
+    themeFade = setInterval(() => {
+      const t = Math.min(1, (Date.now() - t0) / ms);
+      const e = t < .5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2)/2;   // ~the CSS easing
+      const step = {};
+      for (const k in a) step[k] = mixRGB(a[k], b[k], e);
+      C = step; draw();
+      if (t >= 1){ clearInterval(themeFade); C = to; draw(); }
+    }, 40);
+  };
+  draw();
+})();
+
+/* ----- scroll reveal ----- */
+(() => {
+  const items = [...document.querySelectorAll(".rv")];
+  if (reduce || !("IntersectionObserver" in window)){ items.forEach(i=>i.classList.add("in")); return; }
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if (!e.isIntersecting) return;
+      const sibs = [...e.target.parentElement.children].filter(n=>n.classList.contains("rv"));
+      e.target.style.transitionDelay = Math.min(sibs.indexOf(e.target),4)*70 + "ms";
+      e.target.classList.add("in");
+      io.unobserve(e.target);
+    });
+  },{rootMargin:"0px 0px -12% 0px",threshold:.12});
+  items.forEach(i=>io.observe(i));
+})();
+
+/* ----- FAQ: animated open/close ----- */
+(() => {
+  const DUR = 380;
+  document.querySelectorAll(".faq details").forEach(d => {
+    const sum = d.querySelector("summary"), ans = d.querySelector(".ans");
+    let busy = null;
+
+    // settle() always runs, whether or not transitionend fires, so a details
+    // element can never get stranded open at zero height
+    function settle(opening){
+      clearTimeout(busy); busy = null;
+      if (opening) ans.style.height = "auto";
+      else { d.open = false; ans.style.height = "0px"; }
+    }
+
+    sum.addEventListener("click", e => {
+      e.preventDefault();
+      if (reduce){ d.open = !d.open; ans.style.height = d.open ? "auto" : "0px"; return; }
+      if (busy) return;                              // ignore clicks mid-animation
+      const opening = !d.open;
+      if (opening){
+        d.open = true;
+        ans.style.height = "0px";
+        void ans.offsetHeight;                       // flush, so the transition runs
+        ans.style.height = ans.scrollHeight + "px";
+      } else {
+        ans.style.height = ans.scrollHeight + "px";
+        void ans.offsetHeight;
+        ans.style.height = "0px";
+      }
+      ans.addEventListener("transitionend", function done(ev){
+        if (ev.propertyName !== "height") return;
+        ans.removeEventListener("transitionend", done);
+        settle(opening);
+      });
+      busy = setTimeout(() => settle(opening), DUR + 80);
+    });
+  });
+})();
+
+/* ----- track wheel ----- */
+const dial = document.getElementById("dial"), NS="http://www.w3.org/2000/svg";
+const R=220, r=80, N=EVENTS.length, step=360/N;
+const pt=(rad,deg)=>{const a=(deg-90)*Math.PI/180;return [rad*Math.cos(a),rad*Math.sin(a)]};
+let current=0, rotation=0;
+
+EVENTS.forEach((ev,i)=>{
+  const a0=i*step-step/2+1.5, a1=i*step+step/2-1.5;
+  const [x0,y0]=pt(R,a0),[x1,y1]=pt(R,a1),[x2,y2]=pt(r,a1),[x3,y3]=pt(r,a0);
+  const g=document.createElementNS(NS,"g"); g.setAttribute("class","seg"); g.setAttribute("tabindex","0");
+  g.setAttribute("role","button"); g.setAttribute("aria-label",ev.name);
+  const p=document.createElementNS(NS,"path");
+  p.setAttribute("d",`M${x0},${y0} A${R},${R} 0 0 1 ${x1},${y1} L${x2},${y2} A${r},${r} 0 0 0 ${x3},${y3} Z`);
+  const [tx,ty]=pt((R+r)/2,i*step);
+  const t=document.createElementNS(NS,"text");
+  t.setAttribute("x",tx); t.setAttribute("y",ty); t.setAttribute("text-anchor","middle"); t.setAttribute("dominant-baseline","middle");
+  t.setAttribute("transform",`rotate(${i*step} ${tx} ${ty})`);
+  const label = ev.name.toUpperCase();
+  if (label.length > 10 && label.includes(" ")){
+    const [w1,...rest] = label.split(" ");
+    [w1, rest.join(" ")].forEach((line,k)=>{
+      const ts=document.createElementNS(NS,"tspan");
+      ts.setAttribute("x",tx); ts.setAttribute("dy", k===0 ? "-0.55em" : "1.1em");
+      ts.textContent=line; t.appendChild(ts);
+    });
+  } else {
+    t.textContent = label;
+  }
+  g.append(p,t); dial.appendChild(g);
+  g.addEventListener("click",()=>select(i));
+  g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();select(i)}});
+});
+
+const chips=document.getElementById("chips");
+EVENTS.forEach((ev,i)=>{
+  const b=document.createElement("button"); b.textContent=ev.name; b.setAttribute("aria-pressed","false");
+  b.addEventListener("click",()=>select(i)); chips.appendChild(b);
+});
+
+function select(i){
+  let target=-i*step, diff=((target-rotation)%360+540)%360-180;
+  rotation+=diff; dial.style.transform=`rotate(${rotation}deg)`;
+  current=i;
+  [...dial.children].forEach((g,k)=>g.classList.toggle("on",k===i));
+  [...chips.children].forEach((b,k)=>b.setAttribute("aria-pressed",k===i));
+  const ev=EVENTS[i];
+  document.getElementById("hubName").textContent=ev.name.toUpperCase();
+  document.getElementById("dName").textContent=ev.name;
+  document.getElementById("dArena").textContent=ev.arena;
+  document.getElementById("dDesc").textContent=ev.desc;
+}
+select(0);
+
+/* ----- track lightbox ----- */
+(() => {
+  const modal = document.getElementById("modal"),
+        card  = document.getElementById("modalCard"),
+        close = document.getElementById("modalClose"),
+        toggle= document.getElementById("teamToggle"),
+        panel = document.getElementById("teamPanel"),
+        grid  = document.getElementById("teamGrid");
+  let opener = null;
+
+  function open(i){
+    const ev = EVENTS[i];
+    document.getElementById("mIcon").textContent  = ev.icon;
+    document.getElementById("mName").textContent  = ev.name;
+    document.getElementById("mArena").textContent = ev.arena;
+    document.getElementById("mBody").innerHTML    = ev.long.map(p=>`<p>${p}</p>`).join("");
+    document.getElementById("mGrade").textContent = ev.grade;
+
+    grid.innerHTML = ev.team.map(n=>`
+      <div class="team-member">
+        <div class="avatar" aria-hidden="true">${n.trim().charAt(0)}</div>
+        <span>${n}</span>
+      </div>`).join("");
+    panel.style.maxHeight = "0px";
+    toggle.setAttribute("aria-expanded","false");
+    toggle.textContent = "MEET THE CORE TEAM";
+    toggle.hidden = ev.team.length === 0;
+
+    opener = document.activeElement;
+    modal.hidden = false;
+    card.scrollTop = 0;
+    void modal.offsetWidth;
+    modal.classList.add("open");
+    document.body.classList.add("locked");
+    close.focus();
+  }
+
+  function shut(){
+    modal.classList.remove("open");
+    document.body.classList.remove("locked");
+    setTimeout(()=>{ modal.hidden = true; }, 350);
+    if (opener) opener.focus();
+  }
+
+  toggle.addEventListener("click",()=>{
+    const openNow = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!openNow));
+    panel.style.maxHeight = openNow ? "0px" : panel.scrollHeight + "px";
+    toggle.textContent = openNow ? "MEET THE CORE TEAM" : "HIDE THE CORE TEAM";
+  });
+
+  document.getElementById("readmore").addEventListener("click",()=>open(current));
+  close.addEventListener("click", shut);
+  modal.addEventListener("click", e => { if (e.target === modal) shut(); });
+  addEventListener("keydown", e => { if (e.key === "Escape" && modal.classList.contains("open")) shut(); });
+})();
+
+/* ----- top bar ----- */
+(() => {
+  const bar = document.getElementById("topbar"), prog = document.getElementById("progress");
+  let queued = false;
+  function paint(){
+    queued = false;
+    const doc = Math.max(1, document.body.scrollHeight - innerHeight);
+    prog.style.width = (scrollY/doc)*100 + "%";
+    bar.classList.toggle("stuck", scrollY > 40);
+  }
+  addEventListener("scroll",()=>{ if(queued) return; queued=true; requestAnimationFrame(paint); },{passive:true});
+  paint();
+})();
+
+const links=[...document.querySelectorAll(".navlinks a")];
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){links.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id))}
+}),{rootMargin:"-45% 0px -50% 0px"});
+["top","about","tracks","sponsors","speakers","faq"].forEach(id=>io.observe(document.getElementById(id)));
+</script>
+</body>
+</html>
