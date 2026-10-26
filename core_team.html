@@ -257,6 +257,36 @@ footer{position:relative;z-index:1;padding:3rem 0;text-align:center;border-top:1
 .pcard::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;
   background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%),rgba(25,211,197,.17),transparent 68%)}
 .pcard:hover::after{opacity:1}
+
+/* ============ PHONE POLISH ============ */
+@media (max-width:1000px){
+  .bar-right{justify-self:end}
+  /* the menu scrolls sideways: fade its right edge so it reads as "more this way" */
+  .navlinks{padding-right:1.6rem;
+    -webkit-mask-image:linear-gradient(90deg,#000 82%,transparent);mask-image:linear-gradient(90deg,#000 82%,transparent)}
+}
+@media (max-width:600px){
+  .navlinks a{font-size:.72rem}
+}
+@media (max-width:600px){
+  /* the band hugs its text instead of centring it in a tall box; the moon sits in the strip under the header */
+  .band{min-height:0}
+  .band-copy{padding:8.8rem 1rem 4.2rem}
+  .moon,.sun{width:32px}
+  .moon{margin-top:62px}
+  .sun{margin-top:22px}   /* the sun rests lower in the sky (28% vs 14%), so it needs less push */
+  /* two cards a row instead of one, so 23 people aren't a mile of scrolling */
+  .crew,.crew.lead,.crew.pair{grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+  .crew > .pcard:last-child:nth-child(odd){grid-column:1 / -1;justify-self:center;width:calc(50% - .4rem)}
+  .pcard,.crew.pair .pcard{padding:1.1rem .55rem 1rem}
+  .portrait,.crew.pair .portrait{width:84px;height:84px;font-size:1.7rem;margin-bottom:.75rem}
+  .crew.lead .portrait{width:104px;height:104px;font-size:2.1rem}
+  .pcard h3,.crew.pair .pcard h3{font-size:.9rem}
+  .crew.lead .pcard h3{font-size:1rem}
+  .role{font-size:.58rem;line-height:1.5}
+  .crew-label{margin:2.4rem 0 1rem}
+  .ev-grid{gap:2rem}
+}
 </style>
 </head>
 <body>
@@ -739,6 +769,13 @@ addEventListener("load", () => setTimeout(() => {
     setTimeout(() => { location.href = a.href; }, 230);
   });
 })();
+function centreActiveLink(){
+  const a = document.querySelector(".navlinks a.on"), ul = a && a.closest(".navlinks");
+  if (!ul || ul.scrollWidth <= ul.clientWidth) return;
+  const ar = a.getBoundingClientRect(), ur = ul.getBoundingClientRect();
+  ul.scrollTo({left: ul.scrollLeft + ar.left - ur.left - (ul.clientWidth - ar.width) / 2, behavior: "smooth"});
+}
+centreActiveLink();
 </script>
 </body>
 </html>
