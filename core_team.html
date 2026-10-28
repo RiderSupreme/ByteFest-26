@@ -288,6 +288,46 @@ footer{position:relative;z-index:1;padding:3rem 0;text-align:center;border-top:1
   .crew-label{margin:2.4rem 0 1rem}
   .ev-grid{gap:2rem}
 }
+
+/* ============ A NOTE FROM THE PRESIDENT ============ */
+/* the name on Vishnu's card opens a short message, styled like the main page's track pop-up */
+.msg-btn{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:inherit;
+  text-decoration:underline;text-decoration-color:var(--teal);text-decoration-thickness:2px;text-underline-offset:.28em;
+  transition:color .2s}
+.msg-btn:hover,.msg-btn:focus-visible{color:var(--teal)}
+.msg-cue{margin-top:.7rem;font:inherit;font-family:var(--px);font-size:.62rem;letter-spacing:.08em;color:var(--ash);
+  background:none;border:0;padding:.2rem .3rem;cursor:pointer;transition:color .2s}
+.msg-cue:hover,.msg-cue:focus-visible{color:var(--teal)}
+body.locked{overflow:hidden}
+.note{position:fixed;inset:0;z-index:100;display:flex;justify-content:center;align-items:center;
+  padding:1rem;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  opacity:0;pointer-events:none;transition:opacity .35s}
+:root[data-theme="light"] .note{background:rgba(20,36,66,.45)}
+.note.open{opacity:1;pointer-events:auto}
+.note-card{position:relative;width:min(640px,100%);max-height:86vh;overflow-y:auto;overscroll-behavior:contain;
+  padding:clamp(1.5rem,4vw,2.4rem);text-align:left;
+  background:var(--glass-bg);border:1px solid var(--glass-brd);border-top:3px solid var(--teal);
+  backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);
+  box-shadow:0 20px 70px rgba(0,0,0,.55), inset 0 1px 0 var(--glass-hi);
+  transform:scale(.92);transition:transform .35s cubic-bezier(.2,.8,.2,1);
+  scrollbar-width:thin;scrollbar-color:var(--teal) transparent}
+:root[data-theme="light"] .note-card{background:rgba(255,255,255,.9)}
+.note.open .note-card{transform:scale(1)}
+.note-close{position:absolute;top:.8rem;right:.9rem;font:inherit;font-size:1.1rem;line-height:1;
+  width:36px;height:36px;display:grid;place-items:center;border-radius:50%;padding:0;color:var(--teal);
+  background:var(--glass-bg);border:1px solid var(--glass-brd);cursor:pointer;transition:transform .2s,border-color .2s}
+.note-close:hover{transform:rotate(90deg);border-color:var(--teal)}
+.note-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.3rem;padding-right:2.6rem}
+.note-head img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:1px solid var(--glass-brd);flex:none}
+.note-kicker{font-family:var(--px);font-size:.62rem;letter-spacing:.1em;color:var(--teal)}
+.note-head h2{margin-top:.3rem;font-family:var(--px);font-weight:700;font-size:clamp(1.2rem,4vw,1.6rem);line-height:1.1;color:var(--signal-hot)}
+.note-body{position:relative;padding-left:1.1rem;border-left:3px solid var(--teal)}
+.note-body::before{content:"\201C";position:absolute;left:.6rem;top:-1.6rem;font-family:Georgia,serif;font-size:3.4rem;line-height:1;color:var(--teal);opacity:.5}
+.note-body p{margin-bottom:1rem;font-size:.95rem;line-height:1.7;color:var(--bone);opacity:.88}
+.note-body p:last-child{margin-bottom:0}
+.note-sign{margin-top:1.4rem;font-size:.86rem;line-height:1.55;color:var(--ash)}
+.note-sign b{display:block;font-size:1rem;color:var(--bone)}
+@media (prefers-reduced-motion:reduce){.note,.note-card{transition:none}}
 </style>
 </head>
 <body>
@@ -423,8 +463,9 @@ footer{position:relative;z-index:1;padding:3rem 0;text-align:center;border-top:1
       <div class="crew lead">
           <article class="pcard rv">
             <div class="portrait" aria-hidden="true"><img src="team/vishnu.jpg" alt="" width="320" height="320" loading="lazy" decoding="async"></div>
-            <h3>Vishnu Narayanan</h3>
+            <h3><button class="msg-btn" type="button" data-note="vishnuNote" aria-haspopup="dialog">Vishnu Narayanan</button></h3>
             <p class="role">Student President</p>
+            <button class="msg-cue" type="button" data-note="vishnuNote" aria-haspopup="dialog">READ THE MESSAGE &rsaquo;</button>
           </article>
           <article class="pcard rv">
             <div class="portrait" aria-hidden="true"><img src="team/samaira.jpg" alt="" width="320" height="320" loading="lazy" decoding="async"></div>
@@ -583,6 +624,25 @@ footer{position:relative;z-index:1;padding:3rem 0;text-align:center;border-top:1
     </div>
   </section>
 </main>
+
+<div class="note" id="vishnuNote" role="dialog" aria-modal="true" aria-labelledby="vishnuNoteTitle" hidden>
+  <div class="note-card">
+    <button class="note-close" type="button" aria-label="Close">&#x2715;</button>
+    <div class="note-head">
+      <img src="team/vishnu.jpg" alt="" width="320" height="320" decoding="async">
+      <div>
+        <p class="note-kicker">A NOTE FROM THE PRESIDENT</p>
+        <h2 id="vishnuNoteTitle">Vishnu Narayanan</h2>
+      </div>
+    </div>
+    <div class="note-body">
+      <p>When the baton was passed on to me, my vision was never simply to curate an event that brings together students from across the UAE. It was to carry forward a legacy, from those who built it before me, and take it further than ever imagined.</p>
+      <p>As President and Chief Organizer of ByteFest 2026, I want to build on that foundation and make this edition our most ambitious yet. With over 300 students expected from across the UAE, we hope to create an experience that celebrates innovation, encourages bold thinking and brings together the next generation of young innovators.</p>
+      <p>Beyond the competition, ByteFest is an opportunity for students to turn ideas into reality, discover new possibilities and connect with others who share their passion for technology. We hope every participant will leave inspired to create, confident to explore and excited about what they can achieve next.</p>
+    </div>
+    <p class="note-sign"><b>&mdash; Vishnu Narayanan</b>President &amp; Chief Organizer, ByteFest 2026<br>GEMS New Millennium School, Dubai Hills</p>
+  </div>
+</div>
 
 <div class="skyline-cut" aria-hidden="true">
   <svg class="sk-haze" viewBox="0 0 1600 400" preserveAspectRatio="xMidYMax meet" shape-rendering="crispEdges">
@@ -782,6 +842,31 @@ function centreActiveLink(){
   ul.scrollTo({left: ul.scrollLeft + ar.left - ur.left - (ul.clientWidth - ar.width) / 2, behavior: "smooth"});
 }
 centreActiveLink();
+
+/* ----- message pop-ups on the team cards: open from the name, close on X, backdrop or Esc ----- */
+(() => {
+  let openNote = null, opener = null;
+  function show(id){
+    const n = document.getElementById(id); if (!n) return;
+    opener = document.activeElement; openNote = n;
+    n.hidden = false; void n.offsetWidth; n.classList.add("open");
+    document.body.classList.add("locked");
+    n.querySelector(".note-card").scrollTop = 0;
+    n.querySelector(".note-close").focus({preventScroll:true});
+  }
+  function hide(){
+    const n = openNote; if (!n) return;
+    openNote = null; n.classList.remove("open"); document.body.classList.remove("locked");
+    setTimeout(() => { if (!n.classList.contains("open")) n.hidden = true; }, 360);
+    if (opener) opener.focus({preventScroll:true});
+  }
+  document.querySelectorAll("[data-note]").forEach(b => b.addEventListener("click", () => show(b.dataset.note)));
+  document.querySelectorAll(".note").forEach(n => {
+    n.querySelector(".note-close").addEventListener("click", hide);
+    n.addEventListener("click", e => { if (e.target === n) hide(); });
+  });
+  addEventListener("keydown", e => { if (e.key === "Escape" && openNote) hide(); });
+})();
 </script>
 </body>
 </html>
