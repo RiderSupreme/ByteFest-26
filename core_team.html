@@ -190,6 +190,7 @@ section{padding:clamp(3.5rem,8vw,6rem) 0;position:relative}
 .crew-label:first-of-type{margin-top:3rem}
 .crew{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.4rem}
 @media (max-width:900px){.crew{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:901px){.crew:not(.lead):not(.pair) > .pcard:last-child:nth-child(3n+1){grid-column:2}}
 @media (max-width:560px){.crew{grid-template-columns:1fr}}
 .crew.lead{grid-template-columns:repeat(auto-fit,minmax(260px,400px));justify-content:center}
 .pcard{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;
@@ -479,6 +480,11 @@ footer{position:relative;z-index:1;padding:3rem 0;text-align:center;border-top:1
             <h3>Evann Matthew</h3>
             <p class="role">Unit of Volunteers</p>
           </article>
+          <article class="pcard rv">
+            <div class="portrait" aria-hidden="true"><img src="team/karen.jpg" alt="" width="320" height="320" loading="lazy" decoding="async"></div>
+            <h3>Karen Sanjay John</h3>
+            <p class="role">Unit of Volunteers</p>
+          </article>
       </div>
 
       <h2 class="crew-label rv" style="margin-top:4.5rem">// EVENT HEADS</h2>
@@ -592,7 +598,7 @@ footer{position:relative;z-index:1;padding:3rem 0;text-align:center;border-top:1
     <a class="back" href="index.html">&gt;&gt; BACK TO BYTEFEST &lt;&lt;</a>
     <div class="foot-meta">
       <span>Organised by GEMS New Millennium School, Dubai Hills</span>
-      <span><a href="mailto:nmsbytefest2026@gmail.com">nmsbytefest2026@gmail.com</a></span>
+      <span><a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=nmsbytefest2026@gmail.com" target="_blank" rel="noopener noreferrer">nmsbytefest2026@gmail.com</a></span>
     </div>
     <p class="made">Made with <em>♥</em> by the ByteFest team</p>
   </div>
