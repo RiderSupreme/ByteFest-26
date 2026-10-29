@@ -529,6 +529,8 @@ footer{position:relative;z-index:1;padding:3rem 0;text-align:center;border-top:1
 
 /* arcade caret on the hero button */
 .caret{display:inline-block;width:.5em;height:1em;background:var(--teal);animation:blink 1.1s steps(1) infinite}
+/* the caret hangs in the button's right padding instead of taking up width, so the label itself sits dead centre */
+.cta .caret{margin-right:calc(-.5em - .6rem)}
 @keyframes blink{50%{opacity:0}}
 
 /* the Burj beacon */
