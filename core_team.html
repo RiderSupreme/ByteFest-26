@@ -415,7 +415,6 @@ body.locked{overflow:hidden}
       <li><a href="index.html#about">about</a></li>
       <li><a href="index.html#arenas">arenas</a></li>
       <li><a href="index.html#tracks">tracks</a></li>
-      <li><a href="index.html#sponsors">sponsors</a></li>
       <li><a href="index.html#speakers">speakers</a></li>
       <li><a href="index.html#faq">FAQ</a></li>
       <li><a href="core_team.html" class="on">core team</a></li>
@@ -863,6 +862,19 @@ centreActiveLink();
     n.addEventListener("click", e => { if (e.target === n) hide(); });
   });
   addEventListener("keydown", e => { if (e.key === "Escape" && openNote) hide(); });
+})();
+</script>
+<script>
+/* Visitor counter (GoatCounter): no cookies, nothing stored on the visitor's device, so no consent banner needed.
+   One tiny request per page view carrying the page path, referrer and screen width; GoatCounter works out
+   the country itself. Sent straight to its /count endpoint, so no third-party script is loaded.
+   Only counts on the live domain, never on a local copy. Set GC to the site code to switch it on. */
+(() => {
+  const GC = "";
+  if (!GC || !/(^|\.)nmsbytesfest\.com$/.test(location.hostname)) return;
+  const q = new URLSearchParams({p: location.pathname, t: document.title, r: document.referrer,
+                                 s: screen.width + "," + screen.height + "," + (devicePixelRatio || 1), rnd: Math.random().toString(36).slice(2)});
+  new Image().src = "https://" + GC + ".goatcounter.com/count?" + q;
 })();
 </script>
 </body>
