@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Judging · ByteFest 2026</title>
+<meta name="description" content="ByteFest 2026 judging and results. For judges and organisers only.">
+<link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script>
+  /* same theme key as the main site, applied before first paint so light-mode users never see a dark flash */
+  try { if (localStorage.getItem("bf-theme") === "light") document.documentElement.setAttribute("data-theme", "light"); } catch (e) {}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=IBM+Plex+Mono:wght@400;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#000000; --panel:#000614; --signal:#003DA6; --signal-hot:#4D8BFF; --ember:#0A2A6B;
+  --bone:#EEF2FA; --ash:#8E9AB3; --grid:rgba(77,139,255,.08);
+  --teal:#19D3C5; --teal-deep:#0B8F85; --teal-ink:#001a18; --sel:#065EAD;
+  --glass-bg:rgba(255,255,255,.06); --glass-brd:rgba(25,211,197,.45); --glass-hi:rgba(255,255,255,.14);
+  --glass-shadow:0 6px 28px rgba(0,0,0,.45);
+  --bar:rgba(3,9,26,.72); --field:rgba(0,0,0,.38); --line:rgba(77,139,255,.18);
+  --glow1:#001d5c; --glow2:#000512;
+  --sk-body:#001a52; --sk-lit:#7FB0FF;
+  --gold:#FFD36B; --silver:#D7E1F0; --bronze:#E0A36B; --ok:#19D3C5; --bad:#FF6B6B;
+  --px:"Silkscreen","Courier New",monospace;
+  --num:"Press Start 2P","Silkscreen","Courier New",monospace;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+:root[data-theme="light"]{
+  --void:#F2F4F9; --panel:#FFFFFF; --signal-hot:#0B4FBC; --ember:#C6D3E8;
+  --bone:#131C30; --ash:#5A6579; --grid:rgba(0,61,166,.09);
+  --teal:#0E9E93; --teal-deep:#0A6F67; --teal-ink:#ffffff; --sel:#4E92DE;
+  --glass-bg:rgba(255,255,255,.62); --glass-brd:rgba(14,158,147,.5); --glass-hi:rgba(255,255,255,.85);
+  --glass-shadow:0 6px 24px rgba(10,22,48,.12);
+  --bar:rgba(247,249,253,.8); --field:rgba(255,255,255,.75); --line:rgba(0,61,166,.14);
+  --glow1:#BBD5FA; --glow2:#F2F4F9;
+  --sk-body:#8CA6CE; --sk-lit:#FFE0A8;
+  --gold:#C99412; --silver:#7C8798; --bronze:#B06A2C; --ok:#0E9E93; --bad:#D64545;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;background:var(--void)}
+body{min-height:100vh;color:var(--bone);font-family:var(--mono);font-size:1rem;line-height:1.55;-webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;overflow-x:hidden;
+  background:
+    linear-gradient(var(--grid) 1px,transparent 1px) 0 0/48px 48px,
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/48px 48px,
+    radial-gradient(ellipse 90% 60% at 50% -10%,var(--glow1) 0%,var(--glow2) 60%,var(--void) 100%) fixed;
+  transition:background-color .3s,color .3s}
+::selection{background:var(--teal);color:var(--teal-ink)}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--teal)}
+[hidden]{display:none!important}
+.wrap{width:min(1180px,100% - 2rem);margin-inline:auto}
+.px{font-family:var(--px);font-weight:400;letter-spacing:.05em}
+.num{font-family:var(--num)}
+.muted{color:var(--ash)}
+
+/* glass, as on the main site */
+.glass{position:relative;background:var(--glass-bg);border:1px solid var(--glass-brd);
+  backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);
+  box-shadow:var(--glass-shadow), inset 0 1px 0 var(--glass-hi)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.75rem 1.2rem;
+  font-family:var(--px);font-size:.74rem;letter-spacing:.06em;color:var(--bone);text-decoration:none;white-space:nowrap;
+  background:var(--glass-bg);border:1px solid var(--glass-brd);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:border-color .2s,background .2s,color .2s,transform .15s}
+.btn:hover{border-color:var(--teal)}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--teal);border-color:var(--teal);color:var(--teal-ink)}
+.btn.primary:hover{filter:brightness(1.1)}
+.btn.danger{border-color:var(--bad);color:var(--bad)}
+.btn.small{padding:.5rem .8rem;font-size:.64rem}
+.btn:disabled{opacity:.45;cursor:default;transform:none}
+input.field,select.field,textarea.field{width:100%;padding:.8rem .9rem;background:var(--field);border:1px solid var(--glass-brd);outline:none;transition:border-color .2s,box-shadow .2s}
+input.field:focus,select.field:focus,textarea.field:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(25,211,197,.18)}
+label.lbl{display:block;margin:1rem 0 .4rem;font-family:var(--px);font-size:.66rem;letter-spacing:.08em;color:var(--teal)}
+
+/* skyline along the bottom of every screen: the same artwork as the site's hero and footer */
+.skyline{position:fixed;left:0;right:0;bottom:0;z-index:0;pointer-events:none;line-height:0;opacity:.55}
+.skyline svg{width:100%;height:auto;aspect-ratio:4/1;display:block;max-height:34vh}
+.skyline::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,var(--void) 100%);z-index:1}
+.sk-body{fill:var(--sk-body)}
+.sk-lit{fill:var(--sk-lit);opacity:.85}
+#vLogin,#vApp{position:relative;z-index:1}
+
+/* ---------- LOGIN ---------- */
+.login{min-height:100vh;display:grid;place-items:center;padding:2rem 1rem 6rem}
+.lbox{width:min(400px,100%);padding:2rem 1.6rem 1.8rem}
+.lbox .logo{display:block;width:min(220px,70%);height:auto;margin:0 auto 1rem}
+.lbox h1{text-align:center;font-family:var(--px);font-size:1.5rem;line-height:1.1;letter-spacing:.06em}
+.lbox h1 b{color:var(--teal);font-weight:400}
+.lbox .sub{text-align:center;font-size:.85rem;color:var(--ash);margin:.4rem 0 .8rem}
+.pwwrap{position:relative}
+.pwwrap .field{padding-right:4.6rem}
+.pweye{position:absolute;right:.4rem;top:50%;transform:translateY(-50%);padding:.35rem .55rem;font-family:var(--px);font-size:.6rem;
+  letter-spacing:.06em;background:none;border:1px solid var(--line);color:var(--ash)}
+.pweye:hover{color:var(--teal);border-color:var(--teal)}
+.lbox .btn.primary{width:100%;margin-top:1.3rem;padding:.95rem}
+.err{min-height:1.3em;margin-top:.8rem;font-size:.85rem;color:var(--bad);text-align:center}
+.demo{margin-top:1rem;padding:.9rem 1rem;font-size:.82rem;line-height:1.5;border-left:3px solid var(--gold);background:rgba(255,211,107,.07)}
+.demo .grp{margin-top:.7rem;font-family:var(--px);font-size:.6rem;letter-spacing:.08em;color:var(--teal)}
+.demo .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.35rem;margin-top:.35rem}
+.demo .row .btn{white-space:normal;text-align:center;line-height:1.3}
+.home{display:block;margin-top:1.2rem;text-align:center;font-family:var(--px);font-size:.62rem;letter-spacing:.08em;color:var(--ash);text-decoration:none}
+.home:hover{color:var(--teal)}
+
+/* ---------- TOP BAR ---------- */
+.top{position:sticky;top:0;z-index:30;background:var(--bar);border-bottom:1px solid var(--glass-brd);
+  backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%)}
+.top .wrap{display:flex;align-items:center;gap:1rem;padding:.65rem 0}
+.top .crest{display:flex;align-items:center;gap:.8rem;text-decoration:none;color:inherit}
+.top .crest img{height:38px;width:auto}
+:root:not([data-theme="light"]) .logo-day{display:none}
+:root[data-theme="light"] .logo-night{display:none}
+.top .app{padding-left:.8rem;border-left:1px solid var(--line);font-family:var(--px);font-size:.82rem;letter-spacing:.08em;line-height:1.15}
+.top .app b{display:block;font-weight:400;color:var(--teal)}
+.top .right{margin-left:auto;display:flex;align-items:center;gap:.7rem}
+.who{text-align:right;font-size:.78rem;line-height:1.3}
+.who b{display:block;font-family:var(--px);font-weight:400;font-size:.72rem;letter-spacing:.05em;color:var(--signal-hot)}
+.who span{color:var(--ash)}
+.pill{display:inline-flex;align-items:center;gap:.4rem;padding:.3rem .6rem;font-family:var(--px);font-size:.58rem;letter-spacing:.07em;
+  border:1px solid var(--line);color:var(--ash);white-space:nowrap}
+.pill i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+.pill.off i{background:var(--gold);box-shadow:0 0 8px var(--gold)}
+.pill.off{color:var(--gold)}
+.themetog{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;padding:0;color:var(--teal);font-size:.95rem;
+  background:var(--glass-bg);border:1px solid var(--glass-brd);transition:transform .2s,border-color .2s}
+.themetog:hover{border-color:var(--teal);transform:rotate(-18deg)}
+@media (max-width:760px){
+  .top .wrap{flex-wrap:wrap;gap:.6rem}
+  .top .crest img{height:30px}
+  .top .app{font-size:.7rem}
+  .top .right{width:100%;justify-content:space-between;margin:0}
+  .who{text-align:left;order:-1;margin-right:auto}
+}
+
+/* ---------- SHARED LAYOUT ---------- */
+main{padding:1.6rem 0 11rem}
+.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:1.4rem;flex-wrap:wrap;margin-bottom:1.4rem}
+.kicker{font-family:var(--px);font-size:.66rem;letter-spacing:.1em;color:var(--teal)}
+.hero h2{margin:.35rem 0 .3rem;font-family:var(--px);font-weight:700;font-size:clamp(1.8rem,5vw,2.8rem);line-height:1;color:var(--bone);
+  text-shadow:4px 4px 0 var(--ember)}
+.hero h2 .ico{font-size:.8em;margin-right:.35rem;text-shadow:none}
+.hero p{max-width:62ch;font-size:.9rem;color:var(--ash)}
+.banner{padding:.85rem 1.1rem;margin-bottom:1rem;font-size:.88rem;border-left:3px solid var(--line);background:rgba(77,139,255,.06)}
+.banner.ok{border-color:var(--teal);background:rgba(25,211,197,.09)}
+.banner.warn{border-color:var(--gold);background:rgba(255,211,107,.08)}
+.banner.bad{border-color:var(--bad);background:rgba(255,107,107,.08)}
+.banner .btn{margin-left:.6rem}
+.empty{padding:2.4rem 1rem;text-align:center;color:var(--ash)}
+.note{font-size:.8rem;color:var(--ash)}
+
+/* progress box on the judge screen */
+.prog{min-width:min(300px,100%);padding:1rem 1.1rem}
+.prog .row{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;font-size:.8rem;color:var(--ash)}
+.prog .row b{font-family:var(--num);font-weight:400;font-size:.95rem;color:var(--teal)}
+.track{height:5px;margin:.6rem 0 .4rem;background:rgba(127,127,127,.18)}
+.track i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--signal),var(--teal));transition:width .4s}
+
+/* scoring guide */
+details.guide{margin-bottom:1.2rem}
+details.guide summary{list-style:none;cursor:pointer;padding:.85rem 1.1rem;font-family:var(--px);font-size:.72rem;letter-spacing:.07em;color:var(--teal);
+  display:flex;justify-content:space-between;align-items:center}
+details.guide summary::-webkit-details-marker{display:none}
+details.guide summary::after{content:"+";font-size:1.1rem;transition:transform .3s}
+details.guide[open] summary::after{transform:rotate(45deg)}
+.rub{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.8rem;padding:0 1.1rem 1.1rem}
+.rub div{padding:.8rem .9rem;background:var(--field);border-left:2px solid var(--teal)}
+.rub small{display:block;font-family:var(--px);font-size:.58rem;letter-spacing:.07em;color:var(--ash)}
+.rub b{display:block;margin:.2rem 0 .3rem;font-size:.92rem}
+.rub p{font-size:.8rem;color:var(--ash);line-height:1.45}
+
+/* ---------- JUDGE: one card per team ---------- */
+.teams{display:grid;gap:1rem}
+.team{padding:1.1rem 1.1rem 1rem;border-left-width:4px;border-left-color:var(--ember);transition:border-color .3s}
+.team.scored{border-left-color:var(--teal)}
+.team .th{display:flex;gap:1rem;align-items:flex-start;margin-bottom:.9rem}
+.team .no{font-family:var(--px);font-size:.75rem;letter-spacing:.06em;color:var(--teal);padding:.35rem .5rem;border:1px solid var(--glass-brd);white-space:nowrap}
+.team .nm{flex:1;min-width:0}
+.team .nm b{display:block;font-size:1.02rem}
+.team .nm div{font-size:.8rem;color:var(--ash)}
+.team .tot{text-align:right;white-space:nowrap}
+.team .tot b{font-family:var(--num);font-weight:400;font-size:1.05rem}
+.team .tot span{display:block;font-size:.72rem;color:var(--ash)}
+.cr{display:grid;grid-template-columns:minmax(150px,1fr) 3fr;gap:.4rem 1rem;align-items:center;padding:.55rem 0;border-top:1px dashed var(--line)}
+.cr label{font-size:.85rem}
+.cr label small{display:block;font-size:.7rem;color:var(--ash)}
+.lv{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:.3rem}
+.lv button{height:40px;font-family:var(--num);font-size:.68rem;background:var(--field);border:1px solid var(--line);transition:background .15s,border-color .15s,color .15s}
+.lv button:hover:not(:disabled){border-color:var(--teal)}
+.lv button.on{background:var(--teal);border-color:var(--teal);color:var(--teal-ink)}
+.lv button:disabled{cursor:default}
+.cr input.field{max-width:9rem;font-family:var(--num);font-size:.85rem}
+.cr input.badv{border-color:var(--bad)}
+.team textarea.field{margin-top:.7rem;min-height:3.2rem;resize:vertical;font-size:.85rem}
+.team .st{margin-top:.5rem;font-family:var(--px);font-size:.6rem;letter-spacing:.07em;color:var(--ash)}
+.team .st.ok{color:var(--teal)}
+.team .st.err{color:var(--bad)}
+@media (max-width:640px){ .cr{grid-template-columns:1fr} }
+
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--bar);border-top:1px solid var(--glass-brd);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:.8rem 0 calc(.8rem + env(safe-area-inset-bottom))}
+.dock .wrap{display:flex;align-items:center;gap:1rem;justify-content:space-between}
+.dock .note{margin:0}
+
+/* ---------- RESULTS ---------- */
+.tabs{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:1.3rem}
+.tab{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem .85rem;font-family:var(--px);font-size:.66rem;letter-spacing:.05em;
+  background:var(--glass-bg);border:1px solid var(--line);color:var(--bone);transition:border-color .2s,background .2s}
+.tab:hover{border-color:var(--teal)}
+.tab[aria-selected="true"]{border-color:var(--teal);background:rgba(25,211,197,.13)}
+.tab em{font-style:normal;font-family:var(--num);font-size:.5rem;padding:.22rem .35rem;border:1px solid var(--line);color:var(--ash)}   /* Silkscreen's 4 reads as a 9 */
+.tab em.fin{background:var(--teal);border-color:var(--teal);color:var(--teal-ink)}
+.tab.tool{border-style:dashed}
+.jst{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:1rem}
+.chip{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .6rem;font-family:var(--px);font-size:.58rem;letter-spacing:.06em;
+  border:1px solid var(--line);color:var(--ash)}
+.chip.done{border-color:var(--teal);color:var(--teal)}
+.tie{margin:0 0 1rem;font-size:.86rem;color:var(--gold)}
+
+.podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-bottom:1.4rem;align-items:end}
+.pod{padding:1.1rem 1rem;text-align:center;border-top:4px solid var(--line)}
+.pod.p1{border-top-color:var(--gold);order:2;padding-top:1.6rem}
+.pod.p2{border-top-color:var(--silver);order:1}
+.pod.p3{border-top-color:var(--bronze);order:3}
+.pod .pl{font-family:var(--num);font-size:.8rem}
+.pod.p1 .pl{color:var(--gold)} .pod.p2 .pl{color:var(--silver)} .pod.p3 .pl{color:var(--bronze)}
+.pod .score{display:block;margin:.5rem 0 .2rem;font-family:var(--num);font-size:1.15rem}
+.pod b{display:block;margin-top:.4rem;font-size:.98rem}
+.pod .s{font-size:.78rem;color:var(--ash)}
+.pod .mem{margin-top:.5rem;font-size:.78rem;line-height:1.45}
+.pod label{display:inline-flex;align-items:center;gap:.45rem;margin-top:.8rem;font-family:var(--px);font-size:.6rem;letter-spacing:.06em;cursor:pointer}
+.pod label input{width:16px;height:16px;accent-color:var(--teal)}
+.pod.writ{background:rgba(25,211,197,.09)}
+.pod .stack + .stack{margin-top:.9rem;padding-top:.9rem;border-top:1px dashed var(--line)}
+@media (max-width:760px){ .podium{grid-template-columns:1fr} .pod.p1,.pod.p2,.pod.p3{order:0} }
+
+.tscroll{overflow-x:auto;margin-bottom:1rem}
+table.res{width:100%;border-collapse:collapse;font-size:.86rem}
+.res th,.res td{padding:.7rem .75rem;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+.res th{font-family:var(--px);font-weight:400;font-size:.6rem;letter-spacing:.07em;color:var(--teal);white-space:nowrap;background:rgba(127,127,127,.06)}
+.res td.n,.res th.n{text-align:right;white-space:nowrap}
+.res td.big{font-family:var(--num);font-size:.8rem;white-space:nowrap}
+.res tr.r1 td.big:first-child{color:var(--gold)} .res tr.r2 td.big:first-child{color:var(--silver)} .res tr.r3 td.big:first-child{color:var(--bronze)}
+.res tr.pending{opacity:.55}
+.res .s{font-size:.76rem;color:var(--ash)}
+.res td.notes{font-size:.76rem;color:var(--ash);min-width:180px}
+@media (max-width:760px){ .hide-m{display:none} }
+
+.cert h3{margin:1.4rem 0 .6rem;font-family:var(--px);font-weight:400;font-size:.8rem;letter-spacing:.07em;color:var(--teal)}
+.cert h3 .num{font-size:.62rem;color:var(--ash);margin-left:.4rem}
+
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.8rem;align-items:end;padding:1.1rem;margin-bottom:1.2rem}
+.form-grid label.lbl{margin-top:0}
+.msg{grid-column:1/-1;font-size:.86rem}
+.ok-t{color:var(--ok)} .bad-t{color:var(--bad)}
+
+@media print{
+  .top,.dock,.skyline,.tabs,.btn,.banner .btn{display:none!important}
+  body{background:#fff;color:#000}
+  .glass{background:none;box-shadow:none;border-color:#999;backdrop-filter:none}
+  main{padding:0}
+}
+@media (prefers-reduced-motion:reduce){ *{transition:none!important} }
+</style>
+</head>
+<body>
+
+<div class="skyline" aria-hidden="true">
+  <svg viewBox="0 0 1600 400" preserveAspectRatio="xMidYMax meet" shape-rendering="crispEdges">
+    <defs><symbol id="skyline" viewBox="0 0 1600 400">
+    <g class="sk-body">
+      <!-- Emirates Towers (twin, triangular crowns) -->
+      <rect x="48" y="182" width="40" height="218"/>
+      <polygon points="48,182 68,138 88,182"/>
+      <rect x="100" y="212" width="34" height="188"/>
+      <polygon points="100,212 117,176 134,212"/>
+      <!-- Dubai Frame -->
+      <rect x="176" y="152" width="18" height="248"/>
+      <rect x="252" y="152" width="18" height="248"/>
+      <rect x="176" y="152" width="94" height="20"/>
+      <!-- Burj Al Arab, the sail -->
+      <polygon points="300,400 300,210 312,210 312,222 324,222 324,240 336,240 336,262 346,262 346,290 356,290 356,330 364,330 364,400"/>
+      <!-- Atlantis The Palm (twin + central arch) -->
+      <rect x="404" y="248" width="34" height="152"/>
+      <rect x="404" y="234" width="34" height="14"/>
+      <rect x="466" y="248" width="34" height="152"/>
+      <rect x="466" y="234" width="34" height="14"/>
+      <rect x="438" y="248" width="28" height="44"/>
+      <!-- Museum of the Future (torus on podium) -->
+      <rect x="548" y="358" width="56" height="42"/>
+      <path fill-rule="evenodd" d="M576,296 m-46,0 a46,56 0 1,0 92,0 a46,56 0 1,0 -92,0 Z M576,296 m-20,0 a20,26 0 1,0 40,0 a20,26 0 1,0 -40,0 Z"/>
+      <!-- Cayan Tower (the twist, as offset pixel courses) -->
+      <rect x="664" y="142" width="30" height="26"/><rect x="662" y="168" width="30" height="26"/>
+      <rect x="658" y="194" width="30" height="26"/><rect x="654" y="220" width="30" height="26"/>
+      <rect x="652" y="246" width="30" height="26"/><rect x="654" y="272" width="30" height="26"/>
+      <rect x="658" y="298" width="30" height="26"/><rect x="662" y="324" width="30" height="26"/>
+      <rect x="666" y="350" width="30" height="50"/>
+      <!-- filler block -->
+      <rect x="744" y="262" width="30" height="138"/><rect x="782" y="302" width="34" height="98"/>
+      <!-- Burj Khalifa — slender, long needle -->
+      <rect x="886" y="8" width="4" height="62"/>
+      <rect x="882" y="70" width="12" height="40"/>
+      <rect x="876" y="110" width="24" height="40"/>
+      <rect x="868" y="150" width="40" height="40"/>
+      <rect x="858" y="190" width="60" height="45"/>
+      <rect x="846" y="235" width="84" height="50"/>
+      <rect x="836" y="285" width="104" height="115"/>
+      <!-- Almas Tower -->
+      <rect x="976" y="202" width="38" height="198"/>
+      <polygon points="976,202 995,170 1014,202"/>
+      <!-- JW Marriott Marquis (twin) -->
+      <rect x="1054" y="192" width="32" height="208"/><rect x="1054" y="180" width="32" height="12"/>
+      <rect x="1096" y="192" width="32" height="208"/><rect x="1096" y="180" width="32" height="12"/>
+      <!-- Index Tower -->
+      <rect x="1164" y="232" width="52" height="168"/>
+      <!-- Gevora -->
+      <rect x="1256" y="172" width="34" height="228"/><rect x="1271" y="146" width="4" height="26"/>
+      <!-- Address Downtown -->
+      <rect x="1336" y="242" width="44" height="158"/><rect x="1336" y="230" width="44" height="12"/>
+      <!-- filler -->
+      <rect x="1424" y="282" width="48" height="118"/><rect x="1486" y="252" width="36" height="148"/>
+      <rect x="1534" y="302" width="50" height="98"/>
+    </g>
+    <g class="sk-lit">
+      <rect class="beacon" x="887" y="4" width="2" height="4"/>
+      <rect x="60" y="210" width="4" height="4"/><rect x="74" y="250" width="4" height="4"/>
+      <rect x="112" y="240" width="4" height="4"/><rect x="316" y="256" width="4" height="4"/>
+      <rect x="414" y="272" width="4" height="4"/><rect x="480" y="300" width="4" height="4"/>
+      <rect x="568" y="372" width="4" height="4"/><rect x="668" y="200" width="4" height="4"/>
+      <rect x="664" y="280" width="4" height="4"/><rect x="752" y="290" width="4" height="4"/>
+      <rect x="872" y="168" width="4" height="4"/><rect x="866" y="250" width="4" height="4"/>
+      <rect x="856" y="320" width="4" height="4"/><rect x="988" y="240" width="4" height="4"/>
+      <rect x="1064" y="220" width="4" height="4"/><rect x="1106" y="260" width="4" height="4"/>
+      <rect x="1180" y="270" width="4" height="4"/><rect x="1266" y="210" width="4" height="4"/>
+      <rect x="1348" y="280" width="4" height="4"/><rect x="1434" y="310" width="4" height="4"/>
+      <rect x="1496" y="290" width="4" height="4"/><rect x="1546" y="330" width="4" height="4"/>
+    </g>
+  </symbol></defs>
+    <use href="#skyline"/>
+  </svg>
+</div>
+
+<!-- ============== SIGN IN ============== -->
+<section class="login" id="vLogin">
+  <form class="lbox glass" id="fLogin" autocomplete="on">
+    <picture><source type="image/webp" srcset="bytefest-logo-440.webp"><img class="logo" src="bytefest-logo.png" alt="ByteFest" width="440" height="396"></picture>
+    <h1>JUDGING<b> &amp; RESULTS</b></h1>
+    <p class="sub">ByteFest 2026 · judges and organisers</p>
+    <label class="lbl" for="lid">LOGIN ID</label>
+    <input class="field" id="lid" name="username" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="e.g. judge1" required>
+    <label class="lbl" for="lpw">PASSWORD</label>
+    <div class="pwwrap"><input class="field" id="lpw" name="password" type="password" autocomplete="current-password" autocapitalize="none" autocorrect="off" required>
+      <button type="button" class="pweye" aria-label="Show password" aria-pressed="false">SHOW</button></div>
+    <button class="btn primary" type="submit" id="bIn">Sign in</button>
+    <div class="err" id="lerr" role="alert"></div>
+    <div class="demo" id="noJs">If nothing happens when you press <b>Sign in</b>, open this page in Chrome or Safari.</div>
+    <div class="demo" id="demoNote" hidden><b>Demo mode.</b> Firebase isn't connected yet, so everything is saved only in this browser.
+      Every login works with the password <b>demo</b>. Open two logins in two tabs to watch scores arrive live.
+      <div id="demoBtns"></div></div>
+    <a class="home" href="index.html">&lsaquo; BACK TO BYTEFEST</a>
+  </form>
+</section>
+
+<!-- ============== APP ============== -->
+<div id="vApp" hidden>
+  <header class="top">
+    <div class="wrap">
+      <a class="crest" href="index.html" aria-label="ByteFest home">
+        <img class="logo-day" src="school-logo.png" alt="GEMS New Millennium School" width="745" height="226">
+        <img class="logo-night" src="school-logo-night.png" alt="GEMS New Millennium School" width="745" height="226">
+      </a>
+      <span class="app">BYTEFEST<b>JUDGING</b></span>
+      <div class="right">
+        <div class="who"><b id="whoName"></b><span id="whoRole"></span></div>
+        <span class="pill" id="net"><i></i><span>ONLINE</span></span>
+        <button class="themetog" id="themetog" type="button" aria-label="Switch theme">☀</button>
+        <button class="btn small" id="bOut" type="button">Sign out</button>
+      </div>
+    </div>
+  </header>
+  <main><div class="wrap" id="main"></div></main>
+</div>
+
+<script type="module">
+/* =====================================================================
+   1) FIREBASE: paste the web-app config here (Firebase console → Project settings → Your apps).
+      Leave apiKey empty and the page runs in demo mode, saving only in this browser.
+   ===================================================================== */
+const firebaseConfig = {
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  appId: "",
+};
+// a login ID such as "judge1" signs in as judge1@<EMAIL_DOMAIN>. No email is ever sent there.
+const EMAIL_DOMAIN = 'judging.bytefest26.app';
+
+/* =====================================================================
+   2) EVENTS, TEAMS AND RUBRICS
+      Each criterion: n = name, max = highest mark, d = what the judges look for.
+      Marks up to 10 show as tap buttons (0…max); bigger maximums show a number box.
+      The database rules (firestore.rules) cap every criterion at 30 and allow up to 6 criteria.
+   ===================================================================== */
+const EVENTS = [
+  { id: 'hackrush',    name: 'HackRush',     code: 'HR', arena: 'Code',     icon: '🚀', grades: 'Grade 9–12' },
+  { id: 'circuitriot', name: 'Circuit Riot', code: 'CR', arena: 'Robotics', icon: '🤖', grades: 'Grade 9–12' },
+  { id: 'codalo',      name: 'Codalo',       code: 'CD', arena: 'Robotics', icon: '🧱', grades: 'Grade 9–12' },
+  { id: 'vybecode',    name: 'VybeCode',     code: 'VC', arena: 'AI',       icon: '💡', grades: 'Grade 7–10' },
+  { id: 'gamegrid',    name: 'GameGrid',     code: 'GG', arena: 'E-sports', icon: '🎮', grades: 'Grade 9–12' },
+  { id: 'nexai',       name: 'Nex.AI',       code: 'NX', arena: 'AI',       icon: '🧠', grades: 'Grade 9–12' },
+];
+// PLACEHOLDER rubric: the same three criteria for every event until the real ones arrive
+const DEFAULT_RUB = [
+  { n: 'Innovation', max: 10, d: 'How original is the idea or the approach?' },
+  { n: 'Technical execution', max: 10, d: 'Does it work, and how well is it built?' },
+  { n: 'Presentation', max: 10, d: 'How clearly did the team explain and demonstrate their work?' },
+];
+const RUB = Object.fromEntries(EVENTS.map(E => [E.id, DEFAULT_RUB]));
+// PLACEHOLDER teams: replaced with the registrations before the event
+const TEAMS_ARE_EXAMPLES = true;
+EVENTS.forEach(E => {
+  E.teams = ['A', 'B', 'C', 'D'].map((l, i) => ({
+    no: `${E.code}-0${i + 1}`, team: `Example team ${l}`, school: i % 2 ? 'Example School Two' : 'Example School One',
+    members: `Student ${l}1, Student ${l}2`,
+  }));
+});
+
+/* =====================================================================
+   3) LOGINS: every ready-made login ID and what it opens. Create each one in Firebase
+      Authentication (see SETUP.md). More can be made later from the director's Staff logins tab.
+   ===================================================================== */
+const ROLE = {};
+EVENTS.forEach((E, k) => [1, 2].forEach(n => {
+  ROLE['judge' + (2 * k + n)] = { kind: 'judge', ev: E.id, n, grp: 'Judges', label: `Judge ${2 * k + n} · ${E.name}` };
+}));
+Object.assign(ROLE, {
+  results1:     { kind: 'results', grp: 'Results room', label: 'Results room 1' },
+  results2:     { kind: 'results', grp: 'Results room', label: 'Results room 2' },
+  coordinator1: { kind: 'certs', grp: 'Certificates', label: 'Coordinator 1 · certificates' },
+  coordinator2: { kind: 'certs', grp: 'Certificates', label: 'Coordinator 2 · certificates' },
+  coordinator3: { kind: 'certs', grp: 'Certificates', label: 'Coordinator 3 · certificates' },
+  director:     { kind: 'director', grp: 'Director', label: 'Director' },
+});
+const ACCT_ROLES = { results: 'Results room (scores)', coordinator: 'Certificates (places only)' };
+/* ===================================================================== */
+
+const EV = Object.fromEntries(EVENTS.map(E => [E.id, E]));
+const TEAMS = Object.fromEntries(EVENTS.flatMap(E => E.teams.map(t => [t.no, { ...t, ev: E }])));
+const JUDGES = Object.entries(ROLE).filter(([, r]) => r.kind === 'judge').map(([id, r]) => ({ id, ...r }));
+const judgesOf = ev => JUDGES.filter(j => j.ev === ev);
+const cmax = c => c.max;
+const EMAX = ev => RUB[ev].reduce((a, c) => a + cmax(c), 0);
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const PLACE = ['1ST', '2ND', '3RD'];
+$('#noJs').hidden = true;
+
+/* ---------------- theme: shares the main site's switch ---------------- */
+(() => {
+  const b = $('#themetog');
+  const paint = () => { const light = document.documentElement.getAttribute('data-theme') === 'light';
+    b.textContent = light ? '☾' : '☀'; b.setAttribute('aria-label', light ? 'Switch to dark mode' : 'Switch to light mode'); };
+  b.onclick = () => { const light = document.documentElement.getAttribute('data-theme') !== 'light';
+    if (light) document.documentElement.setAttribute('data-theme', 'light'); else document.documentElement.removeAttribute('data-theme');
+    try { localStorage.setItem('bf-theme', light ? 'light' : 'dark'); } catch (e) {} paint(); };
+  paint();
+})();
+
+/* ---------------- data layer: Firebase, or a demo that lives in this browser ---------------- */
+let api;
+if (firebaseConfig.apiKey) {
+  const V = '10.12.2', base = `https://www.gstatic.com/firebasejs/${V}/`;
+  const [{ initializeApp }, A, F] = await Promise.all([import(base + 'firebase-app.js'), import(base + 'firebase-auth.js'), import(base + 'firebase-firestore.js')]);
+  const app = initializeApp(firebaseConfig), auth = A.getAuth(app);
+  const db = F.initializeFirestore(app, { localCache: F.persistentLocalCache() });   // keeps working through Wi-Fi drops and syncs later
+  api = {
+    demo: false,
+    onUser: cb => A.onAuthStateChanged(auth, u => cb(u && u.email ? u.email.split('@')[0] : null)),
+    login: (id, pw) => A.signInWithEmailAndPassword(auth, `${id}@${EMAIL_DOMAIN}`, pw),
+    logout: () => A.signOut(auth),
+    getDoc: async (col, id) => { const d = await F.getDoc(F.doc(db, col, id)); return d.exists() ? d.data() : null; },
+    // a second Firebase app creates the new login, so the director stays signed in
+    createLogin: async (id, pw) => { const app2 = initializeApp(firebaseConfig, 'creator-' + Date.now()), a2 = A.getAuth(app2);
+      await A.createUserWithEmailAndPassword(a2, `${id}@${EMAIL_DOMAIN}`, pw); await A.signOut(a2); },
+    save: (col, id, data) => F.setDoc(F.doc(db, col, id), { ...data, updatedAt: F.serverTimestamp() }, { merge: true }),
+    del: (col, id) => F.deleteDoc(F.doc(db, col, id)),
+    list: async col => (await F.getDocs(F.collection(db, col))).docs.map(d => d.id),
+    watch: (col, cb, by) => F.onSnapshot(by ? F.query(F.collection(db, col), F.where(by.f, '==', by.v)) : F.collection(db, col), { includeMetadataChanges: true },
+      s => cb(s.docs.map(d => ({ id: d.id, ...d.data(), _pending: d.metadata.hasPendingWrites })))),
+  };
+} else {
+  // demo: localStorage + BroadcastChannel, so two tabs on this device see each other's changes
+  $('#demoNote').hidden = false;
+  let bc = null; try { bc = new BroadcastChannel('bf-judging'); } catch (e) {}
+  const subs = new Set(); let mem = {};
+  const read = () => { try { return JSON.parse(localStorage.getItem('bf-judging-demo') || '{}'); } catch (e) { return mem; } };
+  const write = d => { mem = d; try { localStorage.setItem('bf-judging-demo', JSON.stringify(d)); } catch (e) {} };
+  const emit = () => subs.forEach(f => f()); if (bc) bc.onmessage = emit;
+  $('#demoBtns').innerHTML = [...new Set(Object.values(ROLE).map(r => r.grp))].map(g => `<div class="grp">${esc(g.toUpperCase())}</div>
+    <div class="row">${Object.entries(ROLE).filter(([, r]) => r.grp === g).map(([id, r]) => `<button type="button" class="btn small" data-demo="${id}">${esc(r.label)}</button>`).join('')}</div>`).join('');
+  document.querySelectorAll('[data-demo]').forEach(b => b.onclick = () => api.login(b.dataset.demo, 'demo'));
+  let userCb;
+  api = {
+    demo: true,
+    onUser: cb => { userCb = cb; let u = null; try { u = sessionStorage.getItem('bf-judging-user'); } catch (e) {} setTimeout(() => cb(u)); },
+    login: async (id, pw) => { const L = read().logins || {};
+      if (!(ROLE[id] && pw.trim().toLowerCase() === 'demo') && !(L[id] && L[id] === pw)) throw new Error('auth/invalid-credential');
+      try { sessionStorage.setItem('bf-judging-user', id); } catch (e) {} userCb(id); },
+    logout: async () => { try { sessionStorage.removeItem('bf-judging-user'); } catch (e) {} userCb(null); },
+    getDoc: async (col, id) => (read()[col] || {})[id] || null,
+    createLogin: async (id, pw) => { const d = read(); d.logins ??= {}; if (ROLE[id] || d.logins[id]) throw new Error('auth/email-already-in-use'); d.logins[id] = pw; write(d); },
+    save: async (col, id, data) => { const d = read(); d[col] ??= {}; d[col][id] = { ...(d[col][id] || {}), ...data, updatedAt: Date.now() }; write(d); bc && bc.postMessage(1); emit(); },
+    del: async (col, id) => { const d = read(); if (d[col]) delete d[col][id]; write(d); bc && bc.postMessage(1); emit(); },
+    list: async col => Object.keys(read()[col] || {}),
+    watch: (col, cb, by) => { const f = () => cb(Object.entries(read()[col] || {}).map(([id, v]) => ({ id, ...v })).filter(x => !by || x[by.f] === by.v)); subs.add(f); f(); return () => subs.delete(f); },
+  };
+}
+addEventListener('online', net); addEventListener('offline', net);
+function net() { const on = navigator.onLine; $('#net').classList.toggle('off', !on);
+  $('#net span').textContent = api.demo ? 'DEMO' : on ? 'ONLINE' : 'OFFLINE · SAVING ON DEVICE'; }
+
+/* ---------------- sign in ---------------- */
+let unsub = [];
+const stopAll = () => { unsub.forEach(f => f && f()); unsub = []; };
+api.onUser(user => {
+  stopAll();
+  $('#vLogin').hidden = !!user; $('#vApp').hidden = !user;
+  if (!user) return;
+  net();
+  const go = () => {
+    if (ROLE[user]) return route(user, ROLE[user]);
+    // a login made in the Staff logins tab keeps its role in accounts/<login id>
+    $('#main').innerHTML = '<div class="empty">Loading…</div>';
+    api.getDoc('accounts', user).then(a => { const R = acctRole(a); if (R) { ROLE[user] = R; route(user, R); }
+      else $('#main').innerHTML = '<div class="empty">This login has no role yet. Ask the ByteFest team.</div>'; })
+      .catch(() => { $('#main').innerHTML = '<div class="empty">Could not load this login. Check the connection and sign in again.</div>'; });
+  };
+  if (user === 'director') return go();
+  // the director can lock any login; the database refuses a locked login everything, this just explains why
+  $('#main').innerHTML = '<div class="empty">Loading…</div>';
+  api.getDoc('locks', user).then(l => { if (!l) return go();
+    $('#whoName').textContent = user; $('#whoRole').textContent = 'Locked';
+    $('#main').innerHTML = '<div class="empty">This login has been locked by the director. Ask the ByteFest team.</div>'; }).catch(go);
+});
+function acctRole(a) {
+  if (!a || a.disabled || !ACCT_ROLES[a.role]) return null;
+  return { kind: a.role === 'results' ? 'results' : 'certs', label: a.label || ACCT_ROLES[a.role] };
+}
+function route(user, R) {
+  if (R.kind === 'judge') judgeView(EV[R.ev], user, R);
+  else if (['results', 'certs', 'director'].includes(R.kind)) resultsView(R.kind);
+  else $('#main').innerHTML = '<div class="empty">This login has no role yet. Ask the ByteFest team.</div>';
+}
+$('#fLogin').onsubmit = async e => {
+  e.preventDefault(); $('#lerr').textContent = '';
+  const id = $('#lid').value.trim().toLowerCase().replace(/\s+/g, ''), b = $('#bIn');
+  b.disabled = true; b.textContent = 'Signing in…';
+  try { await api.login(id, $('#lpw').value); }
+  catch (er) { const c = er.code || er.message || '';
+    $('#lerr').textContent = /network/i.test(c) ? 'No internet connection.' : /too-many/i.test(c) ? 'Too many attempts. Wait a minute and try again.'
+      : api.demo ? `"${id}" isn't a demo login. Use a button below, or the password "demo".` : 'Login ID or password is incorrect.'; }
+  finally { b.disabled = false; b.textContent = 'Sign in'; }
+};
+$('#bOut').onclick = () => api.logout();
+document.addEventListener('click', e => {
+  const b = e.target.closest('.pweye'); if (!b) return;
+  const inp = b.parentNode.querySelector('input'), show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password'; b.textContent = show ? 'HIDE' : 'SHOW';
+  b.setAttribute('aria-pressed', show); b.setAttribute('aria-label', show ? 'Hide password' : 'Show password'); inp.focus();
+});
+
+/* ---------------- scoring maths ---------------- */
+// a judge's total for one team, or null until every required criterion has a mark
+const total = s => { if (!s) return null; const R = RUB[s.event]; if (!R) return null; let t = 0;
+  for (let i = 0; i < R.length; i++) { const v = s['c' + (i + 1)]; if (Number.isInteger(v)) t += v; else if (!R[i].opt) return null; } return t; };
+// a team's score: the average of the judges who have scored it
+function teamScore(ev, no, scores) {
+  const per = judgesOf(ev).map(j => { const s = scores.find(x => x.judge === j.id && x.no === no); return { j, s, T: total(s) }; });
+  const got = per.filter(x => x.T !== null);
+  return { per, avg: got.length ? Math.round(10 * got.reduce((a, x) => a + x.T, 0) / got.length) / 10 : null, n: got.length };
+}
+const evFinal = (ev, status) => judgesOf(ev).every(j => status.find(s => s.id === j.id && s.final));
+const time = t => { const d = t?.toDate ? t.toDate() : t ? new Date(t) : null; return d ? d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : ''; };
+const jShort = j => j.label.split(' · ')[0];
+
+/* ---------------- JUDGE ---------------- */
+// override: the director editing this judge's scores; submitting doesn't lock them out, and there's a way back
+function judgeView(E, me, R, override) {
+  const C = RUB[E.id], MX = EMAX(E.id);
+  $('#whoName').textContent = override ? 'Director' : R.label;
+  $('#whoRole').textContent = override ? 'Editing ' + R.label : `${E.icon} ${E.name}`;
+  const S = {}; let final = false;
+  const control = (t, c, i) => c.max <= 10
+    ? `<div class="lv" role="radiogroup" aria-label="${esc(t.no + ' ' + c.n)}" data-c="c${i + 1}">${Array.from({ length: c.max + 1 }, (_, v) =>
+        `<button type="button" role="radio" aria-checked="false" data-v="${v}">${v}</button>`).join('')}</div>`
+    : `<input class="field" inputmode="numeric" pattern="[0-9]*" maxlength="2" data-c="c${i + 1}" placeholder="0–${c.max}" aria-label="${esc(t.no + ' ' + c.n)}">`;
+  $('#main').innerHTML = `
+    <div class="hero">
+      <div><span class="kicker">${esc(R.label.toUpperCase())} · ${esc(E.arena.toUpperCase())} ARENA</span>
+        <h2><span class="ico">${E.icon}</span>${esc(E.name)}</h2>
+        <p>Tap a mark for each criterion. Scores save as you go, even if the Wi-Fi drops, and appear in the results room straight away.
+          Each team's result is the average of both judges.</p></div>
+      <div class="prog glass"><div class="row"><span>TEAMS SCORED</span><b id="pTxt">0/0</b></div><div class="track"><i id="pBar"></i></div>
+        <div class="note">Each team is marked out of ${MX}</div></div>
+    </div>
+    ${TEAMS_ARE_EXAMPLES ? '<div class="banner warn">These are example teams. The real teams are added once registrations close.</div>' : ''}
+    ${override ? `<div class="banner warn">You're editing <b>${esc(R.label)}</b>'s scores as director. Changes save straight away.<button class="btn small" id="bBack" type="button">&lsaquo; Back to results</button></div>` : ''}
+    <div class="banner ok" id="finBan" hidden>✓ ${override ? 'This judge has submitted. As director you can still change these scores.' : 'Your final scores are submitted. Ask the ByteFest team if anything needs changing.'}</div>
+    <details class="guide glass"${matchMedia('(max-width: 640px)').matches ? '' : ' open'}><summary>SCORING GUIDE · ${C.length} CRITERIA</summary>
+      <div class="rub">${C.map((c, i) => `<div><small>CRITERION ${i + 1} · OUT OF ${cmax(c)}${c.opt ? ' · OPTIONAL' : ''}</small><b>${esc(c.n)}</b><p>${esc(c.d)}</p></div>`).join('')}</div></details>
+    <div class="teams">${E.teams.map(t => `
+      <article class="team glass" data-no="${esc(t.no)}">
+        <div class="th"><span class="no">${esc(t.no)}</span>
+          <div class="nm"><b>${esc(t.team)}</b><div>${esc(t.school)}</div><div>${esc(t.members)}</div></div>
+          <div class="tot"><b>–</b><span>/ ${MX}</span></div></div>
+        ${C.map((c, i) => `<div class="cr"><label>${esc(c.n)}<small>out of ${cmax(c)}</small></label>${control(t, c, i)}</div>`).join('')}
+        <textarea class="field" data-cm maxlength="300" placeholder="Optional note (tie-break, observations)"></textarea>
+        <div class="st" data-st>NOT SCORED</div>
+      </article>`).join('')}</div>`;
+  if (!override) {
+    const dock = document.createElement('div'); dock.className = 'dock'; dock.id = 'dock';
+    dock.innerHTML = `<div class="wrap"><span class="note" id="fTxt"></span><button class="btn primary" id="bFinal" type="button">Submit final scores</button></div>`;
+    $('#main').appendChild(dock);
+  }
+  const card = no => document.querySelector(`.team[data-no="${CSS.escape(no)}"]`);
+  const timers = {};
+  const read = no => { const el = card(no), d = { event: E.id, judge: me, no };
+    C.forEach((c, i) => { const k = 'c' + (i + 1);
+      if (c.max <= 10) { const on = el.querySelector(`.lv[data-c="${k}"] button.on`); d[k] = on ? +on.dataset.v : null; }
+      else { const inp = el.querySelector(`input[data-c="${k}"]`); d[k] = inp.value === '' ? null : Math.min(c.max, +inp.value); } });
+    d.comment = el.querySelector('textarea').value.slice(0, 300); return d; };
+  document.querySelectorAll('.team').forEach(el => {
+    const no = el.dataset.no;
+    el.querySelectorAll('.lv button').forEach(b => b.onclick = () => { if (final && !override) return;
+      const was = b.classList.contains('on');   // tapping the chosen mark again clears it
+      b.parentElement.querySelectorAll('button').forEach(x => { x.classList.remove('on'); x.setAttribute('aria-checked', 'false'); });
+      if (!was) { b.classList.add('on'); b.setAttribute('aria-checked', 'true'); } queue(no); });
+    el.querySelectorAll('input.field').forEach(inp => inp.addEventListener('input', () => { inp.value = inp.value.replace(/\D/g, '').slice(0, 2);
+      const c = C[+inp.dataset.c.slice(1) - 1]; inp.classList.toggle('badv', inp.value !== '' && +inp.value > c.max); queue(no); }));
+    el.querySelector('textarea').addEventListener('input', () => queue(no));
+  });
+  function queue(no) {
+    clearTimeout(timers[no]); const st = card(no).querySelector('[data-st]'); st.className = 'st'; st.textContent = 'SAVING…';
+    const d = read(no); paint(no, d, true);
+    timers[no] = setTimeout(() => { delete timers[no];
+      api.save('scores', `${me}_${no}`, d).catch(err => { st.className = 'st err'; st.textContent = final ? 'LOCKED: FINAL SCORES SUBMITTED' : 'NOT SAVED: CHECK THE CONNECTION'; console.error(err); });
+    }, 450);
+  }
+  function fill(no, s) { const el = card(no);
+    C.forEach((c, i) => { const k = 'c' + (i + 1), v = s[k];
+      if (c.max <= 10) el.querySelectorAll(`.lv[data-c="${k}"] button`).forEach(b => { const on = v != null && +b.dataset.v === v; b.classList.toggle('on', on); b.setAttribute('aria-checked', on); });
+      else { const inp = el.querySelector(`input[data-c="${k}"]`); if (document.activeElement !== inp) inp.value = v ?? ''; } });
+    const ta = el.querySelector('textarea'); if (document.activeElement !== ta) ta.value = s.comment || ''; }
+  function paint(no, s, local) {
+    const el = card(no), T = total(s); el.querySelector('.tot b').textContent = T ?? '–'; el.classList.toggle('scored', T !== null);
+    const st = el.querySelector('[data-st]');
+    if (!local) { st.className = 'st' + (T !== null ? ' ok' : '');
+      st.textContent = T !== null ? (s._pending ? 'SAVED ON THIS DEVICE, SYNCING…' : `✓ SAVED ${time(s.updatedAt)}`)
+        : C.some((c, i) => s['c' + (i + 1)] != null) ? 'INCOMPLETE' : 'NOT SCORED'; }
+    progress();
+  }
+  function progress() {
+    const n = E.teams.length, k = document.querySelectorAll('.team.scored').length;
+    $('#pTxt').textContent = `${k}/${n}`; $('#pBar').style.width = (n ? 100 * k / n : 0) + '%';
+    if ($('#fTxt')) $('#fTxt').textContent = final ? 'Final scores submitted.' : k < n ? `${n - k} team${n - k === 1 ? '' : 's'} still to score.` : 'Every team scored. Check, then submit.';
+  }
+  unsub.push(api.watch('scores', docs => {
+    docs.filter(s => s.judge === me).forEach(s => { S[s.no] = s; if (!card(s.no) || timers[s.no]) return; fill(s.no, s); paint(s.no, s, false); });
+    progress();
+  }, { f: 'judge', v: me }));
+  unsub.push(api.watch('status', docs => {
+    final = !!docs.find(d => d.id === me && d.final);
+    $('#finBan').hidden = !final;
+    if ($('#bFinal')) { $('#bFinal').disabled = final; $('#bFinal').textContent = final ? 'Submitted ✓' : 'Submit final scores'; }
+    document.querySelectorAll('.team input, .team textarea, .team .lv button').forEach(i => i.disabled = final && !override); progress();
+  }));
+  if (override) $('#bBack').onclick = () => { stopAll(); resultsView('director', 'edit'); };
+  else $('#bFinal').onclick = async () => {
+    const missing = E.teams.filter(t => total(S[t.no]) === null).map(t => t.no);
+    const msg = missing.length ? `${missing.length} team(s) don't have a complete score yet: ${missing.join(', ')}.\n\nThey'll be treated as not judged. Submit anyway?`
+      : 'Submit your final scores? You won\'t be able to change them afterwards.';
+    if (!confirm(msg)) return;
+    await api.save('status', me, { event: E.id, judge: me, final: true });
+  };
+  progress();
+}
+
+/* ---------------- RESULTS ROOM / CERTIFICATES / DIRECTOR ----------------
+   results:  live scores, podiums, certificate list, certificate ticks
+   certs:    coordinators. Places, podiums and the certificate list, but no judges' marks, averages or notes
+   director: everything in results, plus unlocking judges, editing any judge's scores, staff logins,
+             locking logins and clearing test data */
+function resultsView(kind, startTab) {
+  const isDirector = kind === 'director', certsOnly = kind === 'certs', isAdmin = isDirector;
+  $('#whoName').textContent = isDirector ? 'Director' : certsOnly ? 'Certificates' : 'Results room';
+  $('#whoRole').textContent = certsOnly ? 'Places · certificate writing' : 'Live scores · certificate writing';
+  let tab = startTab || EVENTS[0].id, scores = [], status = [], certs = [];
+  const rowsOf = E => E.teams.map(t => ({ ...t, ...teamScore(E.id, t.no, scores) }));
+  const fin = id => evFinal(id, status);
+  function ranked(E) {
+    const rows = rowsOf(E);
+    rows.sort((a, b) => (b.avg ?? -1) - (a.avg ?? -1) || a.no.localeCompare(b.no));
+    let r = 0, prev = null; rows.forEach((x, i) => { if (x.avg === null) { x.rank = null; return; } if (x.avg !== prev) r = i + 1; x.rank = r; prev = x.avg; });
+    return rows;
+  }
+  $('#main').innerHTML = `
+    <div class="hero"><div><span class="kicker">${certsOnly ? 'CERTIFICATES' : 'RESULTS ROOM'} · LIVE</span>
+      <h2>${certsOnly ? 'Places' : 'Scores &amp; winners'}</h2>
+      <p>${certsOnly ? 'Places update live as the judges score. Start an event\'s certificates once it shows FINAL.'
+        : 'Updates the moment a judge enters a mark. An event is FINAL once both its judges submit; then write its certificates.'}</p></div>
+      <button class="btn small" type="button" onclick="print()">Print this page</button></div>
+    ${TEAMS_ARE_EXAMPLES ? '<div class="banner warn">These are example teams. The real teams are added once registrations close.</div>' : ''}
+    <div class="tabs" role="tablist" id="tabs"></div><div id="pane"></div>`;
+  const tabsHTML = () => EVENTS.map(E => { const k = rowsOf(E).filter(r => r.n === judgesOf(E.id).length).length;
+      return `<button class="tab" role="tab" data-t="${E.id}" aria-selected="${tab === E.id}">${E.icon} ${esc(E.name)} <em class="${fin(E.id) ? 'fin' : ''}">${fin(E.id) ? 'FINAL' : k + '/' + E.teams.length}</em></button>`; }).join('')
+    + `<button class="tab" role="tab" data-t="cl" aria-selected="${tab === 'cl'}">📜 Certificate list <em class="${EVENTS.every(E => fin(E.id)) ? 'fin' : ''}">${EVENTS.filter(E => fin(E.id)).length}/${EVENTS.length}</em></button>`
+    + (isDirector ? ['edit:Edit scores', 'acc:Staff logins', 'wipe:Clear test data'].map(s => { const [k, l] = s.split(':');
+        return `<button class="tab tool" role="tab" data-t="${k}" aria-selected="${tab === k}">${l}</button>`; }).join('') : '');
+  // forms (logins, clearing data) keep their own state, so live updates don't redraw over what's being typed
+  const render = () => {
+    $('#tabs').innerHTML = tabsHTML();
+    $('#tabs').querySelectorAll('[data-t]').forEach(b => b.onclick = () => { if (tab === b.dataset.t) return; tab = b.dataset.t; $('#pane').innerHTML = ''; render(); });
+    if (tab === 'acc') { if (!$('#accForm')) accPane(); return; }
+    if (tab === 'wipe') { if (!$('#wipeBox')) wipePane(); return; }
+    if (tab === 'edit') return editPane();
+    if (tab === 'cl') return certPane();
+    evPane(EV[tab], fin(tab));
+  };
+  function evPane(E, isFin) {
+    const C = RUB[E.id], MX = EMAX(E.id), J = judgesOf(E.id), rows = ranked(E), top = [1, 2, 3].map(p => rows.filter(x => x.rank === p));
+    const tie = rows.some(x => x.rank && x.rank <= 3 && rows.filter(y => y.rank === x.rank).length > 1);
+    const pods = [1, 2, 3].map(p => { const g = top[p - 1];
+      const inner = g.length ? g.map(x => { const id = `${E.id}_${x.no}`, w = !!certs.find(c => c.id === id && c.done);
+        return `<div class="stack">${certsOnly ? '' : `<span class="score">${x.avg}</span>`}<b>${esc(x.team)}</b><div class="s">${esc(x.no)} · ${esc(x.school)}</div>
+          <div class="mem">${esc(x.members)}</div>
+          <label><input type="checkbox" data-cert="${esc(id)}" ${w ? 'checked' : ''} ${isFin ? '' : 'disabled'}> CERTIFICATES WRITTEN</label></div>`; }).join('')
+        : '<div class="s" style="margin-top:.8rem">–</div>';
+      const writ = g.length && g.every(x => certs.find(c => c.id === `${E.id}_${x.no}` && c.done));
+      return `<div class="pod glass p${p}${writ ? ' writ' : ''}"><div class="pl">${PLACE[p - 1]}</div>${inner}</div>`; }).join('');
+    const jst = J.map(j => { const f = status.find(s => s.id === j.id && s.final);
+      return `<span class="chip ${f ? 'done' : ''}">${esc(jShort(j).toUpperCase())}: ${f ? 'SUBMITTED' : 'JUDGING'}</span>${isAdmin && f ? `<button class="btn small" type="button" data-unlock="${j.id}">Unlock</button>` : ''}`; }).join('');
+    $('#pane').innerHTML = `
+      ${isFin ? `<div class="banner ok">✓ ${esc(E.name)} is FINAL: both judges have submitted. Start the winners' certificates.</div>`
+        : '<div class="banner">Judging in progress. Places can change until both judges submit their final scores.</div>'}
+      <div class="jst">${jst}</div>
+      ${tie ? '<p class="tie">⚠ Tie in the top 3. Check the judges\' notes, or ask the judges to break it, before writing certificates.</p>' : ''}
+      <div class="podium">${pods}</div>
+      <div class="tscroll glass"><table class="res">${certsOnly
+        ? `<thead><tr><th>Place</th><th>Team</th><th class="hide-m">School</th></tr></thead>
+           <tbody>${rows.map(x => `<tr class="${x.avg === null ? 'pending' : 'r' + x.rank}"><td class="big">${x.rank ?? '–'}</td><td><b>${esc(x.team)}</b><div class="s">${esc(x.no)} · ${esc(x.members)}</div></td><td class="hide-m">${esc(x.school)}</td></tr>`).join('')}</tbody>`
+        : `<thead><tr><th>#</th><th>Team</th><th class="hide-m">School</th>${J.map(j => `<th class="n">${esc(jShort(j))}</th>`).join('')}<th class="n">Average</th><th class="hide-m">Notes</th></tr></thead>
+           <tbody>${rows.map(x => `<tr class="${x.avg === null ? 'pending' : 'r' + x.rank}"><td class="big">${x.rank ?? '–'}</td>
+             <td><b>${esc(x.team)}</b><div class="s">${esc(x.no)} · ${esc(x.members)}</div></td><td class="hide-m">${esc(x.school)}</td>
+             ${x.per.map(p => `<td class="n" title="${esc(p.s ? C.map((c, i) => c.n + ': ' + (p.s['c' + (i + 1)] ?? '–')).join(' | ') : '')}">${p.T ?? '–'}</td>`).join('')}
+             <td class="n big">${x.avg ?? '–'}</td><td class="hide-m notes">${x.per.filter(p => p.s?.comment).map(p => `<b>${esc(jShort(p.j))}:</b> ${esc(p.s.comment)}`).join('<br>')}</td></tr>`).join('')}</tbody>`}
+      </table></div>
+      ${certsOnly ? '' : `<p class="note">Each judge marks out of ${MX} (${C.map(c => `${esc(c.n)} /${cmax(c)}`).join(' · ')}). A team's score is the average of its judges. Hover over a judge's mark to see the breakdown.</p>`}`;
+    $('#pane').querySelectorAll('[data-cert]').forEach(cb => cb.onchange = () => api.save('certs', cb.dataset.cert, { done: cb.checked, event: E.id }));
+    $('#pane').querySelectorAll('[data-unlock]').forEach(b => b.onclick = () => confirm(`Let ${b.dataset.unlock} change their scores again?`) && api.save('status', b.dataset.unlock, { final: false }));
+  }
+  // every winner and every participant, for writing certificates; also downloadable as a CSV
+  function certPane() {
+    const schools = [...new Set(EVENTS.flatMap(E => E.teams.map(t => t.school)))].sort();
+    $('#pane').innerHTML = `
+      <div class="banner">Winners are listed once an event is FINAL. Everyone below gets a participation certificate.
+        <button class="btn small" type="button" id="bCsv">Download CSV</button><button class="btn small" type="button" onclick="print()">Print list</button></div>
+      <div class="cert"><h3>WINNERS</h3><div class="tscroll glass"><table class="res"><thead><tr><th>Event</th><th>Place</th><th>Team</th><th>Members</th><th class="hide-m">School</th><th>Certificates</th></tr></thead><tbody>
+        ${EVENTS.map(E => { if (!fin(E.id)) return `<tr class="pending"><td><b>${E.icon} ${esc(E.name)}</b></td><td colspan="5">Not final yet</td></tr>`;
+          return ranked(E).filter(x => x.rank && x.rank <= 3).map(x => { const w = !!certs.find(c => c.id === `${E.id}_${x.no}` && c.done);
+            return `<tr class="r${x.rank}"><td><b>${E.icon} ${esc(E.name)}</b></td><td class="big">${PLACE[x.rank - 1]}</td><td>${esc(x.team)}<div class="s">${esc(x.no)}</div></td>
+              <td>${esc(x.members)}</td><td class="hide-m">${esc(x.school)}</td><td>${w ? '<span class="ok-t">✓ Written</span>' : 'To write'}</td></tr>`; }).join(''); }).join('')}</tbody></table></div>
+      <h3>PARTICIPATION <span class="num">${Object.keys(TEAMS).length} TEAMS</span></h3>
+      ${schools.map(sc => { const ts = Object.values(TEAMS).filter(t => t.school === sc);
+        return `<h3 style="color:var(--bone)">${esc(sc)} <span class="num">${ts.length}</span></h3><div class="tscroll glass"><table class="res"><thead><tr><th>Members</th><th>Event</th><th>Team</th></tr></thead>
+          <tbody>${ts.map(t => `<tr><td><b>${esc(t.members)}</b></td><td>${t.ev.icon} ${esc(t.ev.name)}</td><td>${esc(t.no)} · ${esc(t.team)}</td></tr>`).join('')}</tbody></table></div>`; }).join('')}</div>`;
+    $('#bCsv').onclick = () => {
+      const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+      const head = ['Event', 'Final', 'Place', 'Team ID', 'Team', 'School', 'Members'].concat(certsOnly ? [] : ['Score', 'Out of']);
+      const lines = [head.map(q).join(',')];
+      EVENTS.forEach(E => ranked(E).forEach(x => lines.push([E.name, fin(E.id) ? 'yes' : 'no', x.rank ?? '', x.no, x.team, x.school, x.members]
+        .concat(certsOnly ? [] : [x.avg ?? '', EMAX(E.id)]).map(q).join(','))));
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv' }));
+      a.download = `bytefest-results-${new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-')}.csv`;
+      a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    };
+  }
+  function editPane() {
+    $('#pane').innerHTML = `<div class="banner">Open any judge's scoring screen to enter or correct marks, even after they've submitted. Changes save straight away as that judge's marks.</div>
+      ${EVENTS.map(E => `<div class="cert"><h3>${E.icon} ${esc(E.name.toUpperCase())}</h3><div class="jst">${judgesOf(E.id).map(j => {
+        const f = status.find(s => s.id === j.id && s.final);
+        return `<button class="btn small" type="button" data-edit="${j.id}">${esc(j.label)} · ${f ? 'submitted' : 'judging'}</button>`; }).join('')}</div></div>`).join('')}`;
+    $('#pane').querySelectorAll('[data-edit]').forEach(b => b.onclick = () => {
+      const jid = b.dataset.edit; stopAll(); judgeView(EV[ROLE[jid].ev], jid, ROLE[jid], true); scrollTo(0, 0); });
+  }
+  function wipePane() {
+    const COLS = ['scores', 'status', 'certs'];
+    $('#pane').innerHTML = `<div class="banner bad" id="wipeBox">
+      <p style="margin-bottom:.7rem"><b>Clear the rehearsal data before the event.</b> This deletes every mark, every judge's submission and every certificate tick.
+        Logins and locks are kept. It can't be undone.</p>
+      <label class="lbl" for="wipeIn">TYPE CLEAR TO CONFIRM</label>
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap"><input class="field" id="wipeIn" autocomplete="off" style="max-width:220px">
+        <button class="btn danger" type="button" id="wipeGo" disabled>Delete test data</button></div>
+      <div class="note" id="wipeMsg" style="margin-top:.7rem"></div></div>`;
+    const inp = $('#wipeIn'), go = $('#wipeGo'), msg = $('#wipeMsg');
+    inp.oninput = () => { go.disabled = inp.value.trim() !== 'CLEAR'; };
+    go.onclick = async () => { go.disabled = true; inp.disabled = true; let n = 0;
+      try { for (const c of COLS) { const ids = await api.list(c); for (const id of ids) { await api.del(c, id); n++; msg.textContent = `Deleted ${n}…`; } }
+        msg.innerHTML = `<span class="ok-t">✓ Cleared ${n} test records. Logins are untouched.</span>`; }
+      catch (er) { msg.innerHTML = `<span class="bad-t">Stopped after ${n}: ${esc(er.message || String(er))}</span>`; inp.disabled = false; } };
+  }
+  // staff logins: the listeners start once, the first time the tab is opened, and redraw only while it's showing
+  let acc = null;
+  function accPane() {
+    if (acc) return acc();
+    let list = [], locks = [], msgHTML = '';
+    const pw = () => { const w = ['Pixel', 'Byte', 'Circuit', 'Vector', 'Quantum', 'Kernel', 'Matrix', 'Cipher', 'Neon', 'Turbo', 'Logic', 'Binary', 'Signal', 'Glitch'];
+      const r = n => crypto.getRandomValues(new Uint32Array(1))[0] % n; return `${w[r(w.length)]}-${w[r(w.length)]}-${1000 + r(9000)}`; };
+    const draw = () => {
+      if (!document.body.contains($('#pane')) || tab !== 'acc') return;
+      const keep = $('#aId') ? [$('#aId').value, $('#aPw').value, $('#aRole').value, $('#aLab').value] : null;
+      $('#pane').innerHTML = `
+        <div class="banner">Make a login for anyone else who needs results or certificates. One login works on many devices at once, so a group can share it.</div>
+        <form id="accForm" class="form-grid glass">
+          <div><label class="lbl" for="aId">LOGIN ID</label><input class="field" id="aId" required pattern="[a-z0-9-]{3,30}" placeholder="e.g. teachers"></div>
+          <div><label class="lbl" for="aPw">PASSWORD</label><div style="display:flex;gap:.4rem"><input class="field" id="aPw" required minlength="8"><button type="button" class="btn small" id="aGen">New</button></div></div>
+          <div><label class="lbl" for="aRole">ROLE</label><select class="field" id="aRole">${Object.entries(ACCT_ROLES).map(([k, v]) => `<option value="${k}">${esc(v)}</option>`).join('')}</select></div>
+          <div><label class="lbl" for="aLab">NAME SHOWN (OPTIONAL)</label><input class="field" id="aLab" maxlength="40" placeholder="e.g. Teachers on duty"></div>
+          <button class="btn primary" type="submit">Create login</button>
+          <div class="msg" id="aMsg">${msgHTML}</div></form>
+        <div class="tscroll glass"><table class="res"><thead><tr><th>Login ID</th><th>Role</th><th>Name shown</th><th></th></tr></thead><tbody>
+          ${list.length ? list.slice().sort((a, b) => a.id.localeCompare(b.id)).map(a => `<tr style="${a.disabled ? 'opacity:.45' : ''}"><td><b>${esc(a.id)}</b></td><td>${esc(ACCT_ROLES[a.role] || a.role)}</td><td>${esc(a.label || '')}</td>
+            <td class="n"><button class="btn small" type="button" data-dis="${esc(a.id)}" data-v="${a.disabled ? 0 : 1}">${a.disabled ? 'Turn on' : 'Turn off'}</button></td></tr>`).join('')
+            : '<tr><td colspan="4" class="note">No extra logins yet.</td></tr>'}</tbody></table></div>
+        <p class="note">A password is shown only once, when the login is made: write it down or send it privately.</p>
+        <div class="cert"><h3>READY-MADE LOGINS</h3></div>
+        <p class="note" style="margin-bottom:.8rem">Lock a login to shut it out straight away on every device. It sees nothing and can change nothing until you unlock it.</p>
+        <div class="tscroll glass"><table class="res"><thead><tr><th>Login ID</th><th>Who</th><th>Status</th><th></th></tr></thead><tbody>
+          ${Object.entries(ROLE).filter(([id]) => id !== 'director').map(([id, r]) => { const L = locks.includes(id);
+            return `<tr style="${L ? 'opacity:.6' : ''}"><td><b>${esc(id)}</b></td><td>${esc(r.label)}</td><td>${L ? '<span class="bad-t">Locked</span>' : 'Active'}</td>
+              <td class="n"><button class="btn small" type="button" data-lock="${esc(id)}" data-v="${L ? 0 : 1}">${L ? 'Unlock' : 'Lock'}</button></td></tr>`; }).join('')}</tbody></table></div>`;
+      if (keep) { $('#aId').value = keep[0]; $('#aPw').value = keep[1]; $('#aRole').value = keep[2]; $('#aLab').value = keep[3]; } else $('#aPw').value = pw();
+      $('#aGen').onclick = () => { $('#aPw').value = pw(); };
+      $('#accForm').onsubmit = async e => { e.preventDefault();
+        const id = $('#aId').value.trim().toLowerCase(), p = $('#aPw').value;
+        const say = h => { msgHTML = h; $('#aMsg').innerHTML = h; };
+        if (ROLE[id]) return say('<span class="bad-t">That ID is already one of the ready-made logins.</span>');
+        say('Creating…');
+        try { await api.createLogin(id, p);
+          await api.save('accounts', id, { role: $('#aRole').value, label: $('#aLab').value.trim(), created: Date.now(), disabled: false });
+          say(`<span class="ok-t">✓ Created. Login ID <b>${esc(id)}</b> · password <b>${esc(p)}</b>. Write it down now.</span>`);
+          $('#aId').value = ''; $('#aLab').value = ''; $('#aPw').value = pw();
+        } catch (er) { const c = er.code || er.message || '';
+          say(`<span class="bad-t">${/already/.test(c) ? 'That login ID already exists.' : /weak/.test(c) ? 'Password is too weak (use at least 8 characters).' : 'Could not create the login: ' + esc(c)}</span>`); } };
+      $('#pane').querySelectorAll('[data-dis]').forEach(b => b.onclick = () => api.save('accounts', b.dataset.dis, { disabled: b.dataset.v === '1' }));
+      $('#pane').querySelectorAll('[data-lock]').forEach(b => b.onclick = () => { const id = b.dataset.lock;
+        if (b.dataset.v === '1') { if (confirm(`Lock ${id}? Anyone using it is shut out straight away.`)) api.save('locks', id, { locked: true, at: Date.now() }); }
+        else api.del('locks', id); });
+    };
+    acc = draw; draw();
+    unsub.push(api.watch('accounts', d => { list = d; draw(); }));
+    unsub.push(api.watch('locks', d => { locks = d.map(x => x.id); draw(); }));
+  }
+  unsub.push(api.watch('scores', d => { scores = d; render(); }));
+  unsub.push(api.watch('status', d => { status = d; render(); }));
+  unsub.push(api.watch('certs', d => { certs = d; render(); }));
+}
+</script>
+</body>
+</html>
