@@ -92,7 +92,7 @@ label.lbl{display:block;margin:1rem 0 .4rem;font-family:var(--px);font-size:.66r
 .login{min-height:100vh;display:grid;place-items:center;padding:2rem 1rem 6rem}
 .lbox{width:min(400px,100%);padding:2rem 1.6rem 1.8rem}
 .lbox .logo{display:block;width:min(220px,70%);height:auto;margin:0 auto 1rem}
-.lbox h1{text-align:center;font-family:var(--px);font-size:1.5rem;line-height:1.1;letter-spacing:.06em}
+.lbox h1{margin-bottom:.4rem;text-align:center;font-family:var(--px);font-size:1.5rem;line-height:1.1;letter-spacing:.06em}
 .lbox h1 b{color:var(--teal);font-weight:400}
 .lbox .sub{text-align:center;font-size:.85rem;color:var(--ash);margin:.4rem 0 .8rem}
 .pwwrap{position:relative}
@@ -141,9 +141,9 @@ label.lbl{display:block;margin:1rem 0 .4rem;font-family:var(--px);font-size:.66r
 
 /* ---------- SHARED LAYOUT ---------- */
 main{padding:1.6rem 0 11rem}
-.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:1.4rem;flex-wrap:wrap;margin-bottom:1.4rem}
+.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:1.4rem;flex-wrap:wrap;margin:.6rem 0 1.6rem}
 .kicker{font-family:var(--px);font-size:.66rem;letter-spacing:.1em;color:var(--teal)}
-.hero h2{margin:.35rem 0 .3rem;font-family:var(--px);font-weight:700;font-size:clamp(1.8rem,5vw,2.8rem);line-height:1;color:var(--bone);
+.hero h2{margin:.4rem 0 0;font-family:var(--px);font-weight:700;font-size:clamp(1.7rem,4.6vw,2.5rem);line-height:1;color:var(--bone);
   text-shadow:4px 4px 0 var(--ember)}
 .hero h2 .ico{font-size:.8em;margin-right:.35rem;text-shadow:none}
 .hero p{max-width:62ch;font-size:.9rem;color:var(--ash)}
@@ -152,14 +152,15 @@ main{padding:1.6rem 0 11rem}
 .banner.warn{border-color:var(--gold);background:rgba(255,211,107,.08)}
 .banner.bad{border-color:var(--bad);background:rgba(255,107,107,.08)}
 .banner .btn{margin-left:.6rem}
+.banner.bar-row{display:flex;align-items:center;justify-content:space-between;gap:1rem}
 .empty{padding:2.4rem 1rem;text-align:center;color:var(--ash)}
 .note{font-size:.8rem;color:var(--ash)}
 
 /* progress box on the judge screen */
-.prog{min-width:min(300px,100%);padding:1rem 1.1rem}
+.prog{min-width:min(260px,100%);padding:.9rem 1.1rem}
 .prog .row{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;font-size:.8rem;color:var(--ash)}
 .prog .row b{font-family:var(--num);font-weight:400;font-size:.95rem;color:var(--teal)}
-.track{height:5px;margin:.6rem 0 .4rem;background:rgba(127,127,127,.18)}
+.track{height:5px;margin:.6rem 0 0;background:rgba(127,127,127,.18)}
 .track i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--signal),var(--teal));transition:width .4s}
 
 /* scoring guide */
@@ -221,6 +222,9 @@ details.guide[open] summary::after{transform:rotate(45deg)}
 .chip{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .6rem;font-family:var(--px);font-size:.58rem;letter-spacing:.06em;
   border:1px solid var(--line);color:var(--ash)}
 .chip.done{border-color:var(--teal);color:var(--teal)}
+.chip.final{background:var(--teal);border-color:var(--teal);color:var(--teal-ink)}
+.chip.tie{border-color:var(--gold);color:var(--gold)}
+.jst .btn.small{padding:.38rem .6rem;font-size:.56rem}
 .tie{margin:0 0 1rem;font-size:.86rem;color:var(--gold)}
 
 .podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-bottom:1.4rem;align-items:end}
@@ -252,6 +256,7 @@ table.res{width:100%;border-collapse:collapse;font-size:.86rem}
 .res td.notes{font-size:.76rem;color:var(--ash);min-width:180px}
 @media (max-width:760px){ .hide-m{display:none} }
 
+.cert .sec{display:flex;align-items:center;justify-content:space-between;gap:1rem}
 .cert h3{margin:1.4rem 0 .6rem;font-family:var(--px);font-weight:400;font-size:.8rem;letter-spacing:.07em;color:var(--teal)}
 .cert h3 .num{font-size:.62rem;color:var(--ash);margin-left:.4rem}
 
@@ -351,7 +356,6 @@ table.res{width:100%;border-collapse:collapse;font-size:.86rem}
   <form class="lbox glass" id="fLogin" autocomplete="on">
     <picture><source type="image/webp" srcset="bytefest-logo-440.webp"><img class="logo" src="bytefest-logo.png" alt="ByteFest" width="440" height="396"></picture>
     <h1>JUDGING<b> &amp; RESULTS</b></h1>
-    <p class="sub">ByteFest 2026 · judges and organisers</p>
     <label class="lbl" for="lid">LOGIN ID</label>
     <input class="field" id="lid" name="username" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="e.g. judge1" required>
     <label class="lbl" for="lpw">PASSWORD</label>
@@ -360,9 +364,7 @@ table.res{width:100%;border-collapse:collapse;font-size:.86rem}
     <button class="btn primary" type="submit" id="bIn">Sign in</button>
     <div class="err" id="lerr" role="alert"></div>
     <div class="demo" id="noJs">If nothing happens when you press <b>Sign in</b>, open this page in Chrome or Safari.</div>
-    <div class="demo" id="demoNote" hidden><b>Demo mode.</b> Firebase isn't connected yet, so everything is saved only in this browser.
-      Every login works with the password <b>demo</b>. Open two logins in two tabs to watch scores arrive live.
-      <div id="demoBtns"></div></div>
+    <div class="demo" id="demoNote" hidden><b>DEMO</b> · password <b>demo</b><div id="demoBtns"></div></div>
     <a class="home" href="index.html">&lsaquo; BACK TO BYTEFEST</a>
   </form>
 </section>
@@ -408,12 +410,12 @@ const EMAIL_DOMAIN = 'judging.bytefest26.app';
       The database rules (firestore.rules) cap every criterion at 30 and allow up to 6 criteria.
    ===================================================================== */
 const EVENTS = [
-  { id: 'hackrush',    name: 'HackRush',     code: 'HR', arena: 'Code',     icon: '🚀', grades: 'Grade 9–12' },
-  { id: 'circuitriot', name: 'Circuit Riot', code: 'CR', arena: 'Robotics', icon: '🤖', grades: 'Grade 9–12' },
-  { id: 'codalo',      name: 'Codalo',       code: 'CD', arena: 'Robotics', icon: '🧱', grades: 'Grade 9–12' },
-  { id: 'vybecode',    name: 'VybeCode',     code: 'VC', arena: 'AI',       icon: '💡', grades: 'Grade 7–10' },
-  { id: 'gamegrid',    name: 'GameGrid',     code: 'GG', arena: 'E-sports', icon: '🎮', grades: 'Grade 9–12' },
-  { id: 'nexai',       name: 'Nex.AI',       code: 'NX', arena: 'AI',       icon: '🧠', grades: 'Grade 9–12' },
+  { id: 'hackrush',    name: 'HackRush',     code: 'HR', arena: 'Code',     grades: 'Grade 9–12' },
+  { id: 'circuitriot', name: 'Circuit Riot', code: 'CR', arena: 'Robotics', grades: 'Grade 9–12' },
+  { id: 'codalo',      name: 'Codalo',       code: 'CD', arena: 'Robotics', grades: 'Grade 9–12' },
+  { id: 'vybecode',    name: 'VybeCode',     code: 'VC', arena: 'AI',       grades: 'Grade 7–10' },
+  { id: 'gamegrid',    name: 'GameGrid',     code: 'GG', arena: 'E-sports', grades: 'Grade 9–12' },
+  { id: 'nexai',       name: 'Nex.AI',       code: 'NX', arena: 'AI',       grades: 'Grade 9–12' },
 ];
 // PLACEHOLDER rubric: the same three criteria for every event until the real ones arrive
 const DEFAULT_RUB = [
@@ -594,7 +596,7 @@ const jShort = j => j.label.split(' · ')[0];
 function judgeView(E, me, R, override) {
   const C = RUB[E.id], MX = EMAX(E.id);
   $('#whoName').textContent = override ? 'Director' : R.label;
-  $('#whoRole').textContent = override ? 'Editing ' + R.label : `${E.icon} ${E.name}`;
+  $('#whoRole').textContent = override ? 'Editing ' + R.label : E.arena + ' arena';
   const S = {}; let final = false;
   const control = (t, c, i) => c.max <= 10
     ? `<div class="lv" role="radiogroup" aria-label="${esc(t.no + ' ' + c.n)}" data-c="c${i + 1}">${Array.from({ length: c.max + 1 }, (_, v) =>
@@ -602,25 +604,21 @@ function judgeView(E, me, R, override) {
     : `<input class="field" inputmode="numeric" pattern="[0-9]*" maxlength="2" data-c="c${i + 1}" placeholder="0–${c.max}" aria-label="${esc(t.no + ' ' + c.n)}">`;
   $('#main').innerHTML = `
     <div class="hero">
-      <div><span class="kicker">${esc(R.label.toUpperCase())} · ${esc(E.arena.toUpperCase())} ARENA</span>
-        <h2><span class="ico">${E.icon}</span>${esc(E.name)}</h2>
-        <p>Tap a mark for each criterion. Scores save as you go, even if the Wi-Fi drops, and appear in the results room straight away.
-          Each team's result is the average of both judges.</p></div>
-      <div class="prog glass"><div class="row"><span>TEAMS SCORED</span><b id="pTxt">0/0</b></div><div class="track"><i id="pBar"></i></div>
-        <div class="note">Each team is marked out of ${MX}</div></div>
+      <div><span class="kicker">${esc(R.label.toUpperCase())}${TEAMS_ARE_EXAMPLES ? ' · EXAMPLE TEAMS' : ''}</span>
+        <h2>${esc(E.name)}</h2></div>
+      <div class="prog glass"><div class="row"><span>SCORED</span><b id="pTxt">0/0</b></div><div class="track"><i id="pBar"></i></div></div>
     </div>
-    ${TEAMS_ARE_EXAMPLES ? '<div class="banner warn">These are example teams. The real teams are added once registrations close.</div>' : ''}
-    ${override ? `<div class="banner warn">You're editing <b>${esc(R.label)}</b>'s scores as director. Changes save straight away.<button class="btn small" id="bBack" type="button">&lsaquo; Back to results</button></div>` : ''}
-    <div class="banner ok" id="finBan" hidden>✓ ${override ? 'This judge has submitted. As director you can still change these scores.' : 'Your final scores are submitted. Ask the ByteFest team if anything needs changing.'}</div>
-    <details class="guide glass"${matchMedia('(max-width: 640px)').matches ? '' : ' open'}><summary>SCORING GUIDE · ${C.length} CRITERIA</summary>
-      <div class="rub">${C.map((c, i) => `<div><small>CRITERION ${i + 1} · OUT OF ${cmax(c)}${c.opt ? ' · OPTIONAL' : ''}</small><b>${esc(c.n)}</b><p>${esc(c.d)}</p></div>`).join('')}</div></details>
+    ${override ? `<div class="banner warn bar-row"><span>Editing <b>${esc(R.label)}</b></span><button class="btn small" id="bBack" type="button">&lsaquo; Back</button></div>` : ''}
+    <div class="banner ok" id="finBan" hidden>Final scores submitted</div>
+    <details class="guide glass"><summary>SCORING GUIDE</summary>
+      <div class="rub">${C.map((c, i) => `<div><small>OUT OF ${cmax(c)}${c.opt ? ' · OPTIONAL' : ''}</small><b>${esc(c.n)}</b><p>${esc(c.d)}</p></div>`).join('')}</div></details>
     <div class="teams">${E.teams.map(t => `
       <article class="team glass" data-no="${esc(t.no)}">
         <div class="th"><span class="no">${esc(t.no)}</span>
           <div class="nm"><b>${esc(t.team)}</b><div>${esc(t.school)}</div><div>${esc(t.members)}</div></div>
           <div class="tot"><b>–</b><span>/ ${MX}</span></div></div>
-        ${C.map((c, i) => `<div class="cr"><label>${esc(c.n)}<small>out of ${cmax(c)}</small></label>${control(t, c, i)}</div>`).join('')}
-        <textarea class="field" data-cm maxlength="300" placeholder="Optional note (tie-break, observations)"></textarea>
+        ${C.map((c, i) => `<div class="cr"><label>${esc(c.n)}<small>/ ${cmax(c)}</small></label>${control(t, c, i)}</div>`).join('')}
+        <textarea class="field" data-cm maxlength="300" placeholder="Note (optional)"></textarea>
         <div class="st" data-st>NOT SCORED</div>
       </article>`).join('')}</div>`;
   if (!override) {
@@ -661,14 +659,14 @@ function judgeView(E, me, R, override) {
     const el = card(no), T = total(s); el.querySelector('.tot b').textContent = T ?? '–'; el.classList.toggle('scored', T !== null);
     const st = el.querySelector('[data-st]');
     if (!local) { st.className = 'st' + (T !== null ? ' ok' : '');
-      st.textContent = T !== null ? (s._pending ? 'SAVED ON THIS DEVICE, SYNCING…' : `✓ SAVED ${time(s.updatedAt)}`)
+      st.textContent = T !== null ? (s._pending ? 'SYNCING…' : `SAVED ${time(s.updatedAt)}`)
         : C.some((c, i) => s['c' + (i + 1)] != null) ? 'INCOMPLETE' : 'NOT SCORED'; }
     progress();
   }
   function progress() {
     const n = E.teams.length, k = document.querySelectorAll('.team.scored').length;
     $('#pTxt').textContent = `${k}/${n}`; $('#pBar').style.width = (n ? 100 * k / n : 0) + '%';
-    if ($('#fTxt')) $('#fTxt').textContent = final ? 'Final scores submitted.' : k < n ? `${n - k} team${n - k === 1 ? '' : 's'} still to score.` : 'Every team scored. Check, then submit.';
+    if ($('#fTxt')) $('#fTxt').textContent = final ? 'Submitted' : k < n ? `${n - k} to score` : 'All scored';
   }
   unsub.push(api.watch('scores', docs => {
     docs.filter(s => s.judge === me).forEach(s => { S[s.no] = s; if (!card(s.no) || timers[s.no]) return; fill(s.no, s); paint(s.no, s, false); });
@@ -677,7 +675,7 @@ function judgeView(E, me, R, override) {
   unsub.push(api.watch('status', docs => {
     final = !!docs.find(d => d.id === me && d.final);
     $('#finBan').hidden = !final;
-    if ($('#bFinal')) { $('#bFinal').disabled = final; $('#bFinal').textContent = final ? 'Submitted ✓' : 'Submit final scores'; }
+    if ($('#bFinal')) { $('#bFinal').disabled = final; $('#bFinal').textContent = final ? 'Submitted' : 'Submit final scores'; }
     document.querySelectorAll('.team input, .team textarea, .team .lv button').forEach(i => i.disabled = final && !override); progress();
   }));
   if (override) $('#bBack').onclick = () => { stopAll(); resultsView('director', 'edit'); };
@@ -710,17 +708,13 @@ function resultsView(kind, startTab) {
     return rows;
   }
   $('#main').innerHTML = `
-    <div class="hero"><div><span class="kicker">${certsOnly ? 'CERTIFICATES' : 'RESULTS ROOM'} · LIVE</span>
-      <h2>${certsOnly ? 'Places' : 'Scores &amp; winners'}</h2>
-      <p>${certsOnly ? 'Places update live as the judges score. Start an event\'s certificates once it shows FINAL.'
-        : 'Updates the moment a judge enters a mark. An event is FINAL once both its judges submit; then write its certificates.'}</p></div>
-      <button class="btn small" type="button" onclick="print()">Print this page</button></div>
-    ${TEAMS_ARE_EXAMPLES ? '<div class="banner warn">These are example teams. The real teams are added once registrations close.</div>' : ''}
+    <div class="hero"><div><span class="kicker">${certsOnly ? 'CERTIFICATES' : 'RESULTS'} · LIVE${TEAMS_ARE_EXAMPLES ? ' · EXAMPLE TEAMS' : ''}</span>
+      <h2>${certsOnly ? 'Places' : 'Results'}</h2></div></div>
     <div class="tabs" role="tablist" id="tabs"></div><div id="pane"></div>`;
   const tabsHTML = () => EVENTS.map(E => { const k = rowsOf(E).filter(r => r.n === judgesOf(E.id).length).length;
-      return `<button class="tab" role="tab" data-t="${E.id}" aria-selected="${tab === E.id}">${E.icon} ${esc(E.name)} <em class="${fin(E.id) ? 'fin' : ''}">${fin(E.id) ? 'FINAL' : k + '/' + E.teams.length}</em></button>`; }).join('')
-    + `<button class="tab" role="tab" data-t="cl" aria-selected="${tab === 'cl'}">📜 Certificate list <em class="${EVENTS.every(E => fin(E.id)) ? 'fin' : ''}">${EVENTS.filter(E => fin(E.id)).length}/${EVENTS.length}</em></button>`
-    + (isDirector ? ['edit:Edit scores', 'acc:Staff logins', 'wipe:Clear test data'].map(s => { const [k, l] = s.split(':');
+      return `<button class="tab" role="tab" data-t="${E.id}" aria-selected="${tab === E.id}">${esc(E.name)} <em class="${fin(E.id) ? 'fin' : ''}">${fin(E.id) ? 'FINAL' : k + '/' + E.teams.length}</em></button>`; }).join('')
+    + `<button class="tab" role="tab" data-t="cl" aria-selected="${tab === 'cl'}">Certificates <em class="${EVENTS.every(E => fin(E.id)) ? 'fin' : ''}">${EVENTS.filter(E => fin(E.id)).length}/${EVENTS.length}</em></button>`
+    + (isDirector ? ['edit:Edit scores', 'acc:Logins', 'wipe:Reset'].map(s => { const [k, l] = s.split(':');
         return `<button class="tab tool" role="tab" data-t="${k}" aria-selected="${tab === k}">${l}</button>`; }).join('') : '');
   // forms (logins, clearing data) keep their own state, so live updates don't redraw over what's being typed
   const render = () => {
@@ -739,17 +733,14 @@ function resultsView(kind, startTab) {
       const inner = g.length ? g.map(x => { const id = `${E.id}_${x.no}`, w = !!certs.find(c => c.id === id && c.done);
         return `<div class="stack">${certsOnly ? '' : `<span class="score">${x.avg}</span>`}<b>${esc(x.team)}</b><div class="s">${esc(x.no)} · ${esc(x.school)}</div>
           <div class="mem">${esc(x.members)}</div>
-          <label><input type="checkbox" data-cert="${esc(id)}" ${w ? 'checked' : ''} ${isFin ? '' : 'disabled'}> CERTIFICATES WRITTEN</label></div>`; }).join('')
+          <label><input type="checkbox" data-cert="${esc(id)}" ${w ? 'checked' : ''} ${isFin ? '' : 'disabled'}> CERTIFICATE DONE</label></div>`; }).join('')
         : '<div class="s" style="margin-top:.8rem">–</div>';
       const writ = g.length && g.every(x => certs.find(c => c.id === `${E.id}_${x.no}` && c.done));
       return `<div class="pod glass p${p}${writ ? ' writ' : ''}"><div class="pl">${PLACE[p - 1]}</div>${inner}</div>`; }).join('');
     const jst = J.map(j => { const f = status.find(s => s.id === j.id && s.final);
-      return `<span class="chip ${f ? 'done' : ''}">${esc(jShort(j).toUpperCase())}: ${f ? 'SUBMITTED' : 'JUDGING'}</span>${isAdmin && f ? `<button class="btn small" type="button" data-unlock="${j.id}">Unlock</button>` : ''}`; }).join('');
+      return `<span class="chip ${f ? 'done' : ''}">${esc(jShort(j).toUpperCase())} · ${f ? 'SUBMITTED' : 'JUDGING'}</span>${isAdmin && f ? `<button class="btn small" type="button" data-unlock="${j.id}">Unlock</button>` : ''}`; }).join('');
     $('#pane').innerHTML = `
-      ${isFin ? `<div class="banner ok">✓ ${esc(E.name)} is FINAL: both judges have submitted. Start the winners' certificates.</div>`
-        : '<div class="banner">Judging in progress. Places can change until both judges submit their final scores.</div>'}
-      <div class="jst">${jst}</div>
-      ${tie ? '<p class="tie">⚠ Tie in the top 3. Check the judges\' notes, or ask the judges to break it, before writing certificates.</p>' : ''}
+      <div class="jst"><span class="chip ${isFin ? 'final' : ''}">${isFin ? 'FINAL' : 'IN PROGRESS'}</span>${jst}${tie ? '<span class="chip tie">TIE IN TOP 3</span>' : ''}</div>
       <div class="podium">${pods}</div>
       <div class="tscroll glass"><table class="res">${certsOnly
         ? `<thead><tr><th>Place</th><th>Team</th><th class="hide-m">School</th></tr></thead>
@@ -760,7 +751,7 @@ function resultsView(kind, startTab) {
              ${x.per.map(p => `<td class="n" title="${esc(p.s ? C.map((c, i) => c.n + ': ' + (p.s['c' + (i + 1)] ?? '–')).join(' | ') : '')}">${p.T ?? '–'}</td>`).join('')}
              <td class="n big">${x.avg ?? '–'}</td><td class="hide-m notes">${x.per.filter(p => p.s?.comment).map(p => `<b>${esc(jShort(p.j))}:</b> ${esc(p.s.comment)}`).join('<br>')}</td></tr>`).join('')}</tbody>`}
       </table></div>
-      ${certsOnly ? '' : `<p class="note">Each judge marks out of ${MX} (${C.map(c => `${esc(c.n)} /${cmax(c)}`).join(' · ')}). A team's score is the average of its judges. Hover over a judge's mark to see the breakdown.</p>`}`;
+`;
     $('#pane').querySelectorAll('[data-cert]').forEach(cb => cb.onchange = () => api.save('certs', cb.dataset.cert, { done: cb.checked, event: E.id }));
     $('#pane').querySelectorAll('[data-unlock]').forEach(b => b.onclick = () => confirm(`Let ${b.dataset.unlock} change their scores again?`) && api.save('status', b.dataset.unlock, { final: false }));
   }
@@ -768,17 +759,15 @@ function resultsView(kind, startTab) {
   function certPane() {
     const schools = [...new Set(EVENTS.flatMap(E => E.teams.map(t => t.school)))].sort();
     $('#pane').innerHTML = `
-      <div class="banner">Winners are listed once an event is FINAL. Everyone below gets a participation certificate.
-        <button class="btn small" type="button" id="bCsv">Download CSV</button><button class="btn small" type="button" onclick="print()">Print list</button></div>
-      <div class="cert"><h3>WINNERS</h3><div class="tscroll glass"><table class="res"><thead><tr><th>Event</th><th>Place</th><th>Team</th><th>Members</th><th class="hide-m">School</th><th>Certificates</th></tr></thead><tbody>
-        ${EVENTS.map(E => { if (!fin(E.id)) return `<tr class="pending"><td><b>${E.icon} ${esc(E.name)}</b></td><td colspan="5">Not final yet</td></tr>`;
+      <div class="cert"><div class="sec"><h3>WINNERS</h3><button class="btn small" type="button" id="bCsv">Download CSV</button></div><div class="tscroll glass"><table class="res"><thead><tr><th>Event</th><th>Place</th><th>Team</th><th>Members</th><th class="hide-m">School</th><th>Certificates</th></tr></thead><tbody>
+        ${EVENTS.map(E => { if (!fin(E.id)) return `<tr class="pending"><td><b>${esc(E.name)}</b></td><td colspan="5">Not final</td></tr>`;
           return ranked(E).filter(x => x.rank && x.rank <= 3).map(x => { const w = !!certs.find(c => c.id === `${E.id}_${x.no}` && c.done);
-            return `<tr class="r${x.rank}"><td><b>${E.icon} ${esc(E.name)}</b></td><td class="big">${PLACE[x.rank - 1]}</td><td>${esc(x.team)}<div class="s">${esc(x.no)}</div></td>
-              <td>${esc(x.members)}</td><td class="hide-m">${esc(x.school)}</td><td>${w ? '<span class="ok-t">✓ Written</span>' : 'To write'}</td></tr>`; }).join(''); }).join('')}</tbody></table></div>
+            return `<tr class="r${x.rank}"><td><b>${esc(E.name)}</b></td><td class="big">${PLACE[x.rank - 1]}</td><td>${esc(x.team)}<div class="s">${esc(x.no)}</div></td>
+              <td>${esc(x.members)}</td><td class="hide-m">${esc(x.school)}</td><td>${w ? '<span class="ok-t">Done</span>' : '<span class="muted">To do</span>'}</td></tr>`; }).join(''); }).join('')}</tbody></table></div>
       <h3>PARTICIPATION <span class="num">${Object.keys(TEAMS).length} TEAMS</span></h3>
       ${schools.map(sc => { const ts = Object.values(TEAMS).filter(t => t.school === sc);
         return `<h3 style="color:var(--bone)">${esc(sc)} <span class="num">${ts.length}</span></h3><div class="tscroll glass"><table class="res"><thead><tr><th>Members</th><th>Event</th><th>Team</th></tr></thead>
-          <tbody>${ts.map(t => `<tr><td><b>${esc(t.members)}</b></td><td>${t.ev.icon} ${esc(t.ev.name)}</td><td>${esc(t.no)} · ${esc(t.team)}</td></tr>`).join('')}</tbody></table></div>`; }).join('')}</div>`;
+          <tbody>${ts.map(t => `<tr><td><b>${esc(t.members)}</b></td><td>${esc(t.ev.name)}</td><td>${esc(t.no)} · ${esc(t.team)}</td></tr>`).join('')}</tbody></table></div>`; }).join('')}</div>`;
     $('#bCsv').onclick = () => {
       const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
       const head = ['Event', 'Final', 'Place', 'Team ID', 'Team', 'School', 'Members'].concat(certsOnly ? [] : ['Score', 'Out of']);
@@ -792,27 +781,26 @@ function resultsView(kind, startTab) {
     };
   }
   function editPane() {
-    $('#pane').innerHTML = `<div class="banner">Open any judge's scoring screen to enter or correct marks, even after they've submitted. Changes save straight away as that judge's marks.</div>
-      ${EVENTS.map(E => `<div class="cert"><h3>${E.icon} ${esc(E.name.toUpperCase())}</h3><div class="jst">${judgesOf(E.id).map(j => {
+    $('#pane').innerHTML = `
+      ${EVENTS.map(E => `<div class="cert"><h3>${esc(E.name.toUpperCase())}</h3><div class="jst">${judgesOf(E.id).map(j => {
         const f = status.find(s => s.id === j.id && s.final);
-        return `<button class="btn small" type="button" data-edit="${j.id}">${esc(j.label)} · ${f ? 'submitted' : 'judging'}</button>`; }).join('')}</div></div>`).join('')}`;
+        return `<button class="btn small" type="button" data-edit="${j.id}">${esc(jShort(j))} · ${f ? 'submitted' : 'judging'}</button>`; }).join('')}</div></div>`).join('')}`;
     $('#pane').querySelectorAll('[data-edit]').forEach(b => b.onclick = () => {
       const jid = b.dataset.edit; stopAll(); judgeView(EV[ROLE[jid].ev], jid, ROLE[jid], true); scrollTo(0, 0); });
   }
   function wipePane() {
     const COLS = ['scores', 'status', 'certs'];
     $('#pane').innerHTML = `<div class="banner bad" id="wipeBox">
-      <p style="margin-bottom:.7rem"><b>Clear the rehearsal data before the event.</b> This deletes every mark, every judge's submission and every certificate tick.
-        Logins and locks are kept. It can't be undone.</p>
+      <p style="margin-bottom:.4rem"><b>Delete all marks, submissions and certificate ticks.</b></p>
       <label class="lbl" for="wipeIn">TYPE CLEAR TO CONFIRM</label>
       <div style="display:flex;gap:.6rem;flex-wrap:wrap"><input class="field" id="wipeIn" autocomplete="off" style="max-width:220px">
-        <button class="btn danger" type="button" id="wipeGo" disabled>Delete test data</button></div>
+        <button class="btn danger" type="button" id="wipeGo" disabled>Delete</button></div>
       <div class="note" id="wipeMsg" style="margin-top:.7rem"></div></div>`;
     const inp = $('#wipeIn'), go = $('#wipeGo'), msg = $('#wipeMsg');
     inp.oninput = () => { go.disabled = inp.value.trim() !== 'CLEAR'; };
     go.onclick = async () => { go.disabled = true; inp.disabled = true; let n = 0;
       try { for (const c of COLS) { const ids = await api.list(c); for (const id of ids) { await api.del(c, id); n++; msg.textContent = `Deleted ${n}…`; } }
-        msg.innerHTML = `<span class="ok-t">✓ Cleared ${n} test records. Logins are untouched.</span>`; }
+        msg.innerHTML = `<span class="ok-t">Cleared ${n} records</span>`; }
       catch (er) { msg.innerHTML = `<span class="bad-t">Stopped after ${n}: ${esc(er.message || String(er))}</span>`; inp.disabled = false; } };
   }
   // staff logins: the listeners start once, the first time the tab is opened, and redraw only while it's showing
@@ -826,24 +814,23 @@ function resultsView(kind, startTab) {
       if (!document.body.contains($('#pane')) || tab !== 'acc') return;
       const keep = $('#aId') ? [$('#aId').value, $('#aPw').value, $('#aRole').value, $('#aLab').value] : null;
       $('#pane').innerHTML = `
-        <div class="banner">Make a login for anyone else who needs results or certificates. One login works on many devices at once, so a group can share it.</div>
+        <div class="cert"><h3>NEW LOGIN</h3></div>
         <form id="accForm" class="form-grid glass">
-          <div><label class="lbl" for="aId">LOGIN ID</label><input class="field" id="aId" required pattern="[a-z0-9-]{3,30}" placeholder="e.g. teachers"></div>
+          <div><label class="lbl" for="aId">LOGIN ID</label><input class="field" id="aId" required minlength="3" maxlength="30" pattern="[a-z0-9]+(-[a-z0-9]+)*" title="Lower-case letters, numbers and dashes" placeholder="e.g. teachers"></div>
           <div><label class="lbl" for="aPw">PASSWORD</label><div style="display:flex;gap:.4rem"><input class="field" id="aPw" required minlength="8"><button type="button" class="btn small" id="aGen">New</button></div></div>
           <div><label class="lbl" for="aRole">ROLE</label><select class="field" id="aRole">${Object.entries(ACCT_ROLES).map(([k, v]) => `<option value="${k}">${esc(v)}</option>`).join('')}</select></div>
-          <div><label class="lbl" for="aLab">NAME SHOWN (OPTIONAL)</label><input class="field" id="aLab" maxlength="40" placeholder="e.g. Teachers on duty"></div>
+          <div><label class="lbl" for="aLab">DISPLAY NAME</label><input class="field" id="aLab" maxlength="40" placeholder="e.g. Teachers on duty"></div>
           <button class="btn primary" type="submit">Create login</button>
           <div class="msg" id="aMsg">${msgHTML}</div></form>
-        <div class="tscroll glass"><table class="res"><thead><tr><th>Login ID</th><th>Role</th><th>Name shown</th><th></th></tr></thead><tbody>
+        <div class="cert"><h3>EXTRA LOGINS</h3></div>
+        <div class="tscroll glass"><table class="res"><thead><tr><th>Login ID</th><th>Role</th><th>Name</th><th></th></tr></thead><tbody>
           ${list.length ? list.slice().sort((a, b) => a.id.localeCompare(b.id)).map(a => `<tr style="${a.disabled ? 'opacity:.45' : ''}"><td><b>${esc(a.id)}</b></td><td>${esc(ACCT_ROLES[a.role] || a.role)}</td><td>${esc(a.label || '')}</td>
             <td class="n"><button class="btn small" type="button" data-dis="${esc(a.id)}" data-v="${a.disabled ? 0 : 1}">${a.disabled ? 'Turn on' : 'Turn off'}</button></td></tr>`).join('')
-            : '<tr><td colspan="4" class="note">No extra logins yet.</td></tr>'}</tbody></table></div>
-        <p class="note">A password is shown only once, when the login is made: write it down or send it privately.</p>
-        <div class="cert"><h3>READY-MADE LOGINS</h3></div>
-        <p class="note" style="margin-bottom:.8rem">Lock a login to shut it out straight away on every device. It sees nothing and can change nothing until you unlock it.</p>
+            : '<tr><td colspan="4" class="note">None yet</td></tr>'}</tbody></table></div>
+        <div class="cert"><h3>EVENT LOGINS</h3></div>
         <div class="tscroll glass"><table class="res"><thead><tr><th>Login ID</th><th>Who</th><th>Status</th><th></th></tr></thead><tbody>
           ${Object.entries(ROLE).filter(([id]) => id !== 'director').map(([id, r]) => { const L = locks.includes(id);
-            return `<tr style="${L ? 'opacity:.6' : ''}"><td><b>${esc(id)}</b></td><td>${esc(r.label)}</td><td>${L ? '<span class="bad-t">Locked</span>' : 'Active'}</td>
+            return `<tr style="${L ? 'opacity:.6' : ''}"><td><b>${esc(id)}</b></td><td>${esc(r.label)}</td><td>${L ? '<span class="bad-t">Locked</span>' : '<span class="muted">Active</span>'}</td>
               <td class="n"><button class="btn small" type="button" data-lock="${esc(id)}" data-v="${L ? 0 : 1}">${L ? 'Unlock' : 'Lock'}</button></td></tr>`; }).join('')}</tbody></table></div>`;
       if (keep) { $('#aId').value = keep[0]; $('#aPw').value = keep[1]; $('#aRole').value = keep[2]; $('#aLab').value = keep[3]; } else $('#aPw').value = pw();
       $('#aGen').onclick = () => { $('#aPw').value = pw(); };
@@ -854,7 +841,7 @@ function resultsView(kind, startTab) {
         say('Creating…');
         try { await api.createLogin(id, p);
           await api.save('accounts', id, { role: $('#aRole').value, label: $('#aLab').value.trim(), created: Date.now(), disabled: false });
-          say(`<span class="ok-t">✓ Created. Login ID <b>${esc(id)}</b> · password <b>${esc(p)}</b>. Write it down now.</span>`);
+          say(`<span class="ok-t">Created <b>${esc(id)}</b> · password <b>${esc(p)}</b></span>`);
           $('#aId').value = ''; $('#aLab').value = ''; $('#aPw').value = pw();
         } catch (er) { const c = er.code || er.message || '';
           say(`<span class="bad-t">${/already/.test(c) ? 'That login ID already exists.' : /weak/.test(c) ? 'Password is too weak (use at least 8 characters).' : 'Could not create the login: ' + esc(c)}</span>`); } };
