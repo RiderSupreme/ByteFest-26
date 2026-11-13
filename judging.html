@@ -90,11 +90,8 @@ label.lbl{display:block;margin:1rem 0 .4rem;font-family:var(--px);font-size:.66r
 
 /* ---------- LOGIN ---------- */
 .login{min-height:100vh;display:grid;place-items:center;padding:2rem 1rem 6rem}
-.lbox{width:min(400px,100%);padding:2rem 1.6rem 1.8rem}
-.lbox .logo{display:block;width:min(220px,70%);height:auto;margin:0 auto 1rem}
-.lbox h1{margin-bottom:.4rem;text-align:center;font-family:var(--px);font-size:1.5rem;line-height:1.1;letter-spacing:.06em}
-.lbox h1 b{color:var(--teal);font-weight:400}
-.lbox .sub{text-align:center;font-size:.85rem;color:var(--ash);margin:.4rem 0 .8rem}
+.lbox{width:min(380px,100%);padding:2rem 1.6rem 1.8rem}
+.lbox .logo{display:block;width:min(200px,64%);height:auto;margin:0 auto 1rem}
 .pwwrap{position:relative}
 .pwwrap .field{padding-right:4.6rem}
 .pweye{position:absolute;right:.4rem;top:50%;transform:translateY(-50%);padding:.35rem .55rem;font-family:var(--px);font-size:.6rem;
@@ -102,12 +99,6 @@ label.lbl{display:block;margin:1rem 0 .4rem;font-family:var(--px);font-size:.66r
 .pweye:hover{color:var(--teal);border-color:var(--teal)}
 .lbox .btn.primary{width:100%;margin-top:1.3rem;padding:.95rem}
 .err{min-height:1.3em;margin-top:.8rem;font-size:.85rem;color:var(--bad);text-align:center}
-.demo{margin-top:1rem;padding:.9rem 1rem;font-size:.82rem;line-height:1.5;border-left:3px solid var(--gold);background:rgba(255,211,107,.07)}
-.demo .grp{margin-top:.7rem;font-family:var(--px);font-size:.6rem;letter-spacing:.08em;color:var(--teal)}
-.demo .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.35rem;margin-top:.35rem}
-.demo .row .btn{white-space:normal;text-align:center;line-height:1.3}
-.home{display:block;margin-top:1.2rem;text-align:center;font-family:var(--px);font-size:.62rem;letter-spacing:.08em;color:var(--ash);text-decoration:none}
-.home:hover{color:var(--teal)}
 
 /* ---------- TOP BAR ---------- */
 .top{position:sticky;top:0;z-index:30;background:var(--bar);border-bottom:1px solid var(--glass-brd);
@@ -145,7 +136,6 @@ main{padding:1.6rem 0 11rem}
 .kicker{font-family:var(--px);font-size:.66rem;letter-spacing:.1em;color:var(--teal)}
 .hero h2{margin:.4rem 0 0;font-family:var(--px);font-weight:700;font-size:clamp(1.7rem,4.6vw,2.5rem);line-height:1;color:var(--bone);
   text-shadow:4px 4px 0 var(--ember)}
-.hero h2 .ico{font-size:.8em;margin-right:.35rem;text-shadow:none}
 .hero p{max-width:62ch;font-size:.9rem;color:var(--ash)}
 .banner{padding:.85rem 1.1rem;margin-bottom:1rem;font-size:.88rem;border-left:3px solid var(--line);background:rgba(77,139,255,.06)}
 .banner.ok{border-color:var(--teal);background:rgba(25,211,197,.09)}
@@ -174,6 +164,10 @@ details.guide[open] summary::after{transform:rotate(45deg)}
 .rub div{padding:.8rem .9rem;background:var(--field);border-left:2px solid var(--teal)}
 .rub small{display:block;font-family:var(--px);font-size:.58rem;letter-spacing:.07em;color:var(--ash)}
 .rub b{display:block;margin:.2rem 0 .3rem;font-size:.92rem}
+.rub .grp{grid-column:1/-1;margin-top:.3rem;font-family:var(--px);font-size:.62rem;letter-spacing:.1em;color:var(--teal)}
+.lvl{list-style:none;margin-top:.5rem;font-size:.78rem;line-height:1.4;color:var(--ash)}
+.lvl li{display:grid;grid-template-columns:1.4rem 1fr;gap:.3rem;padding:.2rem 0}
+.lvl li b{display:block;margin:0;font-family:var(--num);font-size:.62rem;color:var(--teal)}
 .rub p{font-size:.8rem;color:var(--ash);line-height:1.45}
 
 /* ---------- JUDGE: one card per team ---------- */
@@ -188,6 +182,7 @@ details.guide[open] summary::after{transform:rotate(45deg)}
 .team .tot{text-align:right;white-space:nowrap}
 .team .tot b{font-family:var(--num);font-weight:400;font-size:1.05rem}
 .team .tot span{display:block;font-size:.72rem;color:var(--ash)}
+.grp.sm{margin:1rem 0 .1rem;font-family:var(--px);font-size:.62rem;letter-spacing:.1em;color:var(--teal)}
 .cr{display:grid;grid-template-columns:minmax(150px,1fr) 3fr;gap:.4rem 1rem;align-items:center;padding:.55rem 0;border-top:1px dashed var(--line)}
 .cr label{font-size:.85rem}
 .cr label small{display:block;font-size:.7rem;color:var(--ash)}
@@ -198,7 +193,6 @@ details.guide[open] summary::after{transform:rotate(45deg)}
 .lv button:disabled{cursor:default}
 .cr input.field{max-width:9rem;font-family:var(--num);font-size:.85rem}
 .cr input.badv{border-color:var(--bad)}
-.team textarea.field{margin-top:.7rem;min-height:3.2rem;resize:vertical;font-size:.85rem}
 .team .st{margin-top:.5rem;font-family:var(--px);font-size:.6rem;letter-spacing:.07em;color:var(--ash)}
 .team .st.ok{color:var(--teal)}
 .team .st.err{color:var(--bad)}
@@ -215,35 +209,16 @@ details.guide[open] summary::after{transform:rotate(45deg)}
   background:var(--glass-bg);border:1px solid var(--line);color:var(--bone);transition:border-color .2s,background .2s}
 .tab:hover{border-color:var(--teal)}
 .tab[aria-selected="true"]{border-color:var(--teal);background:rgba(25,211,197,.13)}
-.tab em{font-style:normal;font-family:var(--num);font-size:.5rem;padding:.22rem .35rem;border:1px solid var(--line);color:var(--ash)}   /* Silkscreen's 4 reads as a 9 */
-.tab em.fin{background:var(--teal);border-color:var(--teal);color:var(--teal-ink)}
 .tab.tool{border-style:dashed}
 .jst{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:1rem}
 .chip{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .6rem;font-family:var(--px);font-size:.58rem;letter-spacing:.06em;
-  border:1px solid var(--line);color:var(--ash)}
+  border:1px solid var(--line);color:var(--ash);white-space:nowrap}
 .chip.done{border-color:var(--teal);color:var(--teal)}
 .chip.final{background:var(--teal);border-color:var(--teal);color:var(--teal-ink)}
+em.chip{font-style:normal;margin-left:.5rem;padding:.2rem .4rem;font-size:.5rem}
 .chip.tie{border-color:var(--gold);color:var(--gold)}
-.jst .btn.small{padding:.38rem .6rem;font-size:.56rem}
-.tie{margin:0 0 1rem;font-size:.86rem;color:var(--gold)}
 
-.podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-bottom:1.4rem;align-items:end}
-.pod{padding:1.1rem 1rem;text-align:center;border-top:4px solid var(--line)}
-.pod.p1{border-top-color:var(--gold);order:2;padding-top:1.6rem}
-.pod.p2{border-top-color:var(--silver);order:1}
-.pod.p3{border-top-color:var(--bronze);order:3}
-.pod .pl{font-family:var(--num);font-size:.8rem}
-.pod.p1 .pl{color:var(--gold)} .pod.p2 .pl{color:var(--silver)} .pod.p3 .pl{color:var(--bronze)}
-.pod .score{display:block;margin:.5rem 0 .2rem;font-family:var(--num);font-size:1.15rem}
-.pod b{display:block;margin-top:.4rem;font-size:.98rem}
-.pod .s{font-size:.78rem;color:var(--ash)}
-.pod .mem{margin-top:.5rem;font-size:.78rem;line-height:1.45}
-.pod label{display:inline-flex;align-items:center;gap:.45rem;margin-top:.8rem;font-family:var(--px);font-size:.6rem;letter-spacing:.06em;cursor:pointer}
-.pod label input{width:16px;height:16px;accent-color:var(--teal)}
-.pod.writ{background:rgba(25,211,197,.09)}
-.pod .stack + .stack{margin-top:.9rem;padding-top:.9rem;border-top:1px dashed var(--line)}
-@media (max-width:760px){ .podium{grid-template-columns:1fr} .pod.p1,.pod.p2,.pod.p3{order:0} }
-
+.tiebar{margin:.2rem 0 .8rem;font-size:.82rem;color:var(--gold)}
 .tscroll{overflow-x:auto;margin-bottom:1rem}
 table.res{width:100%;border-collapse:collapse;font-size:.86rem}
 .res th,.res td{padding:.7rem .75rem;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
@@ -251,14 +226,41 @@ table.res{width:100%;border-collapse:collapse;font-size:.86rem}
 .res td.n,.res th.n{text-align:right;white-space:nowrap}
 .res td.big{font-family:var(--num);font-size:.8rem;white-space:nowrap}
 .res tr.r1 td.big:first-child{color:var(--gold)} .res tr.r2 td.big:first-child{color:var(--silver)} .res tr.r3 td.big:first-child{color:var(--bronze)}
-.res tr.pending{opacity:.55}
 .res .s{font-size:.76rem;color:var(--ash)}
-.res td.notes{font-size:.76rem;color:var(--ash);min-width:180px}
 @media (max-width:760px){ .hide-m{display:none} }
 
-.cert .sec{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+/* results: one drop-down per event */
+.ev{margin-bottom:.8rem}
+.ev summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:.9rem;padding:1rem 1.1rem}
+.ev summary::-webkit-details-marker{display:none}
+.ev summary::after{content:"+";font-size:1.2rem;color:var(--teal);transition:transform .3s}
+.ev[open] summary::after{transform:rotate(45deg)}
+.ev .en{flex:1;font-family:var(--px);font-size:.95rem;letter-spacing:.05em}
+.ev .body{padding:0 1.1rem .6rem}
+.troph{padding:1.1rem 1.1rem .3rem;margin-top:1.6rem}
+.troph .sec{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.lead{margin:.8rem 0 1rem;font-family:var(--px);font-weight:400;font-size:1.3rem;line-height:1.2;color:var(--gold)}
+.lead small{display:block;margin-top:.35rem;font-size:.58rem;letter-spacing:.1em;color:var(--ash)}
 .cert h3{margin:1.4rem 0 .6rem;font-family:var(--px);font-weight:400;font-size:.8rem;letter-spacing:.07em;color:var(--teal)}
-.cert h3 .num{font-size:.62rem;color:var(--ash);margin-left:.4rem}
+.cert h3 .num{font-size:.62rem;color:var(--ash);margin-left:.6rem}
+
+/* judge: ranking */
+.rank{padding:1.1rem 1.1rem .6rem;margin-top:1rem}
+.rank h3{margin-bottom:.4rem;font-family:var(--px);font-weight:400;font-size:.8rem;letter-spacing:.07em;color:var(--teal)}
+.rk{display:grid;grid-template-columns:2.2rem 1fr auto auto;gap:.8rem;align-items:center;padding:.75rem 0;border-top:1px dashed var(--line)}
+.rk .pos{font-family:var(--num);font-size:.7rem;color:var(--ash)}
+.rk .nm b{display:block;font-size:.95rem}
+.rk .nm div{font-size:.78rem;color:var(--ash)}
+.rk .pts{font-family:var(--num);font-size:.95rem;text-align:right;white-space:nowrap}
+.rk.done{grid-template-columns:3.2rem 1fr}
+.rk.done .pos{color:var(--teal)}
+.pk{display:flex;gap:.3rem}
+.pk button{min-width:48px;height:40px;padding:0 .5rem;font-family:var(--px);font-size:.6rem;letter-spacing:.04em;background:var(--field);border:1px solid var(--line);transition:background .15s,border-color .15s}
+.pk button:hover{border-color:var(--teal)}
+.pk button.on.p1{background:var(--gold);border-color:var(--gold);color:#1a1200}
+.pk button.on.p2{background:var(--silver);border-color:var(--silver);color:#10151f}
+.pk button.on.p3{background:var(--bronze);border-color:var(--bronze);color:#1c0e00}
+@media (max-width:640px){ .rk{grid-template-columns:1.6rem 1fr auto} .rk .pk{grid-column:1/-1} .pk button{flex:1} }
 
 .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.8rem;align-items:end;padding:1.1rem;margin-bottom:1.2rem}
 .form-grid label.lbl{margin-top:0}
@@ -355,17 +357,13 @@ table.res{width:100%;border-collapse:collapse;font-size:.86rem}
 <section class="login" id="vLogin">
   <form class="lbox glass" id="fLogin" autocomplete="on">
     <picture><source type="image/webp" srcset="bytefest-logo-440.webp"><img class="logo" src="bytefest-logo.png" alt="ByteFest" width="440" height="396"></picture>
-    <h1>JUDGING<b> &amp; RESULTS</b></h1>
     <label class="lbl" for="lid">LOGIN ID</label>
-    <input class="field" id="lid" name="username" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="e.g. judge1" required>
+    <input class="field" id="lid" name="username" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required>
     <label class="lbl" for="lpw">PASSWORD</label>
     <div class="pwwrap"><input class="field" id="lpw" name="password" type="password" autocomplete="current-password" autocapitalize="none" autocorrect="off" required>
       <button type="button" class="pweye" aria-label="Show password" aria-pressed="false">SHOW</button></div>
-    <button class="btn primary" type="submit" id="bIn">Sign in</button>
+    <button class="btn primary" type="submit" id="bIn">Login</button>
     <div class="err" id="lerr" role="alert"></div>
-    <div class="demo" id="noJs">If nothing happens when you press <b>Sign in</b>, open this page in Chrome or Safari.</div>
-    <div class="demo" id="demoNote" hidden><b>DEMO</b> · password <b>demo</b><div id="demoBtns"></div></div>
-    <a class="home" href="index.html">&lsaquo; BACK TO BYTEFEST</a>
   </form>
 </section>
 
@@ -402,28 +400,115 @@ const firebaseConfig = {
 };
 // a login ID such as "judge1" signs in as judge1@<EMAIL_DOMAIN>. No email is ever sent there.
 const EMAIL_DOMAIN = 'judging.bytefest26.app';
+// Where each kind of record lives in Firestore. Prefixed so ByteFest never shares a collection with
+// anything else in the same Firebase project. Keep in step with firestore.rules.
+const COL = {
+  scores:   'bytefest_scores',     // <judge>_<team no>: one judge's marks for one team
+  status:   'bytefest_status',     // <judge>: { final, p1, p2, p3 }: submitted, and the 1st/2nd/3rd team numbers
+  accounts: 'bytefest_accounts',   // <login id>: { role, label, disabled } for logins made in the Logins tab
+  locks:    'bytefest_locks',      // <login id>: present while the director has locked that login
+};
 
 /* =====================================================================
-   2) EVENTS, TEAMS AND RUBRICS
-      Each criterion: n = name, max = highest mark, d = what the judges look for.
-      Marks up to 10 show as tap buttons (0…max); bigger maximums show a number box.
-      The database rules (firestore.rules) cap every criterion at 30 and allow up to 6 criteria.
+   2) EVENTS, TEAMS AND RUBRICS: taken from each event's handbook.
+      Criterion fields:
+        n    name                              max  highest mark         min  lowest mark (default 0)
+        g    heading to group it under         opt  true = can be left blank (bonus)
+        d    one line on what is marked        lv   what each level means, lowest first, starting at `min`
+      Marks up to 10 show as tap buttons (min…max); bigger maximums show a number box.
+      tb (optional) = tie-break: groups of criterion numbers (1 = first criterion), compared in order after the
+      total. Teams still level after that are left for the judge to separate.
+      judges: how many judges the event has (default 2). With two, a team's score is the average of their totals.
+      manual: true = no judges; the director records the placings (GameGrid).
+      The database rules (firestore.rules) allow whole numbers 0 to 100 and up to 10 criteria.
    ===================================================================== */
 const EVENTS = [
-  { id: 'hackrush',    name: 'HackRush',     code: 'HR', arena: 'Code',     grades: 'Grade 9–12' },
-  { id: 'circuitriot', name: 'Circuit Riot', code: 'CR', arena: 'Robotics', grades: 'Grade 9–12' },
-  { id: 'codalo',      name: 'Codalo',       code: 'CD', arena: 'Robotics', grades: 'Grade 9–12' },
-  { id: 'vybecode',    name: 'VybeCode',     code: 'VC', arena: 'AI',       grades: 'Grade 7–10' },
-  { id: 'gamegrid',    name: 'GameGrid',     code: 'GG', arena: 'E-sports', grades: 'Grade 9–12' },
-  { id: 'nexai',       name: 'Nex.AI',       code: 'NX', arena: 'AI',       grades: 'Grade 9–12' },
+  { id: 'hackrush', name: 'HackRush', code: 'HR', arena: 'Code', grades: 'Grade 9–12', judges: 1,
+    // marks per question = marks × (test cases passed ÷ total test cases), worked out from the submitted code
+    tb: [[6, 7, 9], [3, 4, 5, 8]],   // handbook tie-break: more points on Hard questions, then on Medium ones
+    rub: [
+      { n: 'Q1 · Easy', max: 5, d: 'Marks for the share of test cases passed.' },
+      { n: 'Q2 · Easy', max: 5, d: 'Marks for the share of test cases passed.' },
+      { n: 'Q3 · Medium', max: 10, d: 'Marks for the share of test cases passed.' },
+      { n: 'Q4 · Medium', max: 10, d: 'Marks for the share of test cases passed.' },
+      { n: 'Q5 · Medium', max: 10, opt: true, d: 'Missing from the handbook table, but the main-round total of 80 needs a 10-mark Q5. Leave blank if there is no Q5.' },
+      { n: 'Q6 · Hard', max: 20, d: 'Marks for the share of test cases passed.' },
+      { n: 'Q7 · Hard', max: 20, d: 'Marks for the share of test cases passed.' },
+      { n: 'Bonus 1 · Medium', max: 5, opt: true, g: 'Bonus', d: 'Marks for the share of test cases passed.' },
+      { n: 'Bonus 2 · Hard', max: 5, opt: true, g: 'Bonus', d: 'Marks for the share of test cases passed.' },
+    ] },
+  { id: 'circuitriot', name: 'Circuit Riot', code: 'CR', arena: 'Robotics', grades: 'Grade 9–12', judges: 1,
+    rub: [
+      { n: 'Design round', g: 'Design round', min: 1, max: 5, d: 'Theme, circuit construction and the pitch to the judges.',
+        lv: ['Theme barely visible, circuit incomplete, pitch unclear.', 'Theme basic, circuit lacks neatness, weak pitch.', 'Theme clearly visible, circuit neatly built, decent pitch.',
+             'Strong theme visibility, sturdy circuit, well-delivered pitch.', 'Excellent Tron theme and circuit construction, strong pitch.'] },
+      { n: 'Launch and acceleration', g: 'Velocity run and precision circuit', max: 5, d: 'One race scores both. A bot that leaves the track and cannot recover (DNF) scores 0.',
+        lv: ['Delayed start, or needs a few tries to move.', 'Hesitant start, slow to reach speed.', 'Clean start, reaches speed quickly.', 'Quick, smooth launch.', 'Instant, smooth launch to full speed.'], min: 0 },
+      { n: 'Junction handling', g: 'Velocity run and precision circuit', max: 5, min: 0, d: 'DNF scores 0.',
+        lv: ['Misses most marked paths.', 'Takes the correct path with clear hesitation.', 'Takes most junctions correctly.', 'Takes all junctions correctly, with hesitation.', 'Takes every junction correctly and smoothly.'] },
+      { n: '90° turns', g: 'Velocity run and precision circuit', max: 5, min: 0, d: 'DNF scores 0.',
+        lv: ['Loses the line on most turns.', 'Completes turns slowly.', 'Completes most turns cleanly.', 'Clean turns with minor overshoot.', 'Sharp, clean turns with no overshoot.'] },
+      { n: 'Speed consistency', g: 'Velocity run and precision circuit', max: 5, min: 0, d: 'DNF scores 0.',
+        lv: ['Frequent stalls or stops.', 'Noticeable slowdowns and hesitation.', 'Mostly steady, with a few slowdowns.', 'Steady speed with rare hesitation.', 'Constant, smooth speed from start to finish.'] },
+    ] },
+  { id: 'codalo', name: 'Codalo', code: 'CD', arena: 'Robotics', grades: 'Grade 9–12',
+    rub: [
+      { n: 'Creativity', g: 'Round 1 · Titan', min: 1, max: 4,
+        lv: ['Not at all creative, very few ideas.', 'Partially creative, few ideas.', 'Very creative, but details and ideas not implemented well.', 'Very creative, attention to detail and innovative ideas.'] },
+      { n: 'Uniqueness', g: 'Round 1 · Titan', min: 1, max: 4,
+        lv: ['Few to none originality and innovation.', 'Innovation and originality, but not implemented well.', 'New innovation and creativity, implemented but not accurately.', 'New, innovative ideas accurately implemented on the robot.'] },
+      { n: 'Team work', g: 'Round 1 · Titan', min: 1, max: 4,
+        lv: ['No well-coordinated teamwork.', 'Some teamwork or commitment to the project.', 'Well coordinated, but members did not contribute equally.', 'Exceptional teamwork and commitment from all members.'] },
+      { n: 'Question and answer', g: 'Round 1 · Titan', min: 1, max: 4,
+        lv: ['Unable to answer any of the judges’ questions.', 'Answers some questions, not with complete clarity.', 'Answers accurately, but not within the time limit.', 'Answers all questions with accuracy, within the time limit.'] },
+      { n: 'SDG bonus', g: 'Round 1 · Titan', max: 4, opt: true, d: 'Bonus for addressing the SDGs. The handbook gives no maximum: 4 is a placeholder.' },
+      { n: 'Robot.IO battle points', g: 'Round 2 · Robot.IO', max: 40, d: 'Total from the battles: push out 3, flip 10, durability 0–5, hold 4 (over 90°) or 3, then minus 5 wrong size, minus 1 per extra minute (max minus 3), minus 3 sportsmanship. Enter 0 if the total is negative. The handbook gives no maximum: 40 is a placeholder.' },
+    ] },
+  { id: 'vybecode', name: 'VybeCode', code: 'VC', arena: 'AI', grades: 'Grade 7–10',
+    rub: [
+      { n: 'Creativity and innovation', min: 1, max: 3, d: 'Uniqueness and originality of the idea.',
+        lv: ['Partially creative ideas, but lacks depth or originality.', 'Very creative, but some innovative ideas not fully executed.', 'Highly original, with exceptional innovation and unique ideas.'] },
+      { n: 'Practicality and usability', min: 1, max: 3, d: 'Effectiveness and real-world potential.',
+        lv: ['Potential utility, but user experience and execution are weak.', 'Core feature functional and practical, with minor UX/UI flaws.', 'Outstanding real-world application: practical, intuitive and effective.'] },
+      { n: 'Efficiency of tool usage', min: 1, max: 3, d: 'Judged on the number of prompts sent, tallied by the table volunteer.',
+        lv: ['Moderate prompt usage, redundant requests for basic functionality.', 'Efficient prompts, a working feature with minor extra prompts.', 'Fully functional feature with minimal, well-structured prompts.'] },
+      { n: 'Collaboration and presentation', min: 1, max: 3, d: 'Clarity of explanation, teamwork and the final pitch.',
+        lv: ['Covers basic points, but lacks structure, clarity or engaging delivery.', 'Well structured and clear, but could be more engaging.', 'Exceptional pitch: engaging, clear, professional and well structured.'] },
+      { n: 'Team dynamics', min: 1, max: 3, d: 'Cooperation, balance and cohesion in the team.',
+        lv: ['Basic teamwork, but roles and contributions unbalanced.', 'Well coordinated, but members did not share technical understanding equally.', 'Exceptional cohesion: clear roles, all members contribute confidently.'] },
+      { n: 'Wow factor', g: 'Bonus', max: 3, opt: true, d: 'Overall polish, creativity and visual impact. Extra marks for seamless UI/UX, clever interactive touches or a standout pitch. 0 if none.',
+        lv: ['Minor visual touches, but no memorable “magic” element.', 'Good polish, smooth UI/UX touches that catch the judges’ attention.', 'Outstanding polish: stunning UI/UX, seamless interaction or an unforgettable feature.'] },
+    ] },
+  // GameGrid has no judges or marks: two single-elimination knockouts, each decided by who wins the game.
+  // manual = the director records the top three of each arena from the bracket. Not counted in the rolling trophy.
+  { id: 'fc26', name: 'GameGrid · FC26', code: 'FC', arena: 'E-sports', grades: 'Grade 9–12', judges: 0, manual: true, rub: [] },
+  { id: 'rocketleague', name: 'GameGrid · Rocket League', code: 'RL', arena: 'E-sports', grades: 'Grade 9–12', judges: 0, manual: true, rub: [] },
+  { id: 'nexai', name: 'Nex.AI', code: 'NX', arena: 'AI', grades: 'Grade 9–12',
+    rub: [
+      { n: 'Workflow setup and tool use', g: 'Round 1', min: 1, max: 3,
+        lv: ['Automation broken, fails to read files, or uses paid tools.', 'Works fine with minor setup issues or slight delays.', 'Runs smoothly with free tools (n8n/Make) and AI nodes, no errors or broken links.'] },
+      { n: 'AI agent and team interview', g: 'Round 1', min: 1, max: 3,
+        lv: ['No MCQ chat interaction; the report is generated without interviewing the team.', 'Basic chat loop with simple or poorly structured MCQs, minimal team input.', 'Great interactive loop that asks clear MCQs to capture team ideas and steer the report.'] },
+      { n: 'Report quality and clarity', g: 'Round 1', min: 1, max: 3,
+        lv: ['Superficial or confusing report that misses the main problems.', 'Decent report covering general problems with basic details.', 'Clear, detailed audit report that points out 3 real problems.'] },
+      { n: 'Problem choice and trade-offs', g: 'Round 1', min: 1, max: 3,
+        lv: ['Unrealistic problem choice, poor reasoning, no staff plan.', 'Decent choice with basic explanation and simple staff plans.', 'Smart choice with clear reasoning, realistic trade-offs and a good plan for moving staff.'] },
+      { n: 'Slides and 2-minute pitch', g: 'Round 1', min: 1, max: 3,
+        lv: ['Messy presentation, missing slides, or way over time.', 'Good slides and clear presentation, slightly over time or rushed.', 'Clean, easy-to-read 7-slide deck presented confidently within 2 minutes.'] },
+      { n: 'Solution build and real impact', g: 'Round 2', min: 1, max: 3,
+        lv: ['Incomplete build, missing improvement plan, or vague goals.', 'Solid 4-week build with a basic improvement plan and simple goals.', 'Impressive working automation, clear 5-month improvement plan, measurable goals.'] },
+      { n: 'Sticking to limits (50 hrs, 3 people, $0)', g: 'Round 2', min: 1, max: 3,
+        lv: ['Broke the dev-hour limit, used too many operators, or spent money on paid tools.', 'Minor planning slip-ups, still within budget and team limits.', 'Completely within all limits: under 50 hours, max 3 operators, $0 spent.'] },
+      { n: 'Long-term system maintenance', g: 'Round 2', min: 1, max: 3,
+        lv: ['Unrealistic plan that would break down as soon as the team leaves.', 'Basic handoff plan with slight long-term risks.', 'Simple, practical handoff plan so current staff can easily manage the system.'] },
+      { n: 'Pitch and Q&A answers', g: 'Round 2', min: 1, max: 3,
+        lv: ['Unconvincing pitch, or unable to answer simple questions about the build.', 'Clear presentation with decent answers to most questions.', 'Great pitch and confident answers, explaining both tech and business choices.'] },
+    ] },
 ];
-// PLACEHOLDER rubric: the same three criteria for every event until the real ones arrive
-const DEFAULT_RUB = [
-  { n: 'Innovation', max: 10, d: 'How original is the idea or the approach?' },
-  { n: 'Technical execution', max: 10, d: 'Does it work, and how well is it built?' },
-  { n: 'Presentation', max: 10, d: 'How clearly did the team explain and demonstrate their work?' },
-];
-const RUB = Object.fromEntries(EVENTS.map(E => [E.id, DEFAULT_RUB]));
+// what the rolling trophy adds up for each team: 'raw' = the marks as scored, 'percent' = marks as a percentage of the
+// event's maximum, so that an event marked out of 90 doesn't outweigh one marked out of 18
+const TROPHY_BASIS = 'percent';
+const RUB = Object.fromEntries(EVENTS.map(E => [E.id, E.rub]));
 // PLACEHOLDER teams: replaced with the registrations before the event
 const TEAMS_ARE_EXAMPLES = true;
 EVENTS.forEach(E => {
@@ -435,33 +520,34 @@ EVENTS.forEach(E => {
 
 /* =====================================================================
    3) LOGINS: every ready-made login ID and what it opens. Create each one in Firebase
-      Authentication (see SETUP.md). More can be made later from the director's Staff logins tab.
+      Authentication (see SETUP.md). More can be made later from the director's Logins tab.
    ===================================================================== */
-const ROLE = {};
-EVENTS.forEach((E, k) => [1, 2].forEach(n => {
-  ROLE['judge' + (2 * k + n)] = { kind: 'judge', ev: E.id, n, grp: 'Judges', label: `Judge ${2 * k + n} · ${E.name}` };
-}));
+const ROLE = {}, JUDGES_OF = {};
+let jn = 0;   // judge1, judge2, … numbered in EVENTS order, each event taking its share
+EVENTS.forEach(E => { JUDGES_OF[E.id] = [];
+  for (let k = 0; k < (E.judges ?? 2); k++) { const id = 'judge' + (++jn); JUDGES_OF[E.id].push(id);
+    ROLE[id] = { kind: 'judge', ev: E.id, grp: 'Judges', label: `Judge ${jn} · ${E.name}` }; } });
+// event heads (student and teacher leads share one login per event): live scores for their own event only
+[['hackrush', 'HackRush', ['hackrush']], ['circuitriot', 'Circuit Riot', ['circuitriot']], ['codalo', 'Codalo', ['codalo']],
+ ['vybecode', 'VybeCode', ['vybecode']], ['gamegrid', 'GameGrid', ['fc26', 'rocketleague']], ['nexai', 'Nex.AI', ['nexai']]]
+  .forEach(([k, name, evs]) => { ROLE['head-' + k] = { kind: 'head', evs, name, grp: 'Event heads', label: name + ' head' }; });
 Object.assign(ROLE, {
-  results1:     { kind: 'results', grp: 'Results room', label: 'Results room 1' },
-  results2:     { kind: 'results', grp: 'Results room', label: 'Results room 2' },
-  coordinator1: { kind: 'certs', grp: 'Certificates', label: 'Coordinator 1 · certificates' },
-  coordinator2: { kind: 'certs', grp: 'Certificates', label: 'Coordinator 2 · certificates' },
-  coordinator3: { kind: 'certs', grp: 'Certificates', label: 'Coordinator 3 · certificates' },
-  director:     { kind: 'director', grp: 'Director', label: 'Director' },
+  results1: { kind: 'results', grp: 'Results', label: 'Results 1' },
+  results2: { kind: 'results', grp: 'Results', label: 'Results 2' },
+  results3: { kind: 'results', grp: 'Results', label: 'Results 3' },
+  admin:    { kind: 'admin', grp: 'Admin', label: 'Admin' },
+  director: { kind: 'director', grp: 'Director', label: 'Director' },
 });
-const ACCT_ROLES = { results: 'Results room (scores)', coordinator: 'Certificates (places only)' };
+const ACCT_ROLES = { results: 'Results (events and trophy)', admin: 'Admin (live scores)' };
 /* ===================================================================== */
 
 const EV = Object.fromEntries(EVENTS.map(E => [E.id, E]));
 const TEAMS = Object.fromEntries(EVENTS.flatMap(E => E.teams.map(t => [t.no, { ...t, ev: E }])));
-const JUDGES = Object.entries(ROLE).filter(([, r]) => r.kind === 'judge').map(([id, r]) => ({ id, ...r }));
-const judgesOf = ev => JUDGES.filter(j => j.ev === ev);
 const cmax = c => c.max;
+const cmin = c => c.min ?? 0;
 const EMAX = ev => RUB[ev].reduce((a, c) => a + cmax(c), 0);
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const PLACE = ['1ST', '2ND', '3RD'];
-$('#noJs').hidden = true;
 
 /* ---------------- theme: shares the main site's switch ---------------- */
 (() => {
@@ -481,32 +567,30 @@ if (firebaseConfig.apiKey) {
   const [{ initializeApp }, A, F] = await Promise.all([import(base + 'firebase-app.js'), import(base + 'firebase-auth.js'), import(base + 'firebase-firestore.js')]);
   const app = initializeApp(firebaseConfig), auth = A.getAuth(app);
   const db = F.initializeFirestore(app, { localCache: F.persistentLocalCache() });   // keeps working through Wi-Fi drops and syncs later
+  const ref = col => { if (!COL[col]) throw new Error('unknown collection ' + col); return F.collection(db, COL[col]); };
+  const doc = (col, id) => F.doc(ref(col), id);
   api = {
     demo: false,
     onUser: cb => A.onAuthStateChanged(auth, u => cb(u && u.email ? u.email.split('@')[0] : null)),
     login: (id, pw) => A.signInWithEmailAndPassword(auth, `${id}@${EMAIL_DOMAIN}`, pw),
     logout: () => A.signOut(auth),
-    getDoc: async (col, id) => { const d = await F.getDoc(F.doc(db, col, id)); return d.exists() ? d.data() : null; },
+    getDoc: async (col, id) => { const d = await F.getDoc(doc(col, id)); return d.exists() ? d.data() : null; },
     // a second Firebase app creates the new login, so the director stays signed in
     createLogin: async (id, pw) => { const app2 = initializeApp(firebaseConfig, 'creator-' + Date.now()), a2 = A.getAuth(app2);
       await A.createUserWithEmailAndPassword(a2, `${id}@${EMAIL_DOMAIN}`, pw); await A.signOut(a2); },
-    save: (col, id, data) => F.setDoc(F.doc(db, col, id), { ...data, updatedAt: F.serverTimestamp() }, { merge: true }),
-    del: (col, id) => F.deleteDoc(F.doc(db, col, id)),
-    list: async col => (await F.getDocs(F.collection(db, col))).docs.map(d => d.id),
-    watch: (col, cb, by) => F.onSnapshot(by ? F.query(F.collection(db, col), F.where(by.f, '==', by.v)) : F.collection(db, col), { includeMetadataChanges: true },
+    save: (col, id, data) => F.setDoc(doc(col, id), { ...data, updatedAt: F.serverTimestamp() }, { merge: true }),
+    del: (col, id) => F.deleteDoc(doc(col, id)),
+    list: async col => (await F.getDocs(ref(col))).docs.map(d => d.id),
+    watch: (col, cb, by) => F.onSnapshot(by ? F.query(ref(col), F.where(by.f, '==', by.v)) : ref(col), { includeMetadataChanges: true },
       s => cb(s.docs.map(d => ({ id: d.id, ...d.data(), _pending: d.metadata.hasPendingWrites })))),
   };
 } else {
   // demo: localStorage + BroadcastChannel, so two tabs on this device see each other's changes
-  $('#demoNote').hidden = false;
   let bc = null; try { bc = new BroadcastChannel('bf-judging'); } catch (e) {}
   const subs = new Set(); let mem = {};
   const read = () => { try { return JSON.parse(localStorage.getItem('bf-judging-demo') || '{}'); } catch (e) { return mem; } };
   const write = d => { mem = d; try { localStorage.setItem('bf-judging-demo', JSON.stringify(d)); } catch (e) {} };
   const emit = () => subs.forEach(f => f()); if (bc) bc.onmessage = emit;
-  $('#demoBtns').innerHTML = [...new Set(Object.values(ROLE).map(r => r.grp))].map(g => `<div class="grp">${esc(g.toUpperCase())}</div>
-    <div class="row">${Object.entries(ROLE).filter(([, r]) => r.grp === g).map(([id, r]) => `<button type="button" class="btn small" data-demo="${id}">${esc(r.label)}</button>`).join('')}</div>`).join('');
-  document.querySelectorAll('[data-demo]').forEach(b => b.onclick = () => api.login(b.dataset.demo, 'demo'));
   let userCb;
   api = {
     demo: true,
@@ -537,7 +621,7 @@ api.onUser(user => {
   net();
   const go = () => {
     if (ROLE[user]) return route(user, ROLE[user]);
-    // a login made in the Staff logins tab keeps its role in accounts/<login id>
+    // a login made in the Logins tab keeps its role in bytefest_accounts/<login id>
     $('#main').innerHTML = '<div class="empty">Loading…</div>';
     api.getDoc('accounts', user).then(a => { const R = acctRole(a); if (R) { ROLE[user] = R; route(user, R); }
       else $('#main').innerHTML = '<div class="empty">This login has no role yet. Ask the ByteFest team.</div>'; })
@@ -552,22 +636,22 @@ api.onUser(user => {
 });
 function acctRole(a) {
   if (!a || a.disabled || !ACCT_ROLES[a.role]) return null;
-  return { kind: a.role === 'results' ? 'results' : 'certs', label: a.label || ACCT_ROLES[a.role] };
+  return { kind: a.role, label: a.label || ACCT_ROLES[a.role] };
 }
 function route(user, R) {
   if (R.kind === 'judge') judgeView(EV[R.ev], user, R);
-  else if (['results', 'certs', 'director'].includes(R.kind)) resultsView(R.kind);
+  else if (['results', 'admin', 'director', 'head'].includes(R.kind)) staffView(R.kind, undefined, R);
   else $('#main').innerHTML = '<div class="empty">This login has no role yet. Ask the ByteFest team.</div>';
 }
 $('#fLogin').onsubmit = async e => {
   e.preventDefault(); $('#lerr').textContent = '';
   const id = $('#lid').value.trim().toLowerCase().replace(/\s+/g, ''), b = $('#bIn');
-  b.disabled = true; b.textContent = 'Signing in…';
+  b.disabled = true; b.textContent = 'Logging in…';
   try { await api.login(id, $('#lpw').value); }
   catch (er) { const c = er.code || er.message || '';
     $('#lerr').textContent = /network/i.test(c) ? 'No internet connection.' : /too-many/i.test(c) ? 'Too many attempts. Wait a minute and try again.'
-      : api.demo ? `"${id}" isn't a demo login. Use a button below, or the password "demo".` : 'Login ID or password is incorrect.'; }
-  finally { b.disabled = false; b.textContent = 'Sign in'; }
+      : 'Login ID or password is incorrect.'; }
+  finally { b.disabled = false; b.textContent = 'Login'; }
 };
 $('#bOut').onclick = () => api.logout();
 document.addEventListener('click', e => {
@@ -578,85 +662,162 @@ document.addEventListener('click', e => {
 });
 
 /* ---------------- scoring maths ---------------- */
-// a judge's total for one team, or null until every required criterion has a mark
+// the judge's total for one team, or null until every required criterion has a mark
 const total = s => { if (!s) return null; const R = RUB[s.event]; if (!R) return null; let t = 0;
   for (let i = 0; i < R.length; i++) { const v = s['c' + (i + 1)]; if (Number.isInteger(v)) t += v; else if (!R[i].opt) return null; } return t; };
-// a team's score: the average of the judges who have scored it
-function teamScore(ev, no, scores) {
-  const per = judgesOf(ev).map(j => { const s = scores.find(x => x.judge === j.id && x.no === no); return { j, s, T: total(s) }; });
-  const got = per.filter(x => x.T !== null);
-  return { per, avg: got.length ? Math.round(10 * got.reduce((a, x) => a + x.T, 0) / got.length) / 10 : null, n: got.length };
-}
-const evFinal = (ev, status) => judgesOf(ev).every(j => status.find(s => s.id === j.id && s.final));
 const time = t => { const d = t?.toDate ? t.toDate() : t ? new Date(t) : null; return d ? d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : ''; };
-const jShort = j => j.label.split(' · ')[0];
+const ordn = n => ['1st', '2nd', '3rd'][n - 1];
+const norm = s => String(s || '').trim().toLowerCase().replace(/\s+/g, ' ');
 
-/* ---------------- JUDGE ---------------- */
-// override: the director editing this judge's scores; submitting doesn't lock them out, and there's a way back
+// everything the results, admin and director screens show, worked out from the raw records.
+// A team's score is the average of its judges' totals. The order is that score, then the event's tie-break groups,
+// then the judges' own 1st/2nd/3rd picks (3, 2, 1 points each). A tie that survives all of that is flagged.
+function model(scores, status) {
+  const lex = (a, b) => { for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return a[i] - b[i]; return 0; };
+  const evs = EVENTS.map(E => {
+    const J = JUDGES_OF[E.id], sts = J.map(j => status.find(x => x.id === j) || {});
+    const submitted = sts.filter(x => x.final).length, final = E.manual ? !!(status.find(x => x.id === 'pod_' + E.id) || {}).p1 : submitted === J.length;
+    const order = (status.find(x => x.id === 'tb_' + E.id) || {}).order || [], dv = no => { const k = order.indexOf(no); return k < 0 ? 99 : k; };
+    const pod = E.manual ? (status.find(x => x.id === 'pod_' + E.id) || {}) : null;
+    const borda = {}; if (pod) [pod.p1, pod.p2, pod.p3].forEach((no, k) => { if (no) borda[no] = 3 - k; });
+    sts.forEach(x => [x.p1, x.p2, x.p3].forEach((no, k) => { if (no) borda[no] = (borda[no] || 0) + 3 - k; }));
+    const rows = E.teams.map(t => {
+      const per = J.map(j => { const s = scores.find(x => x.judge === j && x.no === t.no); return { j, s, T: total(s) }; });
+      const got = per.filter(p => p.T !== null);
+      const T = got.length ? Math.round(10 * got.reduce((a, p) => a + p.T, 0) / got.length) / 10 : null;
+      const tbv = (E.tb || []).map(g => got.length ? got.reduce((a, p) => a + g.reduce((x, n) => x + (Number.isInteger(p.s['c' + n]) ? p.s['c' + n] : 0), 0), 0) / got.length : 0);
+      return { ...t, per, T, tbv, borda: borda[t.no] || 0, full: got.length === J.length, place: 0, tie: false };
+    });
+    rows.sort((a, b) => (b.T ?? -1) - (a.T ?? -1) || lex(b.tbv, a.tbv) || b.borda - a.borda || dv(a.no) - dv(b.no) || a.no.localeCompare(b.no));
+    if (final) { let pl = 0; rows.forEach((r, i) => { const p = rows[i - 1];
+      const same = p && r.T !== null && r.T === p.T && lex(r.tbv, p.tbv) === 0 && r.borda === p.borda && dv(r.no) === dv(p.no);
+      if (!same) pl = i + 1; r.place = pl <= 3 ? pl : 0; if (same && pl <= 3) { r.tie = true; p.tie = true; } }); }
+    const judges = J.map((j, k) => ({ id: j, final: !!sts[k].final, entered: rows.filter(r => r.per[k].T !== null).length, started: rows.some(r => r.per[k].s) }));
+    return { E, judges, final, submitted, pod, decided: order.length > 0, entered: rows.filter(r => r.full).length, started: judges.some(j => j.started), rows };
+  });
+  return { evs, judged: evs.filter(e => e.final).length };
+}
+// school standings for the rolling trophy: every team's points added up across every event.
+// finalOnly counts judged events only; otherwise whatever has been scored so far.
+function schools(m, finalOnly) {
+  const map = new Map();
+  Object.values(TEAMS).forEach(t => { if (!map.has(norm(t.school))) map.set(norm(t.school), { school: t.school, total: 0, by: {} }); });
+  m.evs.forEach(e => { if (e.E.manual || (finalOnly && !e.final)) return;
+    e.rows.forEach(r => { if (r.T === null) return; const x = map.get(norm(r.school));
+      const pts = TROPHY_BASIS === 'percent' ? Math.round(1000 * r.T / EMAX(e.E.id)) / 10 : r.T;
+      x.total = Math.round(10 * (x.total + pts)) / 10; x.by[e.E.id] = Math.round(10 * ((x.by[e.E.id] || 0) + pts)) / 10; }); });
+  const L = [...map.values()].sort((a, b) => b.total - a.total || a.school.localeCompare(b.school));
+  let r = 0; L.forEach((x, i) => { if (i === 0 || x.total !== L[i - 1].total) r = i + 1; x.rank = r; });
+  return L;
+}
+
+/* ---------------- JUDGE ----------------
+   score every team, then rank them: the judge picks 1st, 2nd and 3rd from the list ordered by points
+   (this settles any tie), then submits, which locks the login.
+   override: the director editing this judge's marks and picks; nothing locks, and there's a way back */
 function judgeView(E, me, R, override) {
-  const C = RUB[E.id], MX = EMAX(E.id);
+  const C = RUB[E.id], MX = EMAX(E.id), PN = Math.min(3, E.teams.length);
   $('#whoName').textContent = override ? 'Director' : R.label;
   $('#whoRole').textContent = override ? 'Editing ' + R.label : E.arena + ' arena';
-  const S = {}; let final = false;
+  const S = {}, pk = { 1: '', 2: '', 3: '' }, timers = {}, pend = {};
+  let final = false, pending = false, picksTimer = null, built = false;
+  const team = no => E.teams.find(t => t.no === no);
+  const tname = no => { const t = team(no); return t ? `${t.team} (${t.no})` : ''; };
+  const sc = no => total(S[no]);
+  // total first, then any tie-break groups (HackRush: points on Hard questions, then on Medium)
+  const key = no => { const s = S[no], k = [total(s)];
+    (E.tb || []).forEach(g => k.push(g.reduce((a, n) => a + (Number.isInteger(s?.['c' + n]) ? s['c' + n] : 0), 0))); return k; };
+  const cmpKey = (a, b) => { for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return a[i] - b[i]; return 0; };
+  const allScored = () => E.teams.every(t => sc(t.no) !== null);
+  const ordered = () => E.teams.map(t => ({ t, T: sc(t.no), K: key(t.no) })).filter(r => r.T !== null).sort((a, b) => cmpKey(b.K, a.K) || a.t.no.localeCompare(b.t.no));
+  // the podium has to follow the points; the judge only decides between teams on equal points
+  function check() {
+    const want = [1, 2, 3].slice(0, PN), miss = want.filter(p => !team(pk[p]));
+    if (miss.length) return { ok: false, need: 'Choose ' + miss.map(ordn).join(', '), bad: '' };
+    let bad = '';
+    for (let i = 1; i < PN && !bad; i++) if (cmpKey(key(pk[i]), key(pk[i + 1])) < 0) bad = `${tname(pk[i + 1])} ranks higher than ${tname(pk[i])}, so it has to place above it.`;
+    if (!bad) { const low = key(pk[PN]), over = E.teams.find(t => !want.some(p => pk[p] === t.no) && cmpKey(key(t.no), low) > 0);
+      if (over) bad = `${tname(over.no)} ranks higher than your ${ordn(PN)} place.`; }
+    return { ok: !bad, need: '', bad };
+  }
   const control = (t, c, i) => c.max <= 10
-    ? `<div class="lv" role="radiogroup" aria-label="${esc(t.no + ' ' + c.n)}" data-c="c${i + 1}">${Array.from({ length: c.max + 1 }, (_, v) =>
+    ? `<div class="lv" role="radiogroup" aria-label="${esc(t.no + ' ' + c.n)}" data-c="c${i + 1}">${Array.from({ length: c.max - cmin(c) + 1 }, (_, k) => k + cmin(c)).map(v =>
         `<button type="button" role="radio" aria-checked="false" data-v="${v}">${v}</button>`).join('')}</div>`
     : `<input class="field" inputmode="numeric" pattern="[0-9]*" maxlength="2" data-c="c${i + 1}" placeholder="0–${c.max}" aria-label="${esc(t.no + ' ' + c.n)}">`;
-  $('#main').innerHTML = `
-    <div class="hero">
-      <div><span class="kicker">${esc(R.label.toUpperCase())}${TEAMS_ARE_EXAMPLES ? ' · EXAMPLE TEAMS' : ''}</span>
-        <h2>${esc(E.name)}</h2></div>
-      <div class="prog glass"><div class="row"><span>SCORED</span><b id="pTxt">0/0</b></div><div class="track"><i id="pBar"></i></div></div>
-    </div>
-    ${override ? `<div class="banner warn bar-row"><span>Editing <b>${esc(R.label)}</b></span><button class="btn small" id="bBack" type="button">&lsaquo; Back</button></div>` : ''}
-    <div class="banner ok" id="finBan" hidden>Final scores submitted</div>
-    <details class="guide glass"><summary>SCORING GUIDE</summary>
-      <div class="rub">${C.map((c, i) => `<div><small>OUT OF ${cmax(c)}${c.opt ? ' · OPTIONAL' : ''}</small><b>${esc(c.n)}</b><p>${esc(c.d)}</p></div>`).join('')}</div></details>
-    <div class="teams">${E.teams.map(t => `
-      <article class="team glass" data-no="${esc(t.no)}">
-        <div class="th"><span class="no">${esc(t.no)}</span>
-          <div class="nm"><b>${esc(t.team)}</b><div>${esc(t.school)}</div><div>${esc(t.members)}</div></div>
-          <div class="tot"><b>–</b><span>/ ${MX}</span></div></div>
-        ${C.map((c, i) => `<div class="cr"><label>${esc(c.n)}<small>/ ${cmax(c)}</small></label>${control(t, c, i)}</div>`).join('')}
-        <textarea class="field" data-cm maxlength="300" placeholder="Note (optional)"></textarea>
-        <div class="st" data-st>NOT SCORED</div>
-      </article>`).join('')}</div>`;
-  if (!override) {
-    const dock = document.createElement('div'); dock.className = 'dock'; dock.id = 'dock';
-    dock.innerHTML = `<div class="wrap"><span class="note" id="fTxt"></span><button class="btn primary" id="bFinal" type="button">Submit final scores</button></div>`;
-    $('#main').appendChild(dock);
-  }
   const card = no => document.querySelector(`.team[data-no="${CSS.escape(no)}"]`);
-  const timers = {};
-  const read = no => { const el = card(no), d = { event: E.id, judge: me, no };
+  // a heading above the first criterion of each group (rounds, bonus)
+  const grp = (C, i, small) => C[i].g && (i === 0 || C[i - 1].g !== C[i].g) ? `<div class="grp${small ? ' sm' : ''}">${esc(C[i].g.toUpperCase())}</div>` : '';
+
+  function build() {
+    built = true;
+    $('#main').innerHTML = `
+      <div class="hero">
+        <div><span class="kicker">${esc(R.label.toUpperCase())}${TEAMS_ARE_EXAMPLES ? ' · EXAMPLE TEAMS' : ''}</span><h2>${esc(E.name)}</h2></div>
+        <div class="prog glass"><div class="row"><span>SCORED</span><b id="pTxt">0/0</b></div><div class="track"><i id="pBar"></i></div></div>
+      </div>
+      ${override ? `<div class="banner warn bar-row"><span>Editing <b>${esc(R.label)}</b></span><button class="btn small" id="bBack" type="button">&lsaquo; Back</button></div>` : ''}
+      <details class="guide glass"><summary>SCORING GUIDE</summary>
+        <div class="rub">${C.map((c, i) => `${grp(C, i)}<div><small>${cmin(c) ? cmin(c) + ' TO ' : 'OUT OF '}${cmax(c)}${c.opt ? ' · OPTIONAL' : ''}</small><b>${esc(c.n)}</b>${c.d ? `<p>${esc(c.d)}</p>` : ''}
+          ${c.lv ? `<ol class="lvl" start="${cmin(c) || 1}">${c.lv.map((t, k) => `<li><b>${k + (cmin(c) === 0 && c.lv.length === c.max ? 1 : cmin(c))}</b>${esc(t)}</li>`).join('')}</ol>` : ''}</div>`).join('')}</div></details>
+      <div class="teams">${E.teams.map(t => `
+        <article class="team glass" data-no="${esc(t.no)}">
+          <div class="th"><span class="no">${esc(t.no)}</span>
+            <div class="nm"><b>${esc(t.team)}</b><div>${esc(t.school)}</div><div>${esc(t.members)}</div></div>
+            <div class="tot"><b>–</b><span>/ ${MX}</span></div></div>
+          ${C.map((c, i) => `${grp(C, i, true)}<div class="cr"><label>${esc(c.n)}<small>${cmin(c) ? cmin(c) + ' to ' : '/ '}${cmax(c)}${c.opt ? ' · optional' : ''}</small></label>${control(t, c, i)}</div>`).join('')}
+          <div class="st" data-st>NOT SCORED</div>
+        </article>`).join('')}</div>
+      <section class="rank glass"><h3>RANKING</h3><div id="rankBox"></div></section>`;
+    if (!override) {
+      const dock = document.createElement('div'); dock.className = 'dock';
+      dock.innerHTML = `<div class="wrap"><span class="note" id="fTxt"></span><button class="btn primary" id="bFinal" type="button" disabled>Submit</button></div>`;
+      $('#main').appendChild(dock);
+      $('#bFinal').onclick = submit;
+    } else $('#bBack').onclick = () => { stopAll(); staffView('director', 'judges'); scrollTo(0, 0); };
+    document.querySelectorAll('.team').forEach(el => {
+      const no = el.dataset.no;
+      el.querySelectorAll('.lv button').forEach(b => b.onclick = () => {
+        const was = b.classList.contains('on');   // tapping the chosen mark again clears it
+        b.parentElement.querySelectorAll('button').forEach(x => { x.classList.remove('on'); x.setAttribute('aria-checked', 'false'); });
+        if (!was) { b.classList.add('on'); b.setAttribute('aria-checked', 'true'); } queue(no); });
+      el.querySelectorAll('input.field').forEach(inp => inp.addEventListener('input', () => { inp.value = inp.value.replace(/\D/g, '').slice(0, 2);
+        const c = C[+inp.dataset.c.slice(1) - 1]; inp.classList.toggle('badv', inp.value !== '' && +inp.value > c.max); queue(no); }));
+    });
+    $('#rankBox').onclick = e => { const b = e.target.closest('[data-p]'); if (!b) return;
+      const p = +b.dataset.p, no = b.dataset.no;
+      if (pk[p] === no) pk[p] = ''; else { [1, 2, 3].forEach(q => { if (pk[q] === no) pk[q] = ''; }); pk[p] = no; }
+      savePicks(); rank(); };
+    E.teams.forEach(t => { if (S[t.no]) { fill(t.no, S[t.no]); paint(t.no, S[t.no], false); } });
+    progress();
+  }
+  const readCard = no => { const el = card(no), d = { event: E.id, judge: me, no };
     C.forEach((c, i) => { const k = 'c' + (i + 1);
       if (c.max <= 10) { const on = el.querySelector(`.lv[data-c="${k}"] button.on`); d[k] = on ? +on.dataset.v : null; }
       else { const inp = el.querySelector(`input[data-c="${k}"]`); d[k] = inp.value === '' ? null : Math.min(c.max, +inp.value); } });
-    d.comment = el.querySelector('textarea').value.slice(0, 300); return d; };
-  document.querySelectorAll('.team').forEach(el => {
-    const no = el.dataset.no;
-    el.querySelectorAll('.lv button').forEach(b => b.onclick = () => { if (final && !override) return;
-      const was = b.classList.contains('on');   // tapping the chosen mark again clears it
-      b.parentElement.querySelectorAll('button').forEach(x => { x.classList.remove('on'); x.setAttribute('aria-checked', 'false'); });
-      if (!was) { b.classList.add('on'); b.setAttribute('aria-checked', 'true'); } queue(no); });
-    el.querySelectorAll('input.field').forEach(inp => inp.addEventListener('input', () => { inp.value = inp.value.replace(/\D/g, '').slice(0, 2);
-      const c = C[+inp.dataset.c.slice(1) - 1]; inp.classList.toggle('badv', inp.value !== '' && +inp.value > c.max); queue(no); }));
-    el.querySelector('textarea').addEventListener('input', () => queue(no));
-  });
+    d.comment = ''; return d; };
   function queue(no) {
     clearTimeout(timers[no]); const st = card(no).querySelector('[data-st]'); st.className = 'st'; st.textContent = 'SAVING…';
-    const d = read(no); paint(no, d, true);
-    timers[no] = setTimeout(() => { delete timers[no];
-      api.save('scores', `${me}_${no}`, d).catch(err => { st.className = 'st err'; st.textContent = final ? 'LOCKED: FINAL SCORES SUBMITTED' : 'NOT SAVED: CHECK THE CONNECTION'; console.error(err); });
-    }, 450);
+    const d = readCard(no); S[no] = { ...(S[no] || {}), ...d }; pend[no] = d; paint(no, S[no], true);
+    timers[no] = setTimeout(() => commit(no), 450);
+  }
+  function commit(no) {
+    const d = pend[no]; if (!d) return; delete pend[no]; delete timers[no];
+    api.save('scores', `${me}_${no}`, d).catch(err => { const st = card(no)?.querySelector('[data-st]'); if (st) { st.className = 'st err'; st.textContent = 'NOT SAVED: CHECK THE CONNECTION'; } console.error(err); });
+  }
+  const flush = () => Object.keys(pend).forEach(no => { clearTimeout(timers[no]); commit(no); });
+  function savePicks() {
+    clearTimeout(picksTimer);
+    picksTimer = setTimeout(() => { picksTimer = null;
+      const d = { event: E.id, judge: me, p1: pk[1], p2: pk[2], p3: pk[3] }; if (!override) d.final = false;   // a draft, so a refresh keeps the choice
+      api.save('status', me, d).catch(console.error); }, 450);
   }
   function fill(no, s) { const el = card(no);
     C.forEach((c, i) => { const k = 'c' + (i + 1), v = s[k];
       if (c.max <= 10) el.querySelectorAll(`.lv[data-c="${k}"] button`).forEach(b => { const on = v != null && +b.dataset.v === v; b.classList.toggle('on', on); b.setAttribute('aria-checked', on); });
-      else { const inp = el.querySelector(`input[data-c="${k}"]`); if (document.activeElement !== inp) inp.value = v ?? ''; } });
-    const ta = el.querySelector('textarea'); if (document.activeElement !== ta) ta.value = s.comment || ''; }
+      else { const inp = el.querySelector(`input[data-c="${k}"]`); if (document.activeElement !== inp) inp.value = v ?? ''; } }); }
   function paint(no, s, local) {
-    const el = card(no), T = total(s); el.querySelector('.tot b').textContent = T ?? '–'; el.classList.toggle('scored', T !== null);
+    const el = card(no); if (!el) return; const T = total(s);
+    el.querySelector('.tot b').textContent = T ?? '–'; el.classList.toggle('scored', T !== null);
     const st = el.querySelector('[data-st]');
     if (!local) { st.className = 'st' + (T !== null ? ' ok' : '');
       st.textContent = T !== null ? (s._pending ? 'SYNCING…' : `SAVED ${time(s.updatedAt)}`)
@@ -664,134 +825,174 @@ function judgeView(E, me, R, override) {
     progress();
   }
   function progress() {
-    const n = E.teams.length, k = document.querySelectorAll('.team.scored').length;
+    if (!built) return;
+    const n = E.teams.length, k = E.teams.filter(t => sc(t.no) !== null).length;
     $('#pTxt').textContent = `${k}/${n}`; $('#pBar').style.width = (n ? 100 * k / n : 0) + '%';
-    if ($('#fTxt')) $('#fTxt').textContent = final ? 'Submitted' : k < n ? `${n - k} to score` : 'All scored';
+    rank();
+  }
+  // the list of teams in descending order of points, with a 1st / 2nd / 3rd button on each
+  function rank() {
+    const box = $('#rankBox'); if (!box) return;
+    const n = E.teams.length, k = E.teams.filter(t => sc(t.no) !== null).length;
+    let c = null;
+    if (k < n) box.innerHTML = `<p class="note">Appears once every team is scored (${k} of ${n}).</p>`;
+    else {
+      const L = ordered(); c = check();
+      box.innerHTML = L.map((r, i) => { const same = x => cmpKey(x.K, r.K) === 0, tie = L.filter(same).length > 1 && L.findIndex(same) < PN;
+        return `<div class="rk"><span class="pos">${i + 1}</span>
+          <div class="nm"><b>${esc(r.t.team)}</b><div>${esc(r.t.no)} · ${esc(r.t.school)}</div></div>
+          <span class="pts">${r.T}${tie ? '<em class="chip tie">TIED</em>' : ''}</span>
+          <div class="pk">${[1, 2, 3].slice(0, PN).map(p => `<button type="button" class="p${p}${pk[p] === r.t.no ? ' on' : ''}" data-p="${p}" data-no="${esc(r.t.no)}" aria-pressed="${pk[p] === r.t.no}">${ordn(p).toUpperCase()}</button>`).join('')}</div></div>`; }).join('')
+        + (c.bad ? `<div class="err" style="text-align:left">${esc(c.bad)}</div>` : '');
+    }
+    if ($('#bFinal')) {
+      $('#fTxt').textContent = k < n ? `${n - k} to score` : c.need || (c.bad ? 'Fix the ranking' : 'Ready to submit');
+      $('#bFinal').disabled = !(k === n && c && c.ok);
+    }
+  }
+  async function submit() {
+    if (!allScored() || !check().ok) return;
+    const list = [1, 2, 3].slice(0, PN).map(p => `${ordn(p)}: ${tname(pk[p])}`).join('\n');
+    if (!confirm(`Submit your final scores?\n\n${list}\n\nThis locks your login. You won't be able to change anything afterwards.`)) return;
+    flush(); clearTimeout(picksTimer); picksTimer = null;
+    api.save('status', me, { event: E.id, judge: me, final: true, p1: pk[1], p2: pk[2], p3: pk[3] })
+      .catch(err => { alert('Could not submit. Check the connection and try again.'); console.error(err); });
+  }
+  function locked() {
+    built = false;
+    $('#main').innerHTML = `
+      <div class="hero"><div><span class="kicker">${esc(R.label.toUpperCase())}</span><h2>Submitted</h2></div></div>
+      <div class="banner ok">Your scores and ranking are final. This login is now locked.${pending ? ' Syncing…' : ''}</div>
+      <div class="rank glass">${[1, 2, 3].slice(0, PN).map(p => `<div class="rk done"><span class="pos">${ordn(p).toUpperCase()}</span>
+        <div class="nm"><b>${esc(team(pk[p])?.team || '')}</b><div>${esc(pk[p])} · ${esc(team(pk[p])?.school || '')}</div></div></div>`).join('')}</div>`;
   }
   unsub.push(api.watch('scores', docs => {
-    docs.filter(s => s.judge === me).forEach(s => { S[s.no] = s; if (!card(s.no) || timers[s.no]) return; fill(s.no, s); paint(s.no, s, false); });
+    docs.forEach(s => { if (timers[s.no]) return; S[s.no] = s; if (built && card(s.no)) { fill(s.no, s); paint(s.no, s, false); } });
     progress();
   }, { f: 'judge', v: me }));
   unsub.push(api.watch('status', docs => {
-    final = !!docs.find(d => d.id === me && d.final);
-    $('#finBan').hidden = !final;
-    if ($('#bFinal')) { $('#bFinal').disabled = final; $('#bFinal').textContent = final ? 'Submitted' : 'Submit final scores'; }
-    document.querySelectorAll('.team input, .team textarea, .team .lv button').forEach(i => i.disabled = final && !override); progress();
-  }));
-  if (override) $('#bBack').onclick = () => { stopAll(); resultsView('director', 'edit'); };
-  else $('#bFinal').onclick = async () => {
-    const missing = E.teams.filter(t => total(S[t.no]) === null).map(t => t.no);
-    const msg = missing.length ? `${missing.length} team(s) don't have a complete score yet: ${missing.join(', ')}.\n\nThey'll be treated as not judged. Submit anyway?`
-      : 'Submit your final scores? You won\'t be able to change them afterwards.';
-    if (!confirm(msg)) return;
-    await api.save('status', me, { event: E.id, judge: me, final: true });
-  };
-  progress();
+    const d = docs.find(x => x.id === me) || {};
+    final = !!d.final; pending = !!d._pending;
+    if (!picksTimer) [1, 2, 3].forEach(p => { pk[p] = d['p' + p] || ''; });
+    if (final && !override) return locked();
+    if (!built) build(); else rank();
+  }, { f: 'judge', v: me }));
 }
 
-/* ---------------- RESULTS ROOM / CERTIFICATES / DIRECTOR ----------------
-   results:  live scores, podiums, certificate list, certificate ticks
-   certs:    coordinators. Places, podiums and the certificate list, but no judges' marks, averages or notes
-   director: everything in results, plus unlocking judges, editing any judge's scores, staff logins,
-             locking logins and clearing test data */
-function resultsView(kind, startTab) {
-  const isDirector = kind === 'director', certsOnly = kind === 'certs', isAdmin = isDirector;
-  $('#whoName').textContent = isDirector ? 'Director' : certsOnly ? 'Certificates' : 'Results room';
-  $('#whoRole').textContent = certsOnly ? 'Places · certificate writing' : 'Live scores · certificate writing';
-  let tab = startTab || EVENTS[0].id, scores = [], status = [], certs = [];
-  const rowsOf = E => E.teams.map(t => ({ ...t, ...teamScore(E.id, t.no, scores) }));
-  const fin = id => evFinal(id, status);
-  function ranked(E) {
-    const rows = rowsOf(E);
-    rows.sort((a, b) => (b.avg ?? -1) - (a.avg ?? -1) || a.no.localeCompare(b.no));
-    let r = 0, prev = null; rows.forEach((x, i) => { if (x.avg === null) { x.rank = null; return; } if (x.avg !== prev) r = i + 1; x.rank = r; prev = x.avg; });
-    return rows;
-  }
+/* ---------------- RESULTS / ADMIN / DIRECTOR ----------------
+   results:  each event once judged (places and scores), plus the rolling-trophy school standings
+   admin:    live scores of every team in every event, by event or by school
+   director: all of that, plus judges (edit marks, unlock), logins, and clearing test data */
+function staffView(kind, startTab, R) {
+  const isDir = kind === 'director', isHead = kind === 'head';
+  $('#whoName').textContent = isDir ? 'Director' : isHead ? R.label : kind === 'admin' ? 'Admin' : 'Results';
+  $('#whoRole').textContent = isDir ? 'Full control' : isHead ? 'Live scores' : kind === 'admin' ? 'Live scores' : 'Event results';
+  let tab = startTab || (kind === 'admin' || isHead ? 'live' : 'results'), mode = 'event', scores = [], status = [], last = '';
+  const open = new Set(), podDraft = {};
+  const TABS = isDir ? [['results', 'Results'], ['live', 'Live scores'], ['judges', 'Judges'], ['acc', 'Logins'], ['wipe', 'Reset']] : [];
   $('#main').innerHTML = `
-    <div class="hero"><div><span class="kicker">${certsOnly ? 'CERTIFICATES' : 'RESULTS'} · LIVE${TEAMS_ARE_EXAMPLES ? ' · EXAMPLE TEAMS' : ''}</span>
-      <h2>${certsOnly ? 'Places' : 'Results'}</h2></div></div>
+    <div class="hero"><div><span class="kicker">${isDir ? 'DIRECTOR' : isHead ? 'EVENT HEAD' : kind === 'admin' ? 'LIVE' : 'BYTEFEST 2026'}${TEAMS_ARE_EXAMPLES ? ' · EXAMPLE TEAMS' : ''}</span>
+      <h2>${isDir ? 'Control' : isHead ? esc(R.name) : kind === 'admin' ? 'Live scores' : 'Results'}</h2></div></div>
     <div class="tabs" role="tablist" id="tabs"></div><div id="pane"></div>`;
-  const tabsHTML = () => EVENTS.map(E => { const k = rowsOf(E).filter(r => r.n === judgesOf(E.id).length).length;
-      return `<button class="tab" role="tab" data-t="${E.id}" aria-selected="${tab === E.id}">${esc(E.name)} <em class="${fin(E.id) ? 'fin' : ''}">${fin(E.id) ? 'FINAL' : k + '/' + E.teams.length}</em></button>`; }).join('')
-    + `<button class="tab" role="tab" data-t="cl" aria-selected="${tab === 'cl'}">Certificates <em class="${EVENTS.every(E => fin(E.id)) ? 'fin' : ''}">${EVENTS.filter(E => fin(E.id)).length}/${EVENTS.length}</em></button>`
-    + (isDirector ? ['edit:Edit scores', 'acc:Logins', 'wipe:Reset'].map(s => { const [k, l] = s.split(':');
-        return `<button class="tab tool" role="tab" data-t="${k}" aria-selected="${tab === k}">${l}</button>`; }).join('') : '');
+  $('#pane').addEventListener('toggle', e => { const d = e.target; if (d.dataset && d.dataset.id) d.open ? open.add(d.dataset.id) : open.delete(d.dataset.id); }, true);
+  const where = r => `${esc(r.no)} · ${esc(r.school)}`;
+
+  function resultsHTML(m) {
+    // the results logins see only the winner, and only once every event is judged; admin and director see the standings
+    const winnerOnly = kind === 'results';
+    const L = schools(m, true), done = m.judged === EVENTS.length, lead = L.filter(x => x.rank === 1 && x.total > 0);
+    const evs = m.evs.map(e => { const E = e.E;
+      const multi = e.judges.length > 1, tied = e.rows.some(r => r.tie);
+      if (E.manual) {
+        const pod = e.pod || {}, dr = podDraft[E.id] || (podDraft[E.id] = { 1: pod.p1 || '', 2: pod.p2 || '', 3: pod.p3 || '' });
+        const sel = p => `<div><label class="lbl" for="pod${E.id}${p}">${ordn(p).toUpperCase()}</label><select class="field" id="pod${E.id}${p}" data-pod="${E.id}|${p}"><option value="">Choose…</option>
+          ${E.teams.map(t => `<option value="${esc(t.no)}"${dr[p] === t.no ? ' selected' : ''}>${esc(t.team)} (${esc(t.no)}) · ${esc(t.school)}</option>`).join('')}</select></div>`;
+        const form = kind === 'director' ? `<div class="form-grid glass">${[1, 2, 3].slice(0, Math.min(3, E.teams.length)).map(sel).join('')}
+          <button class="btn primary" type="button" data-savepod="${E.id}">Save placings</button></div>` : '';
+        const table = e.final ? `<div class="tscroll"><table class="res"><thead><tr><th>Place</th><th>Team</th></tr></thead><tbody>
+          ${e.rows.filter(r => r.place).map(r => `<tr class="r${r.place}"><td class="big">${ordn(r.place).toUpperCase()}</td><td><b>${esc(r.team)}</b><div class="s">${where(r)}</div><div class="s">${esc(r.members)}</div></td></tr>`).join('')}</tbody></table></div>`
+          : (kind === 'director' ? '' : '<p class="note" style="padding:.2rem 0 .5rem">Not decided yet.</p>');
+        return `<details class="ev glass" data-id="${E.id}" ${open.has(E.id) ? 'open' : ''}><summary><span class="en">${esc(E.name)}</span>
+          <span class="chip ${e.final ? 'final' : ''}">${e.final ? 'DECIDED' : 'PENDING'}</span></summary><div class="body">${form}${table}</div></details>`;
+      }
+      const body = !e.final ? '<p class="note" style="padding:.2rem 0 .5rem">Not judged yet.</p>'
+        : `${tied ? `<p class="tiebar">Teams marked TIE are level on everything, including the judges’ rankings. ${kind === 'director' ? 'Choose who goes first.' : 'The director decides these.'}</p>` : ''}
+          ${kind === 'director' && e.decided ? `<p class="tiebar"><button class="btn small" type="button" data-cleartb="${E.id}">Undo tie decision</button></p>` : ''}
+          <div class="tscroll"><table class="res"><thead><tr><th>Place</th><th>Team</th><th class="n">${multi ? 'Average' : 'Score'} / ${EMAX(E.id)}</th></tr></thead><tbody>
+            ${e.rows.map(r => `<tr class="${r.place ? 'r' + r.place : ''}"><td class="big">${r.place ? ordn(r.place).toUpperCase() : '–'}${r.tie ? '<em class="chip tie">TIE</em>' : ''}</td>
+              <td><b>${esc(r.team)}</b><div class="s">${where(r)}</div><div class="s">${esc(r.members)}</div>${kind === 'director' && r.tie ? `<button class="btn small" type="button" style="margin-top:.5rem" data-first="${E.id}|${esc(r.no)}">Place first</button>` : ''}</td><td class="n big">${r.T ?? '–'}</td></tr>`).join('')}</tbody></table></div>`;
+      return `<details class="ev glass" data-id="${E.id}" ${open.has(E.id) ? 'open' : ''}><summary><span class="en">${esc(E.name)}</span>
+        <span class="chip ${e.final ? 'final' : ''}">${e.final ? 'JUDGED' : 'PENDING' + (multi ? ` · ${e.submitted} OF ${e.judges.length}` : '')}</span></summary><div class="body">${body}</div></details>`; }).join('');
+    const trophy = `<section class="troph glass"><div class="sec"><span class="kicker">ROLLING TROPHY</span>
+        <span class="chip ${done ? 'final' : ''}">${m.judged} OF ${EVENTS.length} EVENTS JUDGED</span></div>
+      ${winnerOnly
+        ? (done && lead.length ? `<h3 class="lead">${esc(lead.map(x => x.school).join(' & '))}<small>${lead.length > 1 ? 'TIED OVERALL' : 'OVERALL WINNER'}</small></h3>`
+          : '<p class="note" style="margin:.8rem 0 1.2rem">Announced once every event is judged.</p>')
+        : (lead.length ? `<h3 class="lead">${esc(lead.map(x => x.school).join(' & '))}<small>${done ? (lead.length > 1 ? 'TIED OVERALL' : 'OVERALL WINNER') : 'LEADING SO FAR'}</small></h3>` : '<p class="note" style="margin:.8rem 0">No events judged yet.</p>')
+        + schoolTable(L)}</section>`;
+    return evs + trophy;
+  }
+  const schoolTable = L => `<div class="tscroll"><table class="res"><thead><tr><th>#</th><th>School</th>${EVENTS.filter(E => !E.manual).map(E => `<th class="n hide-m">${esc(E.code)}</th>`).join('')}<th class="n">Points</th></tr></thead><tbody>
+    ${L.map(x => `<tr class="${x.total && x.rank === 1 ? 'r1' : ''}"><td class="big">${x.total ? x.rank : '–'}</td><td><b>${esc(x.school)}</b></td>
+      ${EVENTS.filter(E => !E.manual).map(E => `<td class="n hide-m">${x.by[E.id] ?? '–'}</td>`).join('')}<td class="n big">${x.total}</td></tr>`).join('')}</tbody></table></div>`;
+
+  function liveHTML(m) {
+    const tog = `<div class="tabs"><button class="tab" type="button" data-mode="event" aria-selected="${mode === 'event'}">By event</button>
+      <button class="tab" type="button" data-mode="school" aria-selected="${mode === 'school'}">By school</button></div>`;
+    if (isHead || mode === 'event') return (isHead ? '' : tog) + m.evs.filter(e => !isHead || R.evs.includes(e.E.id)).map(e => { const E = e.E, multi = e.judges.length > 1;
+      return `<div class="cert"><h3>${esc(E.name.toUpperCase())}</h3><div class="jst">${E.manual ? '' : `<span class="chip ${e.entered === E.teams.length ? 'done' : ''}">${e.entered}/${E.teams.length} SCORED</span>`}
+        <span class="chip ${e.final ? 'final' : ''}">${E.manual ? (e.final ? 'DECIDED' : 'NOT DECIDED') : e.final ? 'SUBMITTED' : e.started ? `JUDGING${multi ? ` · ${e.submitted} OF ${e.judges.length} SUBMITTED` : ''}` : 'NOT STARTED'}</span></div>
+        <div class="tscroll glass"><table class="res"><thead><tr><th>Team</th>${e.judges.map(j => `<th class="n">${esc(ROLE[j.id].label.split(' · ')[0])}</th>`).join('')}${multi ? '<th class="n">Average</th>' : ''}<th>Place</th></tr></thead><tbody>
+          ${e.rows.map(r => `<tr class="${r.place ? 'r' + r.place : ''}"><td><b>${esc(r.team)}</b><div class="s">${where(r)}</div></td>
+            ${r.per.map(p => `<td class="n big">${p.T ?? '–'}</td>`).join('')}${multi ? `<td class="n big">${r.T ?? '–'}</td>` : ''}
+            <td class="big">${r.place ? ordn(r.place).toUpperCase() : '–'}${r.tie ? '<em class="chip tie">TIE</em>' : ''}</td></tr>`).join('')}</tbody></table>${E.manual ? '' : `<div class="s" style="padding:.5rem .8rem">Out of ${EMAX(E.id)}</div>`}</div></div>`; }).join('');
+    const L = schools(m, false);
+    return tog + `<div class="cert"><h3>STANDINGS<span class="num">${m.judged === EVENTS.length ? 'FINAL' : 'LIVE'}</span></h3><div class="glass" style="padding:.2rem 1rem">${schoolTable(L)}</div></div>`
+      + L.map(x => { const k = norm(x.school);
+        return `<div class="cert"><h3>${esc(x.school.toUpperCase())}<span class="num">${x.total} PTS</span></h3><div class="tscroll glass"><table class="res"><thead><tr><th>Event</th><th>Team</th><th class="n">Score</th></tr></thead><tbody>
+          ${m.evs.flatMap(e => e.rows.filter(r => norm(r.school) === k).map(r => `<tr><td>${esc(e.E.name)}</td><td><b>${esc(r.team)}</b><div class="s">${esc(r.no)}</div></td><td class="n big">${r.T ?? '–'}</td></tr>`)).join('')
+            || '<tr><td colspan="3" class="note">No teams</td></tr>'}</tbody></table></div></div>`; }).join('');
+  }
+
+  function judgesHTML(m) {
+    return `<div class="tscroll glass"><table class="res"><thead><tr><th>Event</th><th>Judge</th><th class="n">Scored</th><th>Status</th><th></th></tr></thead><tbody>
+      ${m.evs.flatMap(e => e.judges.map(j => `<tr><td><b>${esc(e.E.name)}</b></td><td>${esc(ROLE[j.id].label.split(' · ')[0])}<div class="s">${esc(j.id)}</div></td>
+        <td class="n big">${j.entered}/${e.E.teams.length}</td>
+        <td><span class="chip ${j.final ? 'final' : ''}">${j.final ? 'SUBMITTED' : j.started ? 'JUDGING' : 'NOT STARTED'}</span></td>
+        <td class="n"><button class="btn small" type="button" data-edit="${j.id}">Edit</button>${j.final ? ` <button class="btn small" type="button" data-unlock="${j.id}">Unlock</button>` : ''}</td></tr>`)).join('')}</tbody></table></div>`;
+  }
+  function wire() {
+    $('#pane').querySelectorAll('[data-mode]').forEach(b => b.onclick = () => { mode = b.dataset.mode; render(); });
+    $('#pane').querySelectorAll('[data-pod]').forEach(x => x.onchange = () => { const [ev, p] = x.dataset.pod.split('|'); (podDraft[ev] ||= {})[p] = x.value; });
+    $('#pane').querySelectorAll('[data-savepod]').forEach(b => b.onclick = () => { const ev = b.dataset.savepod, E = EV[ev], dr = podDraft[ev] || {}, n = Math.min(3, E.teams.length);
+      const picks = [1, 2, 3].slice(0, n).map(p => dr[p] || '');
+      if (picks.some(x => !x)) return alert('Choose a team for every place.');
+      if (new Set(picks).size < picks.length) return alert('The same team is chosen twice.');
+      api.save('status', 'pod_' + ev, { event: ev, p1: picks[0] || '', p2: picks[1] || '', p3: picks[2] || '' }); });
+    $('#pane').querySelectorAll('[data-first]').forEach(b => b.onclick = () => { const [ev, no] = b.dataset.first.split('|');
+      const e = model(scores, status).evs.find(x => x.E.id === ev), me = e.rows.find(r => r.no === no);
+      const group = e.rows.filter(r => r.tie && r.place === me.place).map(r => r.no);
+      api.save('status', 'tb_' + ev, { event: ev, order: [no, ...group.filter(x => x !== no)] }); });
+    $('#pane').querySelectorAll('[data-cleartb]').forEach(b => b.onclick = () => api.del('status', 'tb_' + b.dataset.cleartb));
+    $('#pane').querySelectorAll('[data-unlock]').forEach(b => b.onclick = () => confirm(`Let ${b.dataset.unlock} change their scores again?`) && api.save('status', b.dataset.unlock, { final: false }));
+    $('#pane').querySelectorAll('[data-edit]').forEach(b => b.onclick = () => { const jid = b.dataset.edit; stopAll(); judgeView(EV[ROLE[jid].ev], jid, ROLE[jid], true); scrollTo(0, 0); });
+  }
   // forms (logins, clearing data) keep their own state, so live updates don't redraw over what's being typed
-  const render = () => {
-    $('#tabs').innerHTML = tabsHTML();
-    $('#tabs').querySelectorAll('[data-t]').forEach(b => b.onclick = () => { if (tab === b.dataset.t) return; tab = b.dataset.t; $('#pane').innerHTML = ''; render(); });
+  function render() {
+    if (TABS.length) {
+      $('#tabs').innerHTML = TABS.map(([k, l]) => `<button class="tab${k === 'acc' || k === 'wipe' ? ' tool' : ''}" role="tab" data-t="${k}" aria-selected="${tab === k}">${l}</button>`).join('');
+      $('#tabs').querySelectorAll('[data-t]').forEach(b => b.onclick = () => { if (tab === b.dataset.t) return; tab = b.dataset.t; last = ''; $('#pane').innerHTML = ''; render(); });
+    } else $('#tabs').hidden = true;
     if (tab === 'acc') { if (!$('#accForm')) accPane(); return; }
     if (tab === 'wipe') { if (!$('#wipeBox')) wipePane(); return; }
-    if (tab === 'edit') return editPane();
-    if (tab === 'cl') return certPane();
-    evPane(EV[tab], fin(tab));
-  };
-  function evPane(E, isFin) {
-    const C = RUB[E.id], MX = EMAX(E.id), J = judgesOf(E.id), rows = ranked(E), top = [1, 2, 3].map(p => rows.filter(x => x.rank === p));
-    const tie = rows.some(x => x.rank && x.rank <= 3 && rows.filter(y => y.rank === x.rank).length > 1);
-    const pods = [1, 2, 3].map(p => { const g = top[p - 1];
-      const inner = g.length ? g.map(x => { const id = `${E.id}_${x.no}`, w = !!certs.find(c => c.id === id && c.done);
-        return `<div class="stack">${certsOnly ? '' : `<span class="score">${x.avg}</span>`}<b>${esc(x.team)}</b><div class="s">${esc(x.no)} · ${esc(x.school)}</div>
-          <div class="mem">${esc(x.members)}</div>
-          <label><input type="checkbox" data-cert="${esc(id)}" ${w ? 'checked' : ''} ${isFin ? '' : 'disabled'}> CERTIFICATE DONE</label></div>`; }).join('')
-        : '<div class="s" style="margin-top:.8rem">–</div>';
-      const writ = g.length && g.every(x => certs.find(c => c.id === `${E.id}_${x.no}` && c.done));
-      return `<div class="pod glass p${p}${writ ? ' writ' : ''}"><div class="pl">${PLACE[p - 1]}</div>${inner}</div>`; }).join('');
-    const jst = J.map(j => { const f = status.find(s => s.id === j.id && s.final);
-      return `<span class="chip ${f ? 'done' : ''}">${esc(jShort(j).toUpperCase())} · ${f ? 'SUBMITTED' : 'JUDGING'}</span>${isAdmin && f ? `<button class="btn small" type="button" data-unlock="${j.id}">Unlock</button>` : ''}`; }).join('');
-    $('#pane').innerHTML = `
-      <div class="jst"><span class="chip ${isFin ? 'final' : ''}">${isFin ? 'FINAL' : 'IN PROGRESS'}</span>${jst}${tie ? '<span class="chip tie">TIE IN TOP 3</span>' : ''}</div>
-      <div class="podium">${pods}</div>
-      <div class="tscroll glass"><table class="res">${certsOnly
-        ? `<thead><tr><th>Place</th><th>Team</th><th class="hide-m">School</th></tr></thead>
-           <tbody>${rows.map(x => `<tr class="${x.avg === null ? 'pending' : 'r' + x.rank}"><td class="big">${x.rank ?? '–'}</td><td><b>${esc(x.team)}</b><div class="s">${esc(x.no)} · ${esc(x.members)}</div></td><td class="hide-m">${esc(x.school)}</td></tr>`).join('')}</tbody>`
-        : `<thead><tr><th>#</th><th>Team</th><th class="hide-m">School</th>${J.map(j => `<th class="n">${esc(jShort(j))}</th>`).join('')}<th class="n">Average</th><th class="hide-m">Notes</th></tr></thead>
-           <tbody>${rows.map(x => `<tr class="${x.avg === null ? 'pending' : 'r' + x.rank}"><td class="big">${x.rank ?? '–'}</td>
-             <td><b>${esc(x.team)}</b><div class="s">${esc(x.no)} · ${esc(x.members)}</div></td><td class="hide-m">${esc(x.school)}</td>
-             ${x.per.map(p => `<td class="n" title="${esc(p.s ? C.map((c, i) => c.n + ': ' + (p.s['c' + (i + 1)] ?? '–')).join(' | ') : '')}">${p.T ?? '–'}</td>`).join('')}
-             <td class="n big">${x.avg ?? '–'}</td><td class="hide-m notes">${x.per.filter(p => p.s?.comment).map(p => `<b>${esc(jShort(p.j))}:</b> ${esc(p.s.comment)}`).join('<br>')}</td></tr>`).join('')}</tbody>`}
-      </table></div>
-`;
-    $('#pane').querySelectorAll('[data-cert]').forEach(cb => cb.onchange = () => api.save('certs', cb.dataset.cert, { done: cb.checked, event: E.id }));
-    $('#pane').querySelectorAll('[data-unlock]').forEach(b => b.onclick = () => confirm(`Let ${b.dataset.unlock} change their scores again?`) && api.save('status', b.dataset.unlock, { final: false }));
-  }
-  // every winner and every participant, for writing certificates; also downloadable as a CSV
-  function certPane() {
-    const schools = [...new Set(EVENTS.flatMap(E => E.teams.map(t => t.school)))].sort();
-    $('#pane').innerHTML = `
-      <div class="cert"><div class="sec"><h3>WINNERS</h3><button class="btn small" type="button" id="bCsv">Download CSV</button></div><div class="tscroll glass"><table class="res"><thead><tr><th>Event</th><th>Place</th><th>Team</th><th>Members</th><th class="hide-m">School</th><th>Certificates</th></tr></thead><tbody>
-        ${EVENTS.map(E => { if (!fin(E.id)) return `<tr class="pending"><td><b>${esc(E.name)}</b></td><td colspan="5">Not final</td></tr>`;
-          return ranked(E).filter(x => x.rank && x.rank <= 3).map(x => { const w = !!certs.find(c => c.id === `${E.id}_${x.no}` && c.done);
-            return `<tr class="r${x.rank}"><td><b>${esc(E.name)}</b></td><td class="big">${PLACE[x.rank - 1]}</td><td>${esc(x.team)}<div class="s">${esc(x.no)}</div></td>
-              <td>${esc(x.members)}</td><td class="hide-m">${esc(x.school)}</td><td>${w ? '<span class="ok-t">Done</span>' : '<span class="muted">To do</span>'}</td></tr>`; }).join(''); }).join('')}</tbody></table></div>
-      <h3>PARTICIPATION <span class="num">${Object.keys(TEAMS).length} TEAMS</span></h3>
-      ${schools.map(sc => { const ts = Object.values(TEAMS).filter(t => t.school === sc);
-        return `<h3 style="color:var(--bone)">${esc(sc)} <span class="num">${ts.length}</span></h3><div class="tscroll glass"><table class="res"><thead><tr><th>Members</th><th>Event</th><th>Team</th></tr></thead>
-          <tbody>${ts.map(t => `<tr><td><b>${esc(t.members)}</b></td><td>${esc(t.ev.name)}</td><td>${esc(t.no)} · ${esc(t.team)}</td></tr>`).join('')}</tbody></table></div>`; }).join('')}</div>`;
-    $('#bCsv').onclick = () => {
-      const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
-      const head = ['Event', 'Final', 'Place', 'Team ID', 'Team', 'School', 'Members'].concat(certsOnly ? [] : ['Score', 'Out of']);
-      const lines = [head.map(q).join(',')];
-      EVENTS.forEach(E => ranked(E).forEach(x => lines.push([E.name, fin(E.id) ? 'yes' : 'no', x.rank ?? '', x.no, x.team, x.school, x.members]
-        .concat(certsOnly ? [] : [x.avg ?? '', EMAX(E.id)]).map(q).join(','))));
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv' }));
-      a.download = `bytefest-results-${new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-')}.csv`;
-      a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-    };
-  }
-  function editPane() {
-    $('#pane').innerHTML = `
-      ${EVENTS.map(E => `<div class="cert"><h3>${esc(E.name.toUpperCase())}</h3><div class="jst">${judgesOf(E.id).map(j => {
-        const f = status.find(s => s.id === j.id && s.final);
-        return `<button class="btn small" type="button" data-edit="${j.id}">${esc(jShort(j))} · ${f ? 'submitted' : 'judging'}</button>`; }).join('')}</div></div>`).join('')}`;
-    $('#pane').querySelectorAll('[data-edit]').forEach(b => b.onclick = () => {
-      const jid = b.dataset.edit; stopAll(); judgeView(EV[ROLE[jid].ev], jid, ROLE[jid], true); scrollTo(0, 0); });
+    const m = model(scores, status);
+    const html = tab === 'results' ? resultsHTML(m) : tab === 'live' ? liveHTML(m) : judgesHTML(m);
+    if (html !== last) { last = html; $('#pane').innerHTML = html; wire(); }
   }
   function wipePane() {
-    const COLS = ['scores', 'status', 'certs'];
+    const COLS = ['scores', 'status'];
     $('#pane').innerHTML = `<div class="banner bad" id="wipeBox">
-      <p style="margin-bottom:.4rem"><b>Delete all marks, submissions and certificate ticks.</b></p>
+      <p style="margin-bottom:.4rem"><b>Delete all marks, rankings and submissions.</b></p>
       <label class="lbl" for="wipeIn">TYPE CLEAR TO CONFIRM</label>
       <div style="display:flex;gap:.6rem;flex-wrap:wrap"><input class="field" id="wipeIn" autocomplete="off" style="max-width:220px">
         <button class="btn danger" type="button" id="wipeGo" disabled>Delete</button></div>
@@ -827,7 +1028,7 @@ function resultsView(kind, startTab) {
           ${list.length ? list.slice().sort((a, b) => a.id.localeCompare(b.id)).map(a => `<tr style="${a.disabled ? 'opacity:.45' : ''}"><td><b>${esc(a.id)}</b></td><td>${esc(ACCT_ROLES[a.role] || a.role)}</td><td>${esc(a.label || '')}</td>
             <td class="n"><button class="btn small" type="button" data-dis="${esc(a.id)}" data-v="${a.disabled ? 0 : 1}">${a.disabled ? 'Turn on' : 'Turn off'}</button></td></tr>`).join('')
             : '<tr><td colspan="4" class="note">None yet</td></tr>'}</tbody></table></div>
-        <div class="cert"><h3>EVENT LOGINS</h3></div>
+        <div class="cert"><h3>READY-MADE LOGINS</h3></div>
         <div class="tscroll glass"><table class="res"><thead><tr><th>Login ID</th><th>Who</th><th>Status</th><th></th></tr></thead><tbody>
           ${Object.entries(ROLE).filter(([id]) => id !== 'director').map(([id, r]) => { const L = locks.includes(id);
             return `<tr style="${L ? 'opacity:.6' : ''}"><td><b>${esc(id)}</b></td><td>${esc(r.label)}</td><td>${L ? '<span class="bad-t">Locked</span>' : '<span class="muted">Active</span>'}</td>
@@ -854,9 +1055,16 @@ function resultsView(kind, startTab) {
     unsub.push(api.watch('accounts', d => { list = d; draw(); }));
     unsub.push(api.watch('locks', d => { locks = d.map(x => x.id); draw(); }));
   }
-  unsub.push(api.watch('scores', d => { scores = d; render(); }));
-  unsub.push(api.watch('status', d => { status = d; render(); }));
-  unsub.push(api.watch('certs', d => { certs = d; render(); }));
+  if (isHead) {
+    const bySc = {}, bySt = {};   // one filtered query per event: the database lets a head read only its own
+    R.evs.forEach(ev => {
+      unsub.push(api.watch('scores', d => { bySc[ev] = d; scores = Object.values(bySc).flat(); render(); }, { f: 'event', v: ev }));
+      unsub.push(api.watch('status', d => { bySt[ev] = d; status = Object.values(bySt).flat(); render(); }, { f: 'event', v: ev }));
+    });
+  } else {
+    unsub.push(api.watch('scores', d => { scores = d; render(); }));
+    unsub.push(api.watch('status', d => { status = d; render(); }));
+  }
 }
 </script>
 </body>
