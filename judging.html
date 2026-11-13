@@ -509,14 +509,33 @@ const EVENTS = [
 // event's maximum, so that an event marked out of 90 doesn't outweigh one marked out of 18
 const TROPHY_BASIS = 'percent';
 const RUB = Object.fromEntries(EVENTS.map(E => [E.id, E.rub]));
-// PLACEHOLDER teams: replaced with the registrations before the event
-const TEAMS_ARE_EXAMPLES = true;
+// REGISTERED SCHOOLS: one team per school, numbered in this order (VC-01, VC-02, …). Spell a school exactly the same
+// in every event: the rolling trophy adds a school's teams up by name (capital letters and spaces don't matter).
+// An event with no list yet keeps 4 example teams and is marked EXAMPLE TEAMS.
+const SCHOOLS = {
+  vybecode: ['GEMS Millennium School', 'GEMS Our Own English High School', 'Amity Dubai', 'Delhi Private School', 'The Millennium School, Dubai',
+    'Our Own High School, Dubai', 'New Indian Model School, Sharjah', 'Credence High School, Dubai', 'GEMS International School',
+    'Bright Riders School, Dubai', 'GEMS Founders School, Dubai', 'GEMS Cambridge International Abu Dhabi', 'Our Own English High School (Boys), Sharjah',
+    'GEMS Our Own Indian School', 'Cambridge International School, Dubai', 'GEMS New Millennium School, Dubai Hills'],
+  nexai: ['GEMS Millennium School', 'GEMS Our Own English High School', 'Delhi Private School', 'The Millennium School, Dubai',
+    'New Indian Model School, Sharjah', 'Credence High School, Dubai', 'GEMS International School', 'Bright Riders School, Dubai',
+    'GEMS Founders School, Dubai', 'GEMS Cambridge International Abu Dhabi', 'GEMS Our Own Indian School', 'GEMS New Millennium School, Dubai Hills'],
+  circuitriot: ['GEMS Millennium School', 'GEMS Our Own English High School', 'Amity Dubai', 'Delhi Private School', 'The Millennium School, Dubai',
+    'Springdales School, Dubai', 'Our Own High School, Dubai', 'New Indian Model School, Sharjah', 'Credence High School, Dubai',
+    'GEMS International School', 'Bright Riders School, Dubai', 'GEMS Founders School, Dubai', 'GEMS Cambridge International Abu Dhabi',
+    'GEMS Our Own Indian School', 'Cambridge International School, Dubai', 'GEMS New Millennium School, Dubai Hills'],
+  // still to come: hackrush, codalo (lists), fc26 and rocketleague (player names)
+};
 EVENTS.forEach(E => {
-  E.teams = ['A', 'B', 'C', 'D'].map((l, i) => ({
-    no: `${E.code}-0${i + 1}`, team: `Example team ${l}`, school: i % 2 ? 'Example School Two' : 'Example School One',
-    members: `Student ${l}1, Student ${l}2`,
-  }));
+  const L = SCHOOLS[E.id]; E.example = !L;
+  E.teams = L ? L.map((sc, i) => ({ no: `${E.code}-${String(i + 1).padStart(2, '0')}`, team: sc, school: sc, members: '' }))
+    : ['A', 'B', 'C', 'D'].map((l, i) => ({
+      no: `${E.code}-0${i + 1}`, team: `Example team ${l}`, school: i % 2 ? 'Example School Two' : 'Example School One',
+      members: `Student ${l}1, Student ${l}2`,
+    }));
 });
+// the line under a team's name: its number, plus the school when the team has its own name
+const subOf = t => t.team === t.school ? t.no : `${t.no} · ${t.school}`;
 
 /* =====================================================================
    3) LOGINS: every ready-made login ID and what it opens. Create each one in Firebase
@@ -752,7 +771,7 @@ function judgeView(E, me, R, override) {
     built = true;
     $('#main').innerHTML = `
       <div class="hero">
-        <div><span class="kicker">${esc(R.label.toUpperCase())}${TEAMS_ARE_EXAMPLES ? ' · EXAMPLE TEAMS' : ''}</span><h2>${esc(E.name)}</h2></div>
+        <div><span class="kicker">${esc(R.label.toUpperCase())}${E.example ? ' · EXAMPLE TEAMS' : ''}</span><h2>${esc(E.name)}</h2></div>
         <div class="prog glass"><div class="row"><span>SCORED</span><b id="pTxt">0/0</b></div><div class="track"><i id="pBar"></i></div></div>
       </div>
       ${override ? `<div class="banner warn bar-row"><span>Editing <b>${esc(R.label)}</b></span><button class="btn small" id="bBack" type="button">&lsaquo; Back</button></div>` : ''}
@@ -762,7 +781,7 @@ function judgeView(E, me, R, override) {
       <div class="teams">${E.teams.map(t => `
         <article class="team glass" data-no="${esc(t.no)}">
           <div class="th"><span class="no">${esc(t.no)}</span>
-            <div class="nm"><b>${esc(t.team)}</b><div>${esc(t.school)}</div><div>${esc(t.members)}</div></div>
+            <div class="nm"><b>${esc(t.team)}</b>${t.team === t.school ? '' : `<div>${esc(t.school)}</div>`}${t.members ? `<div>${esc(t.members)}</div>` : ''}</div>
             <div class="tot"><b>–</b><span>/ ${MX}</span></div></div>
           ${C.map((c, i) => `${grp(C, i, true)}<div class="cr"><label>${esc(c.n)}<small>${cmin(c) ? cmin(c) + ' to ' : '/ '}${cmax(c)}${c.opt ? ' · optional' : ''}</small></label>${control(t, c, i)}</div>`).join('')}
           <div class="st" data-st>NOT SCORED</div>
@@ -840,7 +859,7 @@ function judgeView(E, me, R, override) {
       const L = ordered(); c = check();
       box.innerHTML = L.map((r, i) => { const same = x => cmpKey(x.K, r.K) === 0, tie = L.filter(same).length > 1 && L.findIndex(same) < PN;
         return `<div class="rk"><span class="pos">${i + 1}</span>
-          <div class="nm"><b>${esc(r.t.team)}</b><div>${esc(r.t.no)} · ${esc(r.t.school)}</div></div>
+          <div class="nm"><b>${esc(r.t.team)}</b><div>${esc(subOf(r.t))}</div></div>
           <span class="pts">${r.T}${tie ? '<em class="chip tie">TIED</em>' : ''}</span>
           <div class="pk">${[1, 2, 3].slice(0, PN).map(p => `<button type="button" class="p${p}${pk[p] === r.t.no ? ' on' : ''}" data-p="${p}" data-no="${esc(r.t.no)}" aria-pressed="${pk[p] === r.t.no}">${ordn(p).toUpperCase()}</button>`).join('')}</div></div>`; }).join('')
         + (c.bad ? `<div class="err" style="text-align:left">${esc(c.bad)}</div>` : '');
@@ -864,7 +883,7 @@ function judgeView(E, me, R, override) {
       <div class="hero"><div><span class="kicker">${esc(R.label.toUpperCase())}</span><h2>Submitted</h2></div></div>
       <div class="banner ok">Your scores and ranking are final. This login is now locked.${pending ? ' Syncing…' : ''}</div>
       <div class="rank glass">${[1, 2, 3].slice(0, PN).map(p => `<div class="rk done"><span class="pos">${ordn(p).toUpperCase()}</span>
-        <div class="nm"><b>${esc(team(pk[p])?.team || '')}</b><div>${esc(pk[p])} · ${esc(team(pk[p])?.school || '')}</div></div></div>`).join('')}</div>`;
+        <div class="nm"><b>${esc(team(pk[p])?.team || '')}</b><div>${esc(team(pk[p]) ? subOf(team(pk[p])) : '')}</div></div></div>`).join('')}</div>`;
   }
   unsub.push(api.watch('scores', docs => {
     docs.forEach(s => { if (timers[s.no]) return; S[s.no] = s; if (built && card(s.no)) { fill(s.no, s); paint(s.no, s, false); } });
@@ -891,11 +910,11 @@ function staffView(kind, startTab, R) {
   const open = new Set(), podDraft = {};
   const TABS = isDir ? [['results', 'Results'], ['live', 'Live scores'], ['judges', 'Judges'], ['acc', 'Logins'], ['wipe', 'Reset']] : [];
   $('#main').innerHTML = `
-    <div class="hero"><div><span class="kicker">${isDir ? 'DIRECTOR' : isHead ? 'EVENT HEAD' : kind === 'admin' ? 'LIVE' : 'BYTEFEST 2026'}${TEAMS_ARE_EXAMPLES ? ' · EXAMPLE TEAMS' : ''}</span>
+    <div class="hero"><div><span class="kicker">${isDir ? 'DIRECTOR' : isHead ? 'EVENT HEAD' : kind === 'admin' ? 'LIVE' : 'BYTEFEST 2026'}</span>
       <h2>${isDir ? 'Control' : isHead ? esc(R.name) : kind === 'admin' ? 'Live scores' : 'Results'}</h2></div></div>
     <div class="tabs" role="tablist" id="tabs"></div><div id="pane"></div>`;
   $('#pane').addEventListener('toggle', e => { const d = e.target; if (d.dataset && d.dataset.id) d.open ? open.add(d.dataset.id) : open.delete(d.dataset.id); }, true);
-  const where = r => `${esc(r.no)} · ${esc(r.school)}`;
+  const where = r => esc(subOf(r));
 
   function resultsHTML(m) {
     // the results logins see only the winner, and only once every event is judged; admin and director see the standings
@@ -906,13 +925,13 @@ function staffView(kind, startTab, R) {
       if (E.manual) {
         const pod = e.pod || {}, dr = podDraft[E.id] || (podDraft[E.id] = { 1: pod.p1 || '', 2: pod.p2 || '', 3: pod.p3 || '' });
         const sel = p => `<div><label class="lbl" for="pod${E.id}${p}">${ordn(p).toUpperCase()}</label><select class="field" id="pod${E.id}${p}" data-pod="${E.id}|${p}"><option value="">Choose…</option>
-          ${E.teams.map(t => `<option value="${esc(t.no)}"${dr[p] === t.no ? ' selected' : ''}>${esc(t.team)} (${esc(t.no)}) · ${esc(t.school)}</option>`).join('')}</select></div>`;
+          ${E.teams.map(t => `<option value="${esc(t.no)}"${dr[p] === t.no ? ' selected' : ''}>${esc(t.team)} (${esc(t.no)})${t.team === t.school ? '' : ' · ' + esc(t.school)}</option>`).join('')}</select></div>`;
         const form = kind === 'director' ? `<div class="form-grid glass">${[1, 2, 3].slice(0, Math.min(3, E.teams.length)).map(sel).join('')}
           <button class="btn primary" type="button" data-savepod="${E.id}">Save placings</button></div>` : '';
         const table = e.final ? `<div class="tscroll"><table class="res"><thead><tr><th>Place</th><th>Team</th></tr></thead><tbody>
           ${e.rows.filter(r => r.place).map(r => `<tr class="r${r.place}"><td class="big">${ordn(r.place).toUpperCase()}</td><td><b>${esc(r.team)}</b><div class="s">${where(r)}</div><div class="s">${esc(r.members)}</div></td></tr>`).join('')}</tbody></table></div>`
           : (kind === 'director' ? '' : '<p class="note" style="padding:.2rem 0 .5rem">Not decided yet.</p>');
-        return `<details class="ev glass" data-id="${E.id}" ${open.has(E.id) ? 'open' : ''}><summary><span class="en">${esc(E.name)}</span>
+        return `<details class="ev glass" data-id="${E.id}" ${open.has(E.id) ? 'open' : ''}><summary><span class="en">${esc(E.name)}</span>${E.example ? '<span class="chip">EXAMPLE TEAMS</span>' : ''}
           <span class="chip ${e.final ? 'final' : ''}">${e.final ? 'DECIDED' : 'PENDING'}</span></summary><div class="body">${form}${table}</div></details>`;
       }
       const body = !e.final ? '<p class="note" style="padding:.2rem 0 .5rem">Not judged yet.</p>'
@@ -921,7 +940,7 @@ function staffView(kind, startTab, R) {
           <div class="tscroll"><table class="res"><thead><tr><th>Place</th><th>Team</th><th class="n">${multi ? 'Average' : 'Score'} / ${EMAX(E.id)}</th></tr></thead><tbody>
             ${e.rows.map(r => `<tr class="${r.place ? 'r' + r.place : ''}"><td class="big">${r.place ? ordn(r.place).toUpperCase() : '–'}${r.tie ? '<em class="chip tie">TIE</em>' : ''}</td>
               <td><b>${esc(r.team)}</b><div class="s">${where(r)}</div><div class="s">${esc(r.members)}</div>${kind === 'director' && r.tie ? `<button class="btn small" type="button" style="margin-top:.5rem" data-first="${E.id}|${esc(r.no)}">Place first</button>` : ''}</td><td class="n big">${r.T ?? '–'}</td></tr>`).join('')}</tbody></table></div>`;
-      return `<details class="ev glass" data-id="${E.id}" ${open.has(E.id) ? 'open' : ''}><summary><span class="en">${esc(E.name)}</span>
+      return `<details class="ev glass" data-id="${E.id}" ${open.has(E.id) ? 'open' : ''}><summary><span class="en">${esc(E.name)}</span>${E.example ? '<span class="chip">EXAMPLE TEAMS</span>' : ''}
         <span class="chip ${e.final ? 'final' : ''}">${e.final ? 'JUDGED' : 'PENDING' + (multi ? ` · ${e.submitted} OF ${e.judges.length}` : '')}</span></summary><div class="body">${body}</div></details>`; }).join('');
     const trophy = `<section class="troph glass"><div class="sec"><span class="kicker">ROLLING TROPHY</span>
         <span class="chip ${done ? 'final' : ''}">${m.judged} OF ${EVENTS.length} EVENTS JUDGED</span></div>
@@ -940,7 +959,7 @@ function staffView(kind, startTab, R) {
     const tog = `<div class="tabs"><button class="tab" type="button" data-mode="event" aria-selected="${mode === 'event'}">By event</button>
       <button class="tab" type="button" data-mode="school" aria-selected="${mode === 'school'}">By school</button></div>`;
     if (isHead || mode === 'event') return (isHead ? '' : tog) + m.evs.filter(e => !isHead || R.evs.includes(e.E.id)).map(e => { const E = e.E, multi = e.judges.length > 1;
-      return `<div class="cert"><h3>${esc(E.name.toUpperCase())}</h3><div class="jst">${E.manual ? '' : `<span class="chip ${e.entered === E.teams.length ? 'done' : ''}">${e.entered}/${E.teams.length} SCORED</span>`}
+      return `<div class="cert"><h3>${esc(E.name.toUpperCase())}${E.example ? '<span class="num">EXAMPLE TEAMS</span>' : ''}</h3><div class="jst">${E.manual ? '' : `<span class="chip ${e.entered === E.teams.length ? 'done' : ''}">${e.entered}/${E.teams.length} SCORED</span>`}
         <span class="chip ${e.final ? 'final' : ''}">${E.manual ? (e.final ? 'DECIDED' : 'NOT DECIDED') : e.final ? 'SUBMITTED' : e.started ? `JUDGING${multi ? ` · ${e.submitted} OF ${e.judges.length} SUBMITTED` : ''}` : 'NOT STARTED'}</span></div>
         <div class="tscroll glass"><table class="res"><thead><tr><th>Team</th>${e.judges.map(j => `<th class="n">${esc(ROLE[j.id].label.split(' · ')[0])}</th>`).join('')}${multi ? '<th class="n">Average</th>' : ''}<th>Place</th></tr></thead><tbody>
           ${e.rows.map(r => `<tr class="${r.place ? 'r' + r.place : ''}"><td><b>${esc(r.team)}</b><div class="s">${where(r)}</div></td>
