@@ -90,7 +90,11 @@ label.lbl{display:block;margin:1rem 0 .4rem;font-family:var(--px);font-size:.66r
 
 /* ---------- LOGIN ---------- */
 .login{min-height:100vh;display:grid;place-items:center;padding:2rem 1rem 6rem}
-.lbox{width:min(380px,100%);padding:2rem 1.6rem 1.8rem}
+.lbox{width:min(380px,100%);padding:2.2rem 1.6rem 1.8rem;animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
+.lbox::before{content:"";position:absolute;left:-1px;right:-1px;top:-1px;height:3px;background:linear-gradient(90deg,var(--signal),var(--teal),var(--signal))}
+.lbox .logo{filter:drop-shadow(0 0 22px rgba(25,211,197,.22));transition:transform .3s}
+.lbox a:hover .logo{transform:translateY(-2px)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
 .lbox .logo{display:block;width:min(200px,64%);height:auto;margin:0 auto 1rem}
 .pwwrap{position:relative}
 .pwwrap .field{padding-right:4.6rem}
@@ -174,6 +178,8 @@ details.guide[open] summary::after{transform:rotate(45deg)}
 .teams{display:grid;gap:1rem}
 .team{padding:1.1rem 1.1rem 1rem;border-left-width:4px;border-left-color:var(--ember);transition:border-color .3s}
 .team.scored{border-left-color:var(--teal)}
+.team.scored .tot b{color:var(--teal);text-shadow:0 0 14px rgba(25,211,197,.35)}
+.teams .team{animation:rise .45s ease-out both}
 .team .th{display:flex;gap:1rem;align-items:flex-start;margin-bottom:.9rem}
 .team .no{font-family:var(--px);font-size:.75rem;letter-spacing:.06em;color:var(--teal);padding:.35rem .5rem;border:1px solid var(--glass-brd);white-space:nowrap}
 .team .nm{flex:1;min-width:0}
@@ -189,7 +195,8 @@ details.guide[open] summary::after{transform:rotate(45deg)}
 .lv{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:.3rem}
 .lv button{height:40px;font-family:var(--num);font-size:.68rem;background:var(--field);border:1px solid var(--line);transition:background .15s,border-color .15s,color .15s}
 .lv button:hover:not(:disabled){border-color:var(--teal)}
-.lv button.on{background:var(--teal);border-color:var(--teal);color:var(--teal-ink)}
+.lv button.on{background:var(--teal);border-color:var(--teal);color:var(--teal-ink);box-shadow:0 0 16px rgba(25,211,197,.4)}
+.lv button:active:not(:disabled){transform:scale(.94)}
 .lv button:disabled{cursor:default}
 .cr input.field{max-width:9rem;font-family:var(--num);font-size:.85rem}
 .cr input.badv{border-color:var(--bad)}
@@ -237,7 +244,28 @@ table.res{width:100%;border-collapse:collapse;font-size:.86rem}
 .ev[open] summary::after{transform:rotate(45deg)}
 .ev .en{flex:1;font-family:var(--px);font-size:.95rem;letter-spacing:.05em}
 .ev .body{padding:0 1.1rem .6rem}
-.troph{padding:1.1rem 1.1rem .3rem;margin-top:1.6rem}
+.troph{padding:1.1rem 1.1rem .3rem;margin-top:1.6rem;transition:border-color .4s,box-shadow .4s}
+.troph.won{border-color:var(--gold);box-shadow:var(--glass-shadow),0 0 46px rgba(255,211,107,.16)}
+.troph.won .lead{font-size:clamp(1.4rem,4.4vw,2.1rem);text-shadow:0 0 22px rgba(255,211,107,.35)}
+.ev.done{border-left:3px solid var(--teal)}
+.ev[open]{border-color:var(--teal)}
+.evbar{margin:-.4rem 0 .9rem}
+/* podium: 2nd, 1st, 3rd */
+.podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem;align-items:end;margin:.6rem 0 1.2rem;border-bottom:2px solid var(--line)}
+.pod{display:flex;flex-direction:column;justify-content:flex-end;text-align:center;min-width:0}
+.pod .pw{padding:0 .25rem .6rem}
+.pod .pw b{display:block;font-size:.9rem;line-height:1.25;overflow-wrap:anywhere}
+.pod .pw b + span{display:block;margin-top:.15rem}
+.pod .pw span{font-size:.72rem;color:var(--ash)}
+.pod .pw em{display:block;margin:.35rem 0 .5rem;font-style:normal;font-family:var(--num);font-size:.8rem}
+.pod .blk{display:grid;place-items:center;border:1px solid;border-bottom:none}
+.pod .blk i{font-style:normal;font-family:var(--num);font-size:.8rem}
+.pod.p1 .blk{height:96px;border-color:var(--gold);background:linear-gradient(180deg,rgba(255,211,107,.3),rgba(255,211,107,.03))}
+.pod.p2 .blk{height:68px;border-color:var(--silver);background:linear-gradient(180deg,rgba(215,225,240,.24),rgba(215,225,240,.03))}
+.pod.p3 .blk{height:48px;border-color:var(--bronze);background:linear-gradient(180deg,rgba(224,163,107,.26),rgba(224,163,107,.03))}
+.pod.p1 .blk i,.pod.p1 .pw em{color:var(--gold)} .pod.p2 .blk i,.pod.p2 .pw em{color:var(--silver)} .pod.p3 .blk i,.pod.p3 .pw em{color:var(--bronze)}
+.rank .podium{margin:.4rem 0 .6rem}
+@media (max-width:480px){ .pod .pw b{font-size:.78rem} .pod .pw span{font-size:.66rem} .pod .blk i{font-size:.66rem} }
 .troph .sec{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 .lead{margin:.8rem 0 1rem;font-family:var(--px);font-weight:400;font-size:1.3rem;line-height:1.2;color:var(--gold)}
 .lead small{display:block;margin-top:.35rem;font-size:.58rem;letter-spacing:.1em;color:var(--ash)}
@@ -253,6 +281,11 @@ table.res{width:100%;border-collapse:collapse;font-size:.86rem}
 .rk .nm div{font-size:.78rem;color:var(--ash)}
 .rk .pts{font-family:var(--num);font-size:.95rem;text-align:right;white-space:nowrap}
 .rk.done{grid-template-columns:3.2rem 1fr}
+.rk{transition:background .25s}
+.rk.pick1{background:linear-gradient(90deg,rgba(255,211,107,.14),transparent 70%);box-shadow:inset 3px 0 0 var(--gold)}
+.rk.pick2{background:linear-gradient(90deg,rgba(215,225,240,.12),transparent 70%);box-shadow:inset 3px 0 0 var(--silver)}
+.rk.pick3{background:linear-gradient(90deg,rgba(224,163,107,.14),transparent 70%);box-shadow:inset 3px 0 0 var(--bronze)}
+.rk .pos{padding-left:.5rem}
 .rk.done .pos{color:var(--teal)}
 .pk{display:flex;gap:.3rem}
 .pk button{min-width:48px;height:40px;padding:0 .5rem;font-family:var(--px);font-size:.6rem;letter-spacing:.04em;background:var(--field);border:1px solid var(--line);transition:background .15s,border-color .15s}
@@ -273,7 +306,7 @@ table.res{width:100%;border-collapse:collapse;font-size:.86rem}
   .glass{background:none;box-shadow:none;border-color:#999;backdrop-filter:none}
   main{padding:0}
 }
-@media (prefers-reduced-motion:reduce){ *{transition:none!important} }
+@media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
 </style>
 </head>
 <body>
@@ -636,6 +669,8 @@ const stopAll = () => { unsub.forEach(f => f && f()); unsub = []; };
 api.onUser(user => {
   stopAll();
   $('#vLogin').hidden = !!user; $('#vApp').hidden = !user;
+  // never leave a password sitting in the form (shared phones at the venue)
+  $('#lpw').value = ''; $('#lpw').type = 'password'; $('.pweye').textContent = 'SHOW';
   if (!user) return;
   net();
   const go = () => {
@@ -687,6 +722,11 @@ const total = s => { if (!s) return null; const R = RUB[s.event]; if (!R) return
 const time = t => { const d = t?.toDate ? t.toDate() : t ? new Date(t) : null; return d ? d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : ''; };
 const ordn = n => ['1st', '2nd', '3rd'][n - 1];
 const norm = s => String(s || '').trim().toLowerCase().replace(/\s+/g, ' ');
+// a podium (2nd, 1st, 3rd) from rows that carry .place; teams sharing a place stack in the same block
+const podium = (rows, score) => { const cell = p => { const L = rows.filter(r => r.place === p);
+  return `<div class="pod p${p}"><div class="pw">${L.length ? L.map(r => `<b>${esc(r.team)}</b><span>${esc(subOf(r))}</span>${score && score(r) != null ? `<em>${score(r)}</em>` : ''}`).join('') : '<span>–</span>'}</div>
+    <div class="blk"><i>${ordn(p).toUpperCase()}</i></div></div>`; };
+  return `<div class="podium">${cell(2)}${cell(1)}${cell(3)}</div>`; };
 
 // everything the results, admin and director screens show, worked out from the raw records.
 // A team's score is the average of its judges' totals. The order is that score, then the event's tie-break groups,
@@ -858,7 +898,8 @@ function judgeView(E, me, R, override) {
     else {
       const L = ordered(); c = check();
       box.innerHTML = L.map((r, i) => { const same = x => cmpKey(x.K, r.K) === 0, tie = L.filter(same).length > 1 && L.findIndex(same) < PN;
-        return `<div class="rk"><span class="pos">${i + 1}</span>
+        const mine = [1, 2, 3].find(p => pk[p] === r.t.no);
+        return `<div class="rk${mine ? ' pick' + mine : ''}"><span class="pos">${i + 1}</span>
           <div class="nm"><b>${esc(r.t.team)}</b><div>${esc(subOf(r.t))}</div></div>
           <span class="pts">${r.T}${tie ? '<em class="chip tie">TIED</em>' : ''}</span>
           <div class="pk">${[1, 2, 3].slice(0, PN).map(p => `<button type="button" class="p${p}${pk[p] === r.t.no ? ' on' : ''}" data-p="${p}" data-no="${esc(r.t.no)}" aria-pressed="${pk[p] === r.t.no}">${ordn(p).toUpperCase()}</button>`).join('')}</div></div>`; }).join('')
@@ -882,8 +923,7 @@ function judgeView(E, me, R, override) {
     $('#main').innerHTML = `
       <div class="hero"><div><span class="kicker">${esc(R.label.toUpperCase())}</span><h2>Submitted</h2></div></div>
       <div class="banner ok">Your scores and ranking are final. This login is now locked.${pending ? ' Syncing…' : ''}</div>
-      <div class="rank glass">${[1, 2, 3].slice(0, PN).map(p => `<div class="rk done"><span class="pos">${ordn(p).toUpperCase()}</span>
-        <div class="nm"><b>${esc(team(pk[p])?.team || '')}</b><div>${esc(team(pk[p]) ? subOf(team(pk[p])) : '')}</div></div></div>`).join('')}</div>`;
+      <div class="rank glass">${podium([1, 2, 3].slice(0, PN).filter(p => team(pk[p])).map(p => ({ ...team(pk[p]), place: p })), t => sc(t.no))}</div>`;
   }
   unsub.push(api.watch('scores', docs => {
     docs.forEach(s => { if (timers[s.no]) return; S[s.no] = s; if (built && card(s.no)) { fill(s.no, s); paint(s.no, s, false); } });
@@ -928,21 +968,21 @@ function staffView(kind, startTab, R) {
           ${E.teams.map(t => `<option value="${esc(t.no)}"${dr[p] === t.no ? ' selected' : ''}>${esc(t.team)} (${esc(t.no)})${t.team === t.school ? '' : ' · ' + esc(t.school)}</option>`).join('')}</select></div>`;
         const form = kind === 'director' ? `<div class="form-grid glass">${[1, 2, 3].slice(0, Math.min(3, E.teams.length)).map(sel).join('')}
           <button class="btn primary" type="button" data-savepod="${E.id}">Save placings</button></div>` : '';
-        const table = e.final ? `<div class="tscroll"><table class="res"><thead><tr><th>Place</th><th>Team</th></tr></thead><tbody>
+        const table = e.final ? `${podium(e.rows)}<div class="tscroll"><table class="res"><thead><tr><th>Place</th><th>Team</th></tr></thead><tbody>
           ${e.rows.filter(r => r.place).map(r => `<tr class="r${r.place}"><td class="big">${ordn(r.place).toUpperCase()}</td><td><b>${esc(r.team)}</b><div class="s">${where(r)}</div><div class="s">${esc(r.members)}</div></td></tr>`).join('')}</tbody></table></div>`
           : (kind === 'director' ? '' : '<p class="note" style="padding:.2rem 0 .5rem">Not decided yet.</p>');
-        return `<details class="ev glass" data-id="${E.id}" ${open.has(E.id) ? 'open' : ''}><summary><span class="en">${esc(E.name)}</span>${E.example ? '<span class="chip">EXAMPLE TEAMS</span>' : ''}
+        return `<details class="ev glass${e.final ? ' done' : ''}" data-id="${E.id}" ${open.has(E.id) ? 'open' : ''}><summary><span class="en">${esc(E.name)}</span>${E.example ? '<span class="chip">EXAMPLE TEAMS</span>' : ''}
           <span class="chip ${e.final ? 'final' : ''}">${e.final ? 'DECIDED' : 'PENDING'}</span></summary><div class="body">${form}${table}</div></details>`;
       }
       const body = !e.final ? '<p class="note" style="padding:.2rem 0 .5rem">Not judged yet.</p>'
         : `${tied ? `<p class="tiebar">Teams marked TIE are level on everything, including the judges’ rankings. ${kind === 'director' ? 'Choose who goes first.' : 'The director decides these.'}</p>` : ''}
           ${kind === 'director' && e.decided ? `<p class="tiebar"><button class="btn small" type="button" data-cleartb="${E.id}">Undo tie decision</button></p>` : ''}
-          <div class="tscroll"><table class="res"><thead><tr><th>Place</th><th>Team</th><th class="n">${multi ? 'Average' : 'Score'} / ${EMAX(E.id)}</th></tr></thead><tbody>
+          ${podium(e.rows, r => r.T)}<div class="tscroll"><table class="res"><thead><tr><th>Place</th><th>Team</th><th class="n">${multi ? 'Average' : 'Score'} / ${EMAX(E.id)}</th></tr></thead><tbody>
             ${e.rows.map(r => `<tr class="${r.place ? 'r' + r.place : ''}"><td class="big">${r.place ? ordn(r.place).toUpperCase() : '–'}${r.tie ? '<em class="chip tie">TIE</em>' : ''}</td>
               <td><b>${esc(r.team)}</b><div class="s">${where(r)}</div><div class="s">${esc(r.members)}</div>${kind === 'director' && r.tie ? `<button class="btn small" type="button" style="margin-top:.5rem" data-first="${E.id}|${esc(r.no)}">Place first</button>` : ''}</td><td class="n big">${r.T ?? '–'}</td></tr>`).join('')}</tbody></table></div>`;
-      return `<details class="ev glass" data-id="${E.id}" ${open.has(E.id) ? 'open' : ''}><summary><span class="en">${esc(E.name)}</span>${E.example ? '<span class="chip">EXAMPLE TEAMS</span>' : ''}
+      return `<details class="ev glass${e.final ? ' done' : ''}" data-id="${E.id}" ${open.has(E.id) ? 'open' : ''}><summary><span class="en">${esc(E.name)}</span>${E.example ? '<span class="chip">EXAMPLE TEAMS</span>' : ''}
         <span class="chip ${e.final ? 'final' : ''}">${e.final ? 'JUDGED' : 'PENDING' + (multi ? ` · ${e.submitted} OF ${e.judges.length}` : '')}</span></summary><div class="body">${body}</div></details>`; }).join('');
-    const trophy = `<section class="troph glass"><div class="sec"><span class="kicker">ROLLING TROPHY</span>
+    const trophy = `<section class="troph glass${done && lead.length ? ' won' : ''}"><div class="sec"><span class="kicker">ROLLING TROPHY</span>
         <span class="chip ${done ? 'final' : ''}">${m.judged} OF ${EVENTS.length} EVENTS JUDGED</span></div>
       ${winnerOnly
         ? (done && lead.length ? `<h3 class="lead">${esc(lead.map(x => x.school).join(' & '))}<small>${lead.length > 1 ? 'TIED OVERALL' : 'OVERALL WINNER'}</small></h3>`
@@ -961,6 +1001,7 @@ function staffView(kind, startTab, R) {
     if (isHead || mode === 'event') return (isHead ? '' : tog) + m.evs.filter(e => !isHead || R.evs.includes(e.E.id)).map(e => { const E = e.E, multi = e.judges.length > 1;
       return `<div class="cert"><h3>${esc(E.name.toUpperCase())}${E.example ? '<span class="num">EXAMPLE TEAMS</span>' : ''}</h3><div class="jst">${E.manual ? '' : `<span class="chip ${e.entered === E.teams.length ? 'done' : ''}">${e.entered}/${E.teams.length} SCORED</span>`}
         <span class="chip ${e.final ? 'final' : ''}">${E.manual ? (e.final ? 'DECIDED' : 'NOT DECIDED') : e.final ? 'SUBMITTED' : e.started ? `JUDGING${multi ? ` · ${e.submitted} OF ${e.judges.length} SUBMITTED` : ''}` : 'NOT STARTED'}</span></div>
+        ${E.manual ? '' : `<div class="track evbar"><i style="width:${Math.round(100 * e.judges.reduce((a, j) => a + j.entered, 0) / Math.max(1, E.teams.length * e.judges.length))}%"></i></div>`}
         <div class="tscroll glass"><table class="res"><thead><tr><th>Team</th>${e.judges.map(j => `<th class="n">${esc(ROLE[j.id].label.split(' · ')[0])}</th>`).join('')}${multi ? '<th class="n">Average</th>' : ''}<th>Place</th></tr></thead><tbody>
           ${e.rows.map(r => `<tr class="${r.place ? 'r' + r.place : ''}"><td><b>${esc(r.team)}</b><div class="s">${where(r)}</div></td>
             ${r.per.map(p => `<td class="n big">${p.T ?? '–'}</td>`).join('')}${multi ? `<td class="n big">${r.T ?? '–'}</td>` : ''}
