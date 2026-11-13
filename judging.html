@@ -25,7 +25,11 @@
   --glass-shadow:0 6px 28px rgba(0,0,0,.45);
   --bar:rgba(3,9,26,.72); --field:rgba(0,0,0,.38); --line:rgba(77,139,255,.18);
   --glow1:#001d5c; --glow2:#000512;
-  --sk-body:#001a52; --sk-lit:#7FB0FF;
+  --menu:#030a1c;
+  --hero1:#000000; --hero2:#000512; --hero3:#001033; --hero4:#001d5c;   /* the home page's sky */
+  --moon-top:9%; --moon-right:9%; --moon-op:1; --sun-top:110%; --sun-right:30%; --sun-op:0;
+  --gold-t:rgba(255,211,107,.24); --silver-t:rgba(215,225,240,.18); --bronze-t:rgba(224,163,107,.22);
+  --sk-body:#000a22; --sk-lit:#7FB0FF;   /* darker than the home page: here the city sits on the sky's brightest band */
   --gold:#FFD36B; --silver:#D7E1F0; --bronze:#E0A36B; --ok:#19D3C5; --bad:#FF6B6B;
   --px:"Silkscreen","Courier New",monospace;
   --num:"Press Start 2P","Silkscreen","Courier New",monospace;
@@ -39,6 +43,10 @@
   --glass-shadow:0 6px 24px rgba(10,22,48,.12);
   --bar:rgba(247,249,253,.8); --field:rgba(255,255,255,.75); --line:rgba(0,61,166,.14);
   --glow1:#BBD5FA; --glow2:#F2F4F9;
+  --menu:#F7F9FD;
+  --hero1:#9EC2F5; --hero2:#BBD5FA; --hero3:#DCEAFD; --hero4:#F7EBD9;
+  --moon-top:-24%; --moon-right:6%; --moon-op:0; --sun-top:9%; --sun-right:12%; --sun-op:1;
+  --gold-t:rgba(201,148,18,.2); --silver-t:rgba(124,135,152,.2); --bronze-t:rgba(176,106,44,.2);
   --sk-body:#8CA6CE; --sk-lit:#FFE0A8;
   --gold:#C99412; --silver:#7C8798; --bronze:#B06A2C; --ok:#0E9E93; --bad:#D64545;
 }
@@ -46,11 +54,30 @@
 html{-webkit-text-size-adjust:100%;background:var(--void)}
 body{min-height:100vh;color:var(--bone);font-family:var(--mono);font-size:1rem;line-height:1.55;-webkit-font-smoothing:antialiased;
   -webkit-tap-highlight-color:transparent;overflow-x:hidden;
-  background:
-    linear-gradient(var(--grid) 1px,transparent 1px) 0 0/48px 48px,
-    linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/48px 48px,
-    radial-gradient(ellipse 90% 60% at 50% -10%,var(--glow1) 0%,var(--glow2) 60%,var(--void) 100%) fixed;
-  transition:background-color .3s,color .3s}
+  background:var(--hero1);transition:color .3s}
+/* the sky behind every screen: the home page's gradient, stars and moon (dark), sun and clouds (light) */
+.sky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  background:linear-gradient(var(--hero1) 0%,var(--hero2) 45%,var(--hero3) 78%,var(--hero4) 100%)}
+.sky::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(var(--grid) 1px,transparent 1px) 0 0/48px 48px,linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/48px 48px}
+.stars{position:absolute;inset:0;transition:opacity .9s ease}
+.stars i{position:absolute;width:3px;height:3px;background:var(--bone);opacity:.7;animation:tw 5s ease-in-out infinite}
+@keyframes tw{50%{opacity:.25}}
+:root[data-theme="light"] .stars{opacity:0}
+.stars b.shoot{position:absolute;width:76px;height:2px;opacity:0;transform-origin:0 50%;
+  background:linear-gradient(90deg,transparent,var(--bone));animation:shoot .95s ease-out forwards}
+@keyframes shoot{0%{opacity:0;transform:translate(0,0) rotate(20deg)}12%{opacity:.95}100%{opacity:0;transform:translate(260px,95px) rotate(20deg)}}
+.moon,.sun{position:absolute;width:clamp(52px,7vw,104px);aspect-ratio:1;transition:top 1.2s cubic-bezier(.4,0,.2,1),opacity 1.2s ease,right 1.2s ease;
+  clip-path:polygon(30% 0,70% 0,70% 10%,90% 10%,90% 30%,100% 30%,100% 70%,90% 70%,90% 90%,70% 90%,70% 100%,30% 100%,30% 90%,10% 90%,10% 70%,0 70%,0 30%,10% 30%,10% 10%,30% 10%)}
+.moon{top:var(--moon-top);right:var(--moon-right);opacity:var(--moon-op);background:#CFE0FF;box-shadow:0 0 60px 10px rgba(77,139,255,.35)}
+.sun{top:var(--sun-top);right:var(--sun-right);opacity:var(--sun-op);background:#FFDFA6;box-shadow:0 0 70px 18px rgba(255,196,120,.55)}
+.cloud{position:absolute;left:0;opacity:0;background:rgba(255,255,255,.9);transition:opacity 1.2s ease;animation:drift linear infinite;
+  clip-path:polygon(0 100%,0 62%,12% 62%,12% 40%,28% 40%,28% 18%,50% 18%,50% 0,72% 0,72% 22%,88% 22%,88% 50%,100% 50%,100% 100%)}
+:root[data-theme="light"] .cloud{opacity:.8}
+.cloud.c1{top:13%;width:170px;height:56px;animation-duration:120s;animation-delay:-30s}
+.cloud.c2{top:27%;width:112px;height:38px;animation-duration:170s;animation-delay:-100s}
+.cloud.c3{top:6%;width:220px;height:70px;animation-duration:210s;animation-delay:-60s}
+@keyframes drift{from{transform:translateX(-26vw)}to{transform:translateX(126vw)}}
 ::selection{background:var(--teal);color:var(--teal-ink)}
 button,input,textarea,select{font:inherit;color:inherit}
 button{cursor:pointer}
@@ -81,7 +108,7 @@ input.field:focus,select.field:focus,textarea.field:focus{border-color:var(--tea
 label.lbl{display:block;margin:1rem 0 .4rem;font-family:var(--px);font-size:.66rem;letter-spacing:.08em;color:var(--teal)}
 
 /* skyline along the bottom of every screen: the same artwork as the site's hero and footer */
-.skyline{position:fixed;left:0;right:0;bottom:0;z-index:0;pointer-events:none;line-height:0;opacity:.55}
+.skyline{position:fixed;left:0;right:0;bottom:0;z-index:0;pointer-events:none;line-height:0;opacity:.9}
 .skyline svg{width:100%;height:auto;aspect-ratio:4/1;display:block;max-height:34vh}
 .skyline::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,var(--void) 100%);z-index:1}
 .sk-body{fill:var(--sk-body)}
@@ -90,8 +117,19 @@ label.lbl{display:block;margin:1rem 0 .4rem;font-family:var(--px);font-size:.66r
 
 /* ---------- LOGIN ---------- */
 .login{min-height:100vh;display:grid;place-items:center;padding:2rem 1rem 6rem}
-.lbox{width:min(380px,100%);padding:2.2rem 1.6rem 1.8rem;animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
-.lbox::before{content:"";position:absolute;left:-1px;right:-1px;top:-1px;height:3px;background:linear-gradient(90deg,var(--signal),var(--teal),var(--signal))}
+.lbox{width:min(380px,100%);padding:2.2rem 1.6rem 1.8rem;animation:rise .6s cubic-bezier(.2,.7,.2,1) backwards}
+.lbox{overflow:hidden}
+.lbox::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--signal),var(--teal),var(--signal))}
+/* a slow sheen across the card */
+.lbox::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 42%,rgba(255,255,255,.07) 50%,transparent 58%);
+  background-size:260% 100%;animation:sheen 7s ease-in-out 1.2s infinite}
+@keyframes sheen{0%{background-position:130% 0}45%,100%{background-position:-30% 0}}
+.lbox > *{position:relative;z-index:1}
+/* signing in: a bar runs along the bottom of the button */
+#bIn{position:relative;overflow:hidden}
+#bIn.busy:disabled{opacity:1}
+#bIn.busy::after{content:"";position:absolute;left:-40%;bottom:0;width:40%;height:3px;background:var(--teal-ink);animation:busy 1s linear infinite}
+@keyframes busy{to{left:100%}}
 .lbox .logo{filter:drop-shadow(0 0 22px rgba(25,211,197,.22));transition:transform .3s}
 .lbox a:hover .logo{transform:translateY(-2px)}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}}
@@ -126,12 +164,28 @@ label.lbl{display:block;margin:1rem 0 .4rem;font-family:var(--px);font-size:.66r
 .themetog{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;padding:0;color:var(--teal);font-size:.95rem;
   background:var(--glass-bg);border:1px solid var(--glass-brd);transition:transform .2s,border-color .2s}
 .themetog:hover{border-color:var(--teal);transform:rotate(-18deg)}
+/* phones: one slim row (crest, title, menu); the rest opens as a panel under the bar */
+.menubtn{display:none;position:relative;margin-left:auto;width:42px;height:38px;padding:0;background:var(--glass-bg);border:1px solid var(--glass-brd);
+  flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.menubtn i{display:block;width:18px;height:2px;background:var(--teal);transition:transform .3s,opacity .2s}
+.top.open .menubtn i:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.top.open .menubtn i:nth-child(2){opacity:0}
+.top.open .menubtn i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+/* offline shows even with the menu shut */
+.top.off .menubtn::after{content:"";position:absolute;top:-4px;right:-4px;width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold)}
 @media (max-width:760px){
-  .top .wrap{flex-wrap:wrap;gap:.6rem}
-  .top .crest img{height:30px}
-  .top .app{font-size:.7rem}
-  .top .right{width:100%;justify-content:space-between;margin:0}
-  .who{text-align:left;order:-1;margin-right:auto}
+  .top .wrap{gap:.7rem}
+  .top .crest img{height:28px}
+  .top .app{font-size:.68rem}
+  .menubtn{display:flex}
+  .top .right{position:absolute;top:calc(100% + 1px);right:0;left:0;margin:0;padding:1rem;flex-direction:column;align-items:stretch;gap:.8rem;
+    background:var(--menu);border-bottom:1px solid var(--glass-brd);box-shadow:0 18px 40px rgba(0,0,0,.35);   /* near-solid: the bar's own blur stops a second blur working here */
+    opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s,transform .25s,visibility 0s .25s}
+  .top.open .right{opacity:1;visibility:visible;transform:none;transition:opacity .25s,transform .25s}
+  .who{text-align:left}
+  .top .right .pill{align-self:flex-start}
+  .top .right .themetog{align-self:flex-start}
+  .top .right #bOut{width:100%}
 }
 
 /* ---------- SHARED LAYOUT ---------- */
@@ -179,15 +233,23 @@ details.guide[open] summary::after{transform:rotate(45deg)}
 .team{padding:1.1rem 1.1rem 1rem;border-left-width:4px;border-left-color:var(--ember);transition:border-color .3s}
 .team.scored{border-left-color:var(--teal)}
 .team.scored .tot b{color:var(--teal);text-shadow:0 0 14px rgba(25,211,197,.35)}
-.teams .team{animation:rise .45s ease-out both}
-.team .th{display:flex;gap:1rem;align-items:flex-start;margin-bottom:.9rem}
+.teams .team{animation:rise .45s ease-out backwards}
+.team .th{display:flex;gap:1rem;align-items:center;margin:-1.1rem -1.1rem .9rem;padding:1rem 1.1rem;border-bottom:1px solid var(--line);
+  background:linear-gradient(90deg,rgba(25,211,197,.07),transparent 70%);transition:background .4s}
+.team.scored .th{background:linear-gradient(90deg,rgba(25,211,197,.17),transparent 75%)}
+.ringw{position:relative;width:54px;height:54px;display:grid;place-items:center;margin-left:auto}
+.ring{position:absolute;inset:0;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:2.6}
+.ring .rb{stroke:var(--line)}
+.ring .rf{stroke:var(--teal);transition:stroke-dasharray .45s cubic-bezier(.2,.7,.2,1)}
+.team.scored .ring .rf{filter:drop-shadow(0 0 3px var(--teal))}
 .team .no{font-family:var(--px);font-size:.75rem;letter-spacing:.06em;color:var(--teal);padding:.35rem .5rem;border:1px solid var(--glass-brd);white-space:nowrap}
 .team .nm{flex:1;min-width:0}
 .team .nm b{display:block;font-size:1.02rem}
 .team .nm div{font-size:.8rem;color:var(--ash)}
-.team .tot{text-align:right;white-space:nowrap}
-.team .tot b{font-family:var(--num);font-weight:400;font-size:1.05rem}
-.team .tot span{display:block;font-size:.72rem;color:var(--ash)}
+.team .tot{text-align:center;white-space:nowrap}
+.team .tot b{position:relative;font-family:var(--num);font-weight:400;font-size:.82rem}
+.team .tot span{display:block;margin-top:.2rem;font-size:.68rem;color:var(--ash)}
 .grp.sm{margin:1rem 0 .1rem;font-family:var(--px);font-size:.62rem;letter-spacing:.1em;color:var(--teal)}
 .cr{display:grid;grid-template-columns:minmax(150px,1fr) 3fr;gap:.4rem 1rem;align-items:center;padding:.55rem 0;border-top:1px dashed var(--line)}
 .cr label{font-size:.85rem}
@@ -203,11 +265,19 @@ details.guide[open] summary::after{transform:rotate(45deg)}
 .team .st{margin-top:.5rem;font-family:var(--px);font-size:.6rem;letter-spacing:.07em;color:var(--ash)}
 .team .st.ok{color:var(--teal)}
 .team .st.err{color:var(--bad)}
-@media (max-width:640px){ .cr{grid-template-columns:1fr} }
+@keyframes pop{40%{transform:scale(1.16)}100%{transform:scale(1)}}
+.lv button.pop{animation:pop .3s cubic-bezier(.2,.7,.2,1)}
+@media (max-width:640px){ .cr{grid-template-columns:1fr} .lv{grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:.4rem} .lv button{height:48px;font-size:.74rem} }
 
 .dock{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--bar);border-top:1px solid var(--glass-brd);
   backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:.8rem 0 calc(.8rem + env(safe-area-inset-bottom))}
 .dock .wrap{display:flex;align-items:center;gap:1rem;justify-content:space-between}
+.dock::before{content:"";position:absolute;left:0;top:-1px;height:3px;width:var(--p,0%);background:linear-gradient(90deg,var(--signal),var(--teal));
+  box-shadow:0 0 12px var(--teal);transition:width .5s cubic-bezier(.2,.7,.2,1)}
+.dock{transition:background .5s,box-shadow .5s}
+.dock.ready{background:linear-gradient(90deg,rgba(25,211,197,.2),var(--bar) 65%);box-shadow:0 -10px 34px rgba(25,211,197,.14)}
+.dock.ready .btn.primary{box-shadow:0 0 24px rgba(25,211,197,.5)}
+.dock.ready .note{color:var(--teal)}
 .dock .note{margin:0}
 
 /* ---------- RESULTS ---------- */
@@ -260,9 +330,9 @@ table.res{width:100%;border-collapse:collapse;font-size:.86rem}
 .pod .pw em{display:block;margin:.35rem 0 .5rem;font-style:normal;font-family:var(--num);font-size:.8rem}
 .pod .blk{display:grid;place-items:center;border:1px solid;border-bottom:none}
 .pod .blk i{font-style:normal;font-family:var(--num);font-size:.8rem}
-.pod.p1 .blk{height:96px;border-color:var(--gold);background:linear-gradient(180deg,rgba(255,211,107,.3),rgba(255,211,107,.03))}
-.pod.p2 .blk{height:68px;border-color:var(--silver);background:linear-gradient(180deg,rgba(215,225,240,.24),rgba(215,225,240,.03))}
-.pod.p3 .blk{height:48px;border-color:var(--bronze);background:linear-gradient(180deg,rgba(224,163,107,.26),rgba(224,163,107,.03))}
+.pod.p1 .blk{height:96px;border-color:var(--gold);background:linear-gradient(180deg,var(--gold-t),transparent)}
+.pod.p2 .blk{height:68px;border-color:var(--silver);background:linear-gradient(180deg,var(--silver-t),transparent)}
+.pod.p3 .blk{height:48px;border-color:var(--bronze);background:linear-gradient(180deg,var(--bronze-t),transparent)}
 .pod.p1 .blk i,.pod.p1 .pw em{color:var(--gold)} .pod.p2 .blk i,.pod.p2 .pw em{color:var(--silver)} .pod.p3 .blk i,.pod.p3 .pw em{color:var(--bronze)}
 .rank .podium{margin:.4rem 0 .6rem}
 @media (max-width:480px){ .pod .pw b{font-size:.78rem} .pod .pw span{font-size:.66rem} .pod .blk i{font-size:.66rem} }
@@ -282,9 +352,9 @@ table.res{width:100%;border-collapse:collapse;font-size:.86rem}
 .rk .pts{font-family:var(--num);font-size:.95rem;text-align:right;white-space:nowrap}
 .rk.done{grid-template-columns:3.2rem 1fr}
 .rk{transition:background .25s}
-.rk.pick1{background:linear-gradient(90deg,rgba(255,211,107,.14),transparent 70%);box-shadow:inset 3px 0 0 var(--gold)}
-.rk.pick2{background:linear-gradient(90deg,rgba(215,225,240,.12),transparent 70%);box-shadow:inset 3px 0 0 var(--silver)}
-.rk.pick3{background:linear-gradient(90deg,rgba(224,163,107,.14),transparent 70%);box-shadow:inset 3px 0 0 var(--bronze)}
+.rk.pick1{background:linear-gradient(90deg,var(--gold-t),transparent 70%);box-shadow:inset 3px 0 0 var(--gold)}
+.rk.pick2{background:linear-gradient(90deg,var(--silver-t),transparent 70%);box-shadow:inset 3px 0 0 var(--silver)}
+.rk.pick3{background:linear-gradient(90deg,var(--bronze-t),transparent 70%);box-shadow:inset 3px 0 0 var(--bronze)}
 .rk .pos{padding-left:.5rem}
 .rk.done .pos{color:var(--teal)}
 .pk{display:flex;gap:.3rem}
@@ -308,11 +378,43 @@ table.res{width:100%;border-collapse:collapse;font-size:.86rem}
 }
 /* theme switch: the same cross-fade timing as index.html */
 .theme-vt::view-transition-old(root),.theme-vt::view-transition-new(root){animation-duration:.55s;animation-timing-function:cubic-bezier(.4,0,.2,1)}
+/* screens fade and rise in */
+.swap > *{animation:rise .42s cubic-bezier(.2,.7,.2,1) backwards}   /* backwards, not both: a held end state would cut the glass blur off from the sky */
+.swap > :nth-child(2){animation-delay:.04s} .swap > :nth-child(3){animation-delay:.08s} .swap > :nth-child(n+4){animation-delay:.12s}
+.ev.opening .body{animation:rise .38s cubic-bezier(.2,.7,.2,1) backwards}
+@media (max-width:560px){ .ev summary{flex-wrap:wrap;row-gap:.55rem} .ev .en{flex-basis:100%} .ev summary::after{margin-left:auto} }
+/* loading: shimmering placeholder cards */
+.skel{display:grid;gap:1rem;padding-top:.6rem}
+.skel i{display:block;height:88px;border:1px solid var(--line);
+  background:linear-gradient(100deg,var(--glass-bg) 30%,var(--glass-hi) 50%,var(--glass-bg) 70%) 0 0/300% 100%;animation:shim 1.4s linear infinite}
+.skel i:first-child{height:54px;width:60%}
+@keyframes shim{from{background-position:100% 0}to{background-position:-100% 0}}
+/* director tabs: one bar, an underline slides to the open tab */
+.tabs.seg{position:relative;gap:0;flex-wrap:nowrap;overflow-x:auto;border-bottom:1px solid var(--line);scrollbar-width:none}
+.tabs.seg::-webkit-scrollbar{display:none}
+.seg .tab{background:none;border:none;padding:.85rem 1.05rem;color:var(--ash);white-space:nowrap;transition:color .25s}
+.seg .tab:hover{color:var(--bone);border:none}
+.seg .tab[aria-selected="true"]{color:var(--teal);background:none}
+.seg .ind{position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--teal);box-shadow:0 0 10px var(--teal);
+  transition:left .38s cubic-bezier(.2,.7,.2,1),width .38s cubic-bezier(.2,.7,.2,1)}
+.seg.mini{display:inline-flex;margin-bottom:1rem}
+.seg.mini .tab{padding:.6rem .9rem}
+.seg.mini .tab[aria-selected="true"]{box-shadow:inset 0 -2px 0 var(--teal)}
+/* live: a pulsing dot on events being judged; changed numbers flash */
+.live{display:inline-block;width:8px;height:8px;margin-right:.6rem;border-radius:50%;background:var(--teal);vertical-align:middle;animation:pulse 1.6s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(25,211,197,.6)}100%{box-shadow:0 0 0 10px rgba(25,211,197,0)}}
+.bump{animation:bump 1s ease-out}
+@keyframes bump{0%{color:var(--teal);text-shadow:0 0 12px var(--teal)}100%{text-shadow:none}}
+/* light mode: medal colours readable on pale backgrounds */
+:root[data-theme="light"] .pk button.on{color:#fff}
+:root[data-theme="light"] .moon{box-shadow:none}
 @media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
 </style>
 </head>
 <body>
 
+<div class="sky" aria-hidden="true"><div class="stars" id="stars"></div><div class="moon"></div><div class="sun"></div>
+  <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div></div>
 <div class="skyline" aria-hidden="true">
   <svg viewBox="0 0 1600 400" preserveAspectRatio="xMidYMax meet" shape-rendering="crispEdges">
     <defs><symbol id="skyline" viewBox="0 0 1600 400">
@@ -411,7 +513,8 @@ table.res{width:100%;border-collapse:collapse;font-size:.86rem}
         <img class="logo-night" src="school-logo-night.png" alt="GEMS New Millennium School" width="745" height="226">
       </a>
       <span class="app">BYTEFEST<b>JUDGING</b></span>
-      <div class="right">
+      <button class="menubtn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="topRight"><i></i><i></i><i></i></button>
+      <div class="right" id="topRight">
         <div class="who"><b id="whoName"></b><span id="whoRole"></span></div>
         <span class="pill" id="net"><i></i><span>ONLINE</span></span>
         <button class="themetog" id="themetog" type="button" aria-label="Switch theme">☀</button>
@@ -601,7 +704,30 @@ const cmax = c => c.max;
 const cmin = c => c.min ?? 0;
 const EMAX = ev => RUB[ev].reduce((a, c) => a + cmax(c), 0);
 const $ = s => document.querySelector(s);
+const reduceM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+// fade-and-rise a screen's contents in (screen changes and tab switches only, never live updates)
+const swapIn = el => { if (!el || reduceM) return; el.classList.remove('swap'); void el.offsetWidth; el.classList.add('swap'); };
+// a number changing on screen counts from its old value to the new one
+function countTo(el, a, z) { const fin = el.textContent, dec = /\./.test(fin) ? 1 : 0, t0 = performance.now();
+  const step = now => { const k = Math.min(1, (now - t0) / 600), e = 1 - Math.pow(1 - k, 3);
+    el.textContent = k < 1 ? (a + (z - a) * e).toFixed(dec) : fin; if (k < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step); }
+const SKEL = '<div class="skel" role="status" aria-label="Loading"><i></i><i></i><i></i></div>';
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+/* ---------------- sky: stars and the odd shooting star (dark only), as on the home page ---------------- */
+(() => {
+  const st = $('#stars');
+  for (let i = 0; i < 90; i++) { const e = document.createElement('i');
+    e.style.left = Math.random() * 100 + '%'; e.style.top = Math.random() * 70 + '%'; e.style.animationDelay = (-Math.random() * 5) + 's';
+    if (Math.random() < .18) e.style.background = '#4D8BFF';
+    if (Math.random() < .3) e.style.width = e.style.height = '2px';
+    st.appendChild(e); }
+  if (reduceM) return;
+  setInterval(() => { if (document.hidden || document.documentElement.getAttribute('data-theme') === 'light') return;
+    const b = document.createElement('b'); b.className = 'shoot'; b.style.left = (5 + Math.random() * 60) + '%'; b.style.top = (4 + Math.random() * 30) + '%';
+    st.appendChild(b); setTimeout(() => b.remove(), 1100); }, 7000);
+})();
 
 /* ---------------- theme: shares the main site's switch ---------------- */
 (() => {
@@ -620,10 +746,12 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': 
   b.onclick = () => { const light = root.getAttribute('data-theme') !== 'light';
     const swap = () => { if (light) root.setAttribute('data-theme', 'light'); else root.removeAttribute('data-theme');
       try { localStorage.setItem('bf-theme', light ? 'light' : 'dark'); } catch (e) {} paint(); };
+    $('.top').classList.remove('open'); $('#menuBtn').setAttribute('aria-expanded', 'false');
     if (reduce) return swap();
     if (document.startViewTransition && !document.hidden) {
       const id = ++vtId; root.classList.add('theme-vt');
-      document.startViewTransition(swap).finished.finally(() => { if (id === vtId) root.classList.remove('theme-vt'); });
+      const vt = document.startViewTransition(swap); vt.ready.catch(() => {});   // a quick second toggle skips the first fade: not an error
+      vt.finished.finally(() => { if (id === vtId) root.classList.remove('theme-vt'); });
     } else veilSwap(swap);
   };
   paint();
@@ -677,7 +805,7 @@ if (firebaseConfig.apiKey) {
   };
 }
 addEventListener('online', net); addEventListener('offline', net);
-function net() { const on = navigator.onLine; $('#net').classList.toggle('off', !on);
+function net() { const on = navigator.onLine; $('#net').classList.toggle('off', !on); $('.top').classList.toggle('off', !on);
   $('#net span').textContent = api.demo ? 'DEMO' : on ? 'ONLINE' : 'OFFLINE · SAVING ON DEVICE'; }
 
 /* ---------------- sign in ---------------- */
@@ -688,19 +816,20 @@ api.onUser(user => {
   $('#vLogin').hidden = !!user; $('#vApp').hidden = !user;
   // never leave a password sitting in the form (shared phones at the venue)
   $('#lpw').value = ''; $('#lpw').type = 'password'; $('.pweye').textContent = 'SHOW';
-  if (!user) return;
+  $('.top').classList.remove('open'); $('#menuBtn').setAttribute('aria-expanded', 'false');
+  if (!user) { const lb = $('.lbox'); lb.style.animation = 'none'; void lb.offsetWidth; lb.style.animation = ''; return; }
   net();
   const go = () => {
     if (ROLE[user]) return route(user, ROLE[user]);
     // a login made in the Logins tab keeps its role in bytefest_accounts/<login id>
-    $('#main').innerHTML = '<div class="empty">Loading…</div>';
+    $('#main').innerHTML = SKEL;
     api.getDoc('accounts', user).then(a => { const R = acctRole(a); if (R) { ROLE[user] = R; route(user, R); }
       else $('#main').innerHTML = '<div class="empty">This login has no role yet. Ask the ByteFest team.</div>'; })
       .catch(() => { $('#main').innerHTML = '<div class="empty">Could not load this login. Check the connection and sign in again.</div>'; });
   };
   if (user === 'director') return go();
   // the director can lock any login; the database refuses a locked login everything, this just explains why
-  $('#main').innerHTML = '<div class="empty">Loading…</div>';
+  $('#main').innerHTML = SKEL;
   api.getDoc('locks', user).then(l => { if (!l) return go();
     $('#whoName').textContent = user; $('#whoRole').textContent = 'Locked';
     $('#main').innerHTML = '<div class="empty">This login has been locked by the director. Ask the ByteFest team.</div>'; }).catch(go);
@@ -717,14 +846,18 @@ function route(user, R) {
 $('#fLogin').onsubmit = async e => {
   e.preventDefault(); $('#lerr').textContent = '';
   const id = $('#lid').value.trim().toLowerCase().replace(/\s+/g, ''), b = $('#bIn');
-  b.disabled = true; b.textContent = 'Logging in…';
+  b.disabled = true; b.classList.add('busy'); b.textContent = 'Logging in…';
   try { await api.login(id, $('#lpw').value); }
   catch (er) { const c = er.code || er.message || '';
     $('#lerr').textContent = /network/i.test(c) ? 'No internet connection.' : /too-many/i.test(c) ? 'Too many attempts. Wait a minute and try again.'
       : 'Login ID or password is incorrect.'; }
-  finally { b.disabled = false; b.textContent = 'Login'; }
+  finally { b.disabled = false; b.classList.remove('busy'); b.textContent = 'Login'; }
 };
 $('#bOut').onclick = () => api.logout();
+// phone menu: opens under the bar, shuts on any tap outside it or on Escape
+$('#menuBtn').onclick = e => { e.stopPropagation(); const o = $('.top').classList.toggle('open'); $('#menuBtn').setAttribute('aria-expanded', o); };
+document.addEventListener('click', e => { if ($('.top').classList.contains('open') && !e.target.closest('#topRight')) { $('.top').classList.remove('open'); $('#menuBtn').setAttribute('aria-expanded', 'false'); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('.top').classList.contains('open')) { $('.top').classList.remove('open'); $('#menuBtn').setAttribute('aria-expanded', 'false'); $('#menuBtn').focus(); } });
 document.addEventListener('click', e => {
   const b = e.target.closest('.pweye'); if (!b) return;
   const inp = b.parentNode.querySelector('input'), show = inp.type === 'password';
@@ -839,11 +972,12 @@ function judgeView(E, me, R, override) {
         <article class="team glass" data-no="${esc(t.no)}">
           <div class="th"><span class="no">${esc(t.no)}</span>
             <div class="nm"><b>${esc(t.team)}</b>${t.team === t.school ? '' : `<div>${esc(t.school)}</div>`}${t.members ? `<div>${esc(t.members)}</div>` : ''}</div>
-            <div class="tot"><b>–</b><span>/ ${MX}</span></div></div>
+            <div class="tot"><div class="ringw"><svg class="ring" viewBox="0 0 36 36" aria-hidden="true"><circle class="rb" cx="18" cy="18" r="15.9"/><circle class="rf" cx="18" cy="18" r="15.9" pathLength="100" stroke-dasharray="0 100"/></svg><b>–</b></div><span>/ ${MX}</span></div></div>
           ${C.map((c, i) => `${grp(C, i, true)}<div class="cr"><label>${esc(c.n)}<small>${cmin(c) ? cmin(c) + ' to ' : '/ '}${cmax(c)}${c.opt ? ' · optional' : ''}</small></label>${control(t, c, i)}</div>`).join('')}
           <div class="st" data-st>NOT SCORED</div>
         </article>`).join('')}</div>
       <section class="rank glass"><h3>RANKING</h3><div id="rankBox"></div></section>`;
+    swapIn($('#main'));
     if (!override) {
       const dock = document.createElement('div'); dock.className = 'dock';
       dock.innerHTML = `<div class="wrap"><span class="note" id="fTxt"></span><button class="btn primary" id="bFinal" type="button" disabled>Submit</button></div>`;
@@ -855,7 +989,7 @@ function judgeView(E, me, R, override) {
       el.querySelectorAll('.lv button').forEach(b => b.onclick = () => {
         const was = b.classList.contains('on');   // tapping the chosen mark again clears it
         b.parentElement.querySelectorAll('button').forEach(x => { x.classList.remove('on'); x.setAttribute('aria-checked', 'false'); });
-        if (!was) { b.classList.add('on'); b.setAttribute('aria-checked', 'true'); } queue(no); });
+        if (!was) { b.classList.add('on'); b.setAttribute('aria-checked', 'true'); b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); } queue(no); });
       el.querySelectorAll('input.field').forEach(inp => inp.addEventListener('input', () => { inp.value = inp.value.replace(/\D/g, '').slice(0, 2);
         const c = C[+inp.dataset.c.slice(1) - 1]; inp.classList.toggle('badv', inp.value !== '' && +inp.value > c.max); queue(no); }));
     });
@@ -894,6 +1028,8 @@ function judgeView(E, me, R, override) {
   function paint(no, s, local) {
     const el = card(no); if (!el) return; const T = total(s);
     el.querySelector('.tot b').textContent = T ?? '–'; el.classList.toggle('scored', T !== null);
+    const req = C.map((c, i) => [c, i]).filter(([c]) => !c.opt), got = req.filter(([, i]) => s['c' + (i + 1)] != null).length;
+    el.querySelector('.rf').setAttribute('stroke-dasharray', `${req.length ? Math.round(100 * got / req.length) : 0} 100`);
     const st = el.querySelector('[data-st]');
     if (!local) { st.className = 'st' + (T !== null ? ' ok' : '');
       st.textContent = T !== null ? (s._pending ? 'SYNCING…' : `SAVED ${time(s.updatedAt)}`)
@@ -904,6 +1040,7 @@ function judgeView(E, me, R, override) {
     if (!built) return;
     const n = E.teams.length, k = E.teams.filter(t => sc(t.no) !== null).length;
     $('#pTxt').textContent = `${k}/${n}`; $('#pBar').style.width = (n ? 100 * k / n : 0) + '%';
+    document.querySelector('.dock')?.style.setProperty('--p', (n ? 100 * k / n : 0) + '%');
     rank();
   }
   // the list of teams in descending order of points, with a 1st / 2nd / 3rd button on each
@@ -925,6 +1062,7 @@ function judgeView(E, me, R, override) {
     if ($('#bFinal')) {
       $('#fTxt').textContent = k < n ? `${n - k} to score` : c.need || (c.bad ? 'Fix the ranking' : 'Ready to submit');
       $('#bFinal').disabled = !(k === n && c && c.ok);
+      document.querySelector('.dock')?.classList.toggle('ready', !$('#bFinal').disabled);
     }
   }
   async function submit() {
@@ -941,6 +1079,7 @@ function judgeView(E, me, R, override) {
       <div class="hero"><div><span class="kicker">${esc(R.label.toUpperCase())}</span><h2>Submitted</h2></div></div>
       <div class="banner ok">Your scores and ranking are final. This login is now locked.${pending ? ' Syncing…' : ''}</div>
       <div class="rank glass">${podium([1, 2, 3].slice(0, PN).filter(p => team(pk[p])).map(p => ({ ...team(pk[p]), place: p })), t => sc(t.no))}</div>`;
+    swapIn($('#main'));
   }
   unsub.push(api.watch('scores', docs => {
     docs.forEach(s => { if (timers[s.no]) return; S[s.no] = s; if (built && card(s.no)) { fill(s.no, s); paint(s.no, s, false); } });
@@ -969,8 +1108,10 @@ function staffView(kind, startTab, R) {
   $('#main').innerHTML = `
     <div class="hero"><div><span class="kicker">${isDir ? 'DIRECTOR' : isHead ? 'EVENT HEAD' : kind === 'admin' ? 'LIVE' : 'BYTEFEST 2026'}</span>
       <h2>${isDir ? 'Control' : isHead ? esc(R.name) : kind === 'admin' ? 'Live scores' : 'Results'}</h2></div></div>
-    <div class="tabs" role="tablist" id="tabs"></div><div id="pane"></div>`;
-  $('#pane').addEventListener('toggle', e => { const d = e.target; if (d.dataset && d.dataset.id) d.open ? open.add(d.dataset.id) : open.delete(d.dataset.id); }, true);
+    <div class="tabs" role="tablist" id="tabs"></div><div id="pane">${SKEL}</div>`;
+  swapIn($('#main'));
+  $('#pane').addEventListener('toggle', e => { const d = e.target; if (!d.dataset || !d.dataset.id) return;
+    if (d.open) { open.add(d.dataset.id); if (!reduceM) { d.classList.add('opening'); setTimeout(() => d.classList.remove('opening'), 450); } } else open.delete(d.dataset.id); }, true);
   const where = r => esc(subOf(r));
 
   function resultsHTML(m) {
@@ -1009,19 +1150,19 @@ function staffView(kind, startTab, R) {
     return evs + trophy;
   }
   const schoolTable = L => `<div class="tscroll"><table class="res"><thead><tr><th>#</th><th>School</th>${EVENTS.filter(E => !E.manual).map(E => `<th class="n hide-m">${esc(E.code)}</th>`).join('')}<th class="n">Points</th></tr></thead><tbody>
-    ${L.map(x => `<tr class="${x.total && x.rank === 1 ? 'r1' : ''}"><td class="big">${x.total ? x.rank : '–'}</td><td><b>${esc(x.school)}</b></td>
-      ${EVENTS.filter(E => !E.manual).map(E => `<td class="n hide-m">${x.by[E.id] ?? '–'}</td>`).join('')}<td class="n big">${x.total}</td></tr>`).join('')}</tbody></table></div>`;
+    ${L.map(x => `<tr class="${x.total && x.rank === 1 ? 'r1' : ''}" data-k="sch|${esc(norm(x.school))}"><td class="big">${x.total ? x.rank : '–'}</td><td><b>${esc(x.school)}</b></td>
+      ${EVENTS.filter(E => !E.manual).map(E => `<td class="n hide-m">${x.by[E.id] ?? '–'}</td>`).join('')}<td class="n big" data-c="sch|${esc(norm(x.school))}">${x.total}</td></tr>`).join('')}</tbody></table></div>`;
 
   function liveHTML(m) {
-    const tog = `<div class="tabs"><button class="tab" type="button" data-mode="event" aria-selected="${mode === 'event'}">By event</button>
+    const tog = `<div class="tabs seg mini"><button class="tab" type="button" data-mode="event" aria-selected="${mode === 'event'}">By event</button>
       <button class="tab" type="button" data-mode="school" aria-selected="${mode === 'school'}">By school</button></div>`;
     if (isHead || mode === 'event') return (isHead ? '' : tog) + m.evs.filter(e => !isHead || R.evs.includes(e.E.id)).map(e => { const E = e.E, multi = e.judges.length > 1;
-      return `<div class="cert"><h3>${esc(E.name.toUpperCase())}${E.example ? '<span class="num">EXAMPLE TEAMS</span>' : ''}</h3><div class="jst">${E.manual ? '' : `<span class="chip ${e.entered === E.teams.length ? 'done' : ''}">${e.entered}/${E.teams.length} SCORED</span>`}
+      return `<div class="cert"><h3>${!E.manual && e.started && !e.final ? '<span class="live" aria-hidden="true"></span>' : ''}${esc(E.name.toUpperCase())}${E.example ? '<span class="num">EXAMPLE TEAMS</span>' : ''}</h3><div class="jst">${E.manual ? '' : `<span class="chip ${e.entered === E.teams.length ? 'done' : ''}">${e.entered}/${E.teams.length} SCORED</span>`}
         <span class="chip ${e.final ? 'final' : ''}">${E.manual ? (e.final ? 'DECIDED' : 'NOT DECIDED') : e.final ? 'SUBMITTED' : e.started ? `JUDGING${multi ? ` · ${e.submitted} OF ${e.judges.length} SUBMITTED` : ''}` : 'NOT STARTED'}</span></div>
-        ${E.manual ? '' : `<div class="track evbar"><i style="width:${Math.round(100 * e.judges.reduce((a, j) => a + j.entered, 0) / Math.max(1, E.teams.length * e.judges.length))}%"></i></div>`}
+        ${E.manual ? '' : `<div class="track evbar"><i data-bar="${E.id}" style="width:${Math.round(100 * e.judges.reduce((a, j) => a + j.entered, 0) / Math.max(1, E.teams.length * e.judges.length))}%"></i></div>`}
         <div class="tscroll glass"><table class="res"><thead><tr><th>Team</th>${e.judges.map(j => `<th class="n">${esc(ROLE[j.id].label.split(' · ')[0])}</th>`).join('')}${multi ? '<th class="n">Average</th>' : ''}<th>Place</th></tr></thead><tbody>
-          ${e.rows.map(r => `<tr class="${r.place ? 'r' + r.place : ''}"><td><b>${esc(r.team)}</b><div class="s">${where(r)}</div></td>
-            ${r.per.map(p => `<td class="n big">${p.T ?? '–'}</td>`).join('')}${multi ? `<td class="n big">${r.T ?? '–'}</td>` : ''}
+          ${e.rows.map(r => `<tr class="${r.place ? 'r' + r.place : ''}" data-k="${E.id}|${esc(r.no)}"><td><b>${esc(r.team)}</b><div class="s">${where(r)}</div></td>
+            ${r.per.map(p => `<td class="n big" data-c="${E.id}|${esc(r.no)}|${p.j}">${p.T ?? '–'}</td>`).join('')}${multi ? `<td class="n big" data-c="${E.id}|${esc(r.no)}|avg">${r.T ?? '–'}</td>` : ''}
             <td class="big">${r.place ? ordn(r.place).toUpperCase() : '–'}${r.tie ? '<em class="chip tie">TIE</em>' : ''}</td></tr>`).join('')}</tbody></table>${E.manual ? '' : `<div class="s" style="padding:.5rem .8rem">Out of ${EMAX(E.id)}</div>`}</div></div>`; }).join('');
     const L = schools(m, false);
     return tog + `<div class="cert"><h3>STANDINGS<span class="num">${m.judged === EVENTS.length ? 'FINAL' : 'LIVE'}</span></h3><div class="glass" style="padding:.2rem 1rem">${schoolTable(L)}</div></div>`
@@ -1054,17 +1195,44 @@ function staffView(kind, startTab, R) {
     $('#pane').querySelectorAll('[data-unlock]').forEach(b => b.onclick = () => confirm(`Let ${b.dataset.unlock} change their scores again?`) && api.save('status', b.dataset.unlock, { final: false }));
     $('#pane').querySelectorAll('[data-edit]').forEach(b => b.onclick = () => { const jid = b.dataset.edit; stopAll(); judgeView(EV[ROLE[jid].ev], jid, ROLE[jid], true); scrollTo(0, 0); });
   }
+  function placeInd() { const T = $('#tabs'), on = T.querySelector(`[data-t="${tab}"]`), ind = T.querySelector('.ind'); if (!on || !ind) return;
+    ind.style.left = on.offsetLeft + 'px'; ind.style.width = on.offsetWidth + 'px'; }
+  // live updates: remember where rows and numbers were, then glide rows to their new places and count numbers up
+  function snap() { const pos = {}, val = {}, bar = {};
+    $('#pane').querySelectorAll('[data-k]').forEach(el => { if (el.offsetParent) pos[el.dataset.k] = el.getBoundingClientRect().top; });
+    $('#pane').querySelectorAll('[data-c]').forEach(el => { val[el.dataset.c] = el.textContent; });
+    $('#pane').querySelectorAll('[data-bar]').forEach(el => { bar[el.dataset.bar] = el.style.width; });
+    return { pos, val, bar }; }
+  function settle(b) {
+    $('#pane').querySelectorAll('[data-k]').forEach(el => { const o = b.pos[el.dataset.k]; if (o == null || !el.offsetParent) return;
+      const d = o - el.getBoundingClientRect().top; if (Math.abs(d) > 2) el.animate([{ transform: `translateY(${d}px)` }, { transform: 'none' }], { duration: 480, easing: 'cubic-bezier(.2,.7,.2,1)' }); });
+    $('#pane').querySelectorAll('[data-c]').forEach(el => { const o = b.val[el.dataset.c]; if (o == null || o === el.textContent) return;
+      el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump');
+      const a = parseFloat(o), z = parseFloat(el.textContent); if (!isNaN(a) && !isNaN(z)) countTo(el, a, z); });
+    $('#pane').querySelectorAll('[data-bar]').forEach(el => { const o = b.bar[el.dataset.bar]; if (o && o !== el.style.width) el.animate([{ width: o }, { width: el.style.width }], { duration: 600, easing: 'cubic-bezier(.2,.7,.2,1)' }); });
+  }
   // forms (logins, clearing data) keep their own state, so live updates don't redraw over what's being typed
   function render() {
     if (TABS.length) {
-      $('#tabs').innerHTML = TABS.map(([k, l]) => `<button class="tab${k === 'acc' || k === 'wipe' ? ' tool' : ''}" role="tab" data-t="${k}" aria-selected="${tab === k}">${l}</button>`).join('');
-      $('#tabs').querySelectorAll('[data-t]').forEach(b => b.onclick = () => { if (tab === b.dataset.t) return; tab = b.dataset.t; last = ''; $('#pane').innerHTML = ''; render(); });
+      const T = $('#tabs');
+      if (!T.dataset.built) {   // built once, so the underline can slide between tabs
+        T.dataset.built = '1'; T.classList.add('seg');
+        T.innerHTML = TABS.map(([k, l]) => `<button class="tab" type="button" role="tab" data-t="${k}">${l}</button>`).join('') + '<i class="ind" aria-hidden="true"></i>';
+        T.querySelectorAll('[data-t]').forEach(b => b.onclick = () => { if (tab === b.dataset.t) return; tab = b.dataset.t; last = ''; $('#pane').innerHTML = ''; render(); });
+        document.fonts?.ready.then(() => { if (document.body.contains(T)) placeInd(); });
+      }
+      T.querySelectorAll('[data-t]').forEach(b => b.setAttribute('aria-selected', tab === b.dataset.t));
+      placeInd();
     } else $('#tabs').hidden = true;
     if (tab === 'acc') { if (!$('#accForm')) accPane(); return; }
     if (tab === 'wipe') { if (!$('#wipeBox')) wipePane(); return; }
     const m = model(scores, status);
     const html = tab === 'results' ? resultsHTML(m) : tab === 'live' ? liveHTML(m) : judgesHTML(m);
-    if (html !== last) { last = html; $('#pane').innerHTML = html; wire(); }
+    if (html !== last) {
+      const fresh = !last, before = fresh || reduceM ? null : snap();
+      last = html; $('#pane').innerHTML = html; wire();
+      if (fresh) swapIn($('#pane')); else if (before) settle(before);
+    }
   }
   function wipePane() {
     const COLS = ['scores', 'status'];
