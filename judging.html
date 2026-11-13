@@ -306,6 +306,8 @@ table.res{width:100%;border-collapse:collapse;font-size:.86rem}
   .glass{background:none;box-shadow:none;border-color:#999;backdrop-filter:none}
   main{padding:0}
 }
+/* theme switch: the same cross-fade timing as index.html */
+.theme-vt::view-transition-old(root),.theme-vt::view-transition-new(root){animation-duration:.55s;animation-timing-function:cubic-bezier(.4,0,.2,1)}
 @media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
 </style>
 </head>
@@ -606,9 +608,24 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': 
   const b = $('#themetog');
   const paint = () => { const light = document.documentElement.getAttribute('data-theme') === 'light';
     b.textContent = light ? '☾' : '☀'; b.setAttribute('aria-label', light ? 'Switch to dark mode' : 'Switch to light mode'); };
-  b.onclick = () => { const light = document.documentElement.getAttribute('data-theme') !== 'light';
-    if (light) document.documentElement.setAttribute('data-theme', 'light'); else document.documentElement.removeAttribute('data-theme');
-    try { localStorage.setItem('bf-theme', light ? 'light' : 'dark'); } catch (e) {} paint(); };
+  const root = document.documentElement, reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let vtId = 0;
+  // the same slow cross-fade as index.html: a view transition where the browser has one, else a veil in the old colour
+  function veilSwap(swap) {
+    const veil = document.createElement('div');
+    veil.style.cssText = 'position:fixed;inset:0;z-index:2000;pointer-events:none;opacity:0;transition:opacity .16s linear;background:' + getComputedStyle(document.body).backgroundColor;
+    document.body.appendChild(veil); void veil.offsetWidth; veil.style.opacity = '1';
+    setTimeout(() => { swap(); veil.style.transition = 'opacity .55s ease'; veil.style.opacity = '0'; setTimeout(() => veil.remove(), 700); }, 180);
+  }
+  b.onclick = () => { const light = root.getAttribute('data-theme') !== 'light';
+    const swap = () => { if (light) root.setAttribute('data-theme', 'light'); else root.removeAttribute('data-theme');
+      try { localStorage.setItem('bf-theme', light ? 'light' : 'dark'); } catch (e) {} paint(); };
+    if (reduce) return swap();
+    if (document.startViewTransition && !document.hidden) {
+      const id = ++vtId; root.classList.add('theme-vt');
+      document.startViewTransition(swap).finished.finally(() => { if (id === vtId) root.classList.remove('theme-vt'); });
+    } else veilSwap(swap);
+  };
   paint();
 })();
 
