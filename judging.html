@@ -662,11 +662,34 @@ const SCHOOLS = {
     'Springdales School, Dubai', 'Our Own High School, Dubai', 'New Indian Model School, Sharjah', 'Credence High School, Dubai',
     'GEMS International School', 'Bright Riders School, Dubai', 'GEMS Founders School, Dubai', 'GEMS Cambridge International Abu Dhabi',
     'GEMS Our Own Indian School', 'Cambridge International School, Dubai', 'GEMS New Millennium School, Dubai Hills'],
-  // still to come: hackrush, codalo (lists), fc26 and rocketleague (player names)
+  // still to come: codalo (list), fc26 and rocketleague (player names)
+};
+// INDIVIDUAL EVENTS: one entry per student (HackRush is individual, per its handbook), numbered in this order
+const PEOPLE = {
+  hackrush: [
+    ['GEMS Millennium School', ['Abrar Bin Ciraj', 'Kreeday Kantilal Bhati', 'Zohair Mustafa Hussain', 'Mohammed Fazza Hafis', 'Suhanth Reddy Adavelly']],
+    ['GEMS Our Own English High School', ['Faerie Basroo', 'Hedra Jagadeesan', 'Sai Saanvi Grandhe', 'Shreya Yashwanth', 'Simrah Taj Mujeeb']],
+    ['Delhi Private School', ['Satya Avinash Cheerla', 'Roshan Uppillivatsan', 'Ishan Verma']],
+    ['The Millennium School, Dubai', ['Fazin Ahamed', 'Mohammed Omar Khan', 'Dayn Lalwani', 'Nived Nidhi']],
+    ['GEMS Modern Academy', ['Shreyram Seetharaman', 'Mathew Stanley', 'Pranav Ramnath', 'Syed Umair Kamal', 'Bastin Baby Pallipadan']],
+    ['Springdales School, Dubai', ['Indravadan Agrawal', 'Muhammad Aayan Faiz Ahmed Memon', 'Abhinav Sudheer Nair', 'Vineeth Jacob']],
+    ['New Indian Model School, Sharjah', ['Mohamed Mufeez', 'Hamdan Sameer Mohammad', 'Azmil Arif', 'Sumaiya Abdul Ajis', 'Aysha Siddiqa']],
+    ['Credence High School, Dubai', ['Medhansh Rawat', 'Kiaan Ashvin Gabani', 'Hanif Ahmed']],
+    ['GEMS International School', ['Santhosh Ramanan', 'Arth Dutta', 'Krish Kirankumar', 'Aditya']],
+    ['Bright Riders School, Dubai', ['Sakthisanthosh Ramesh', 'Dheeran Kaustav Chitturi', 'Tejasvini Yogesh', 'Manasa Maheswaran']],
+    ['GEMS Founders School, Dubai', ['Saachi Anand', 'Arham Aziz', 'David Robin', 'Jaedan Dsouza', 'Aliza Siddiqui']],
+    ['GEMS Cambridge International Abu Dhabi', ['Tanish Sameer Jalan']],
+    ['Our Own English High School (Boys), Sharjah', ['Sudarshan Srinivasan', 'Kanishkk Srinivasan', 'Arnav Meenesh Hodarkar', 'Ishan Ali Riyas', 'Muhammad Imtias Shaik']],
+    ['GEMS Our Own Indian School', ['Andrew Anish', 'Danell Koshy Gijo']],
+    ['Cambridge International School, Dubai', ['Julianne Marae Alano', 'Harnidh Bedi', 'Rimna Michael Teklegzi', 'Fatema Mohammed Pathari']],
+    ['GEMS New Millennium School, Dubai Hills', ['Sriakshaj Devupalli', 'Calab Toji', 'Venkida Vishnu Pillai', 'Mohammed Fadil Narukkan Chira', 'Rudra Kumar']],
+  ],
 };
 EVENTS.forEach(E => {
-  const L = SCHOOLS[E.id]; E.example = !L;
-  E.teams = L ? L.map((sc, i) => ({ no: `${E.code}-${String(i + 1).padStart(2, '0')}`, team: sc, school: sc, members: '' }))
+  const L = SCHOOLS[E.id], Pp = PEOPLE[E.id]; E.example = !L && !Pp;
+  const num = i => `${E.code}-${String(i + 1).padStart(2, '0')}`;
+  E.teams = Pp ? Pp.flatMap(([sc, names]) => names.map(nm => ({ team: nm, school: sc, members: '' }))).map((t, i) => ({ no: num(i), ...t }))
+    : L ? L.map((sc, i) => ({ no: num(i), team: sc, school: sc, members: '' }))
     : ['A', 'B', 'C', 'D'].map((l, i) => ({
       no: `${E.code}-0${i + 1}`, team: `Example team ${l}`, school: i % 2 ? 'Example School Two' : 'Example School One',
       members: `Student ${l}1, Student ${l}2`,
