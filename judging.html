@@ -662,7 +662,9 @@ const SCHOOLS = {
     'Springdales School, Dubai', 'Our Own High School, Dubai', 'New Indian Model School, Sharjah', 'Credence High School, Dubai',
     'GEMS International School', 'Bright Riders School, Dubai', 'GEMS Founders School, Dubai', 'GEMS Cambridge International Abu Dhabi',
     'GEMS Our Own Indian School', 'Cambridge International School, Dubai', 'GEMS New Millennium School, Dubai Hills'],
-  // still to come: codalo (list), fc26 and rocketleague (player names)
+  codalo: ['GEMS Millennium School', 'GEMS Our Own English High School', 'Amity Dubai', 'Delhi Private School', 'GEMS International School',
+    'Bright Riders School, Dubai', 'GEMS Founders School, Dubai', 'GEMS Our Own Indian School', 'GEMS New Millennium School, Dubai Hills'],
+  // still to come: fc26 and rocketleague (player names)
 };
 // INDIVIDUAL EVENTS: one entry per student (HackRush is individual, per its handbook), numbered in this order
 const PEOPLE = {
@@ -933,7 +935,8 @@ function model(scores, status) {
 // finalOnly counts judged events only; otherwise whatever has been scored so far.
 function schools(m, finalOnly) {
   const map = new Map();
-  Object.values(TEAMS).forEach(t => { if (!map.has(norm(t.school))) map.set(norm(t.school), { school: t.school, total: 0, by: {} }); });
+  Object.values(TEAMS).filter(t => !t.ev.manual).forEach(t => { if (!map.has(norm(t.school)))   // GameGrid scores no trophy points
+     map.set(norm(t.school), { school: t.school, total: 0, by: {} }); });
   m.evs.forEach(e => { if (e.E.manual || (finalOnly && !e.final)) return;
     e.rows.forEach(r => { if (r.T === null) return; const x = map.get(norm(r.school));
       const pts = TROPHY_BASIS === 'percent' ? Math.round(1000 * r.T / EMAX(e.E.id)) / 10 : r.T;
