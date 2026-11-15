@@ -905,6 +905,8 @@ const total = s => { if (!s) return null; const R = RUB[s.event]; if (!R) return
   for (let i = 0; i < R.length; i++) { const v = s['c' + (i + 1)]; if (Number.isInteger(v)) t += v; else if (!R[i].opt) return null; } return t; };
 const time = t => { const d = t?.toDate ? t.toDate() : t ? new Date(t) : null; return d ? d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : ''; };
 const ordn = n => ['1st', '2nd', '3rd'][n - 1];
+// the place column: 1ST-3RD on the podium, then plain ranks, with = where entrants share one
+const plc = r => r.place ? ordn(r.place).toUpperCase() : r.rank ? (r.eq ? '=' : '') + r.rank : '–';
 const norm = s => String(s || '').trim().toLowerCase().replace(/\s+/g, ' ');
 // a podium (2nd, 1st, 3rd) from rows that carry .place; teams sharing a place stack in the same block
 const podium = (rows, score) => { const cell = p => { const L = rows.filter(r => r.place === p);
@@ -934,7 +936,8 @@ function model(scores, status) {
     rows.sort((a, b) => (b.T ?? -1) - (a.T ?? -1) || lex(b.tbv, a.tbv) || b.borda - a.borda || dv(a.no) - dv(b.no) || a.no.localeCompare(b.no));
     if (final) { let pl = 0; rows.forEach((r, i) => { const p = rows[i - 1];
       const same = p && r.T !== null && r.T === p.T && lex(r.tbv, p.tbv) === 0 && r.borda === p.borda && dv(r.no) === dv(p.no);
-      if (!same) pl = i + 1; r.place = pl <= 3 ? pl : 0; if (same && pl <= 3) { r.tie = true; p.tie = true; } }); }
+      if (!same) pl = i + 1; r.place = pl <= 3 ? pl : 0; r.rank = r.T === null ? 0 : pl;
+      if (same) { r.eq = p.eq = true; if (pl <= 3) { r.tie = true; p.tie = true; } } }); }
     const judges = J.map((j, k) => ({ id: j, final: !!sts[k].final, entered: rows.filter(r => r.per[k].T !== null).length, started: rows.some(r => r.per[k].s) }));
     return { E, judges, final, submitted, pod, decided: order.length > 0, entered: rows.filter(r => r.full).length, started: judges.some(j => j.started), rows };
   });
@@ -1163,7 +1166,8 @@ function judgeView(E, me, R, override) {
       const L = ordered(); c = check();
       box.innerHTML = L.map((r, i) => { const same = x => cmpKey(x.K, r.K) === 0, tie = L.filter(same).length > 1 && L.findIndex(same) < PN;
         const mine = [1, 2, 3].find(p => pk[p] === r.t.no);
-        return `<div class="rk${mine ? ' pick' + mine : ''}"><span class="pos">${i + 1}</span>
+        const at = L.findIndex(same) + 1, eq = L.filter(same).length > 1;
+        return `<div class="rk${mine ? ' pick' + mine : ''}"><span class="pos">${eq ? '=' : ''}${at}</span>
           <div class="nm"><b>${esc(r.t.team)}</b><div>${esc(subOf(r.t))}${S[r.t.no]?.comment ? ' · ' + esc(S[r.t.no].comment) : ''}</div></div>
           <span class="pts">${r.T}${tie ? '<em class="chip tie">TIED</em>' : ''}</span>
           <div class="pk">${[1, 2, 3].slice(0, PN).map(p => `<button type="button" class="p${p}${pk[p] === r.t.no ? ' on' : ''}" data-p="${p}" data-no="${esc(r.t.no)}" aria-pressed="${pk[p] === r.t.no}">${ordn(p).toUpperCase()}</button>`).join('')}</div></div>`; }).join('')
@@ -1245,8 +1249,9 @@ function staffView(kind, startTab, R) {
       const body = !e.final ? '<p class="note" style="padding:.2rem 0 .5rem">Not judged yet.</p>'
         : `${tied ? `<p class="tiebar">Teams marked TIE are level on everything, including the judges’ rankings. ${kind === 'director' ? 'Choose who goes first.' : 'The director decides these.'}</p>` : ''}
           ${kind === 'director' && e.decided ? `<p class="tiebar"><button class="btn small" type="button" data-cleartb="${E.id}">Undo tie decision</button></p>` : ''}
+          <p class="tiebar"><button class="btn small" type="button" data-csv="${E.id}">Download full ranking</button></p>
           ${podium(e.rows, r => r.T)}<div class="tscroll"><table class="res"><thead><tr><th>Place</th><th>Team</th><th class="n">${multi ? 'Average' : 'Score'} / ${EMAX(E.id)}</th></tr></thead><tbody>
-            ${e.rows.map(r => `<tr class="${r.place ? 'r' + r.place : ''}"><td class="big">${r.place ? ordn(r.place).toUpperCase() : '–'}${r.tie ? '<em class="chip tie">TIE</em>' : ''}</td>
+            ${e.rows.map(r => `<tr class="${r.place ? 'r' + r.place : ''}"><td class="big">${plc(r)}${r.tie ? '<em class="chip tie">TIE</em>' : ''}</td>
               <td><b>${esc(r.team)}</b><div class="s">${where(r)}</div><div class="s">${esc(r.members)}</div>${kind === 'director' && r.tie ? `<button class="btn small" type="button" style="margin-top:.5rem" data-first="${E.id}|${esc(r.no)}">Place first</button>` : ''}</td><td class="n big">${r.T ?? '–'}</td></tr>`).join('')}</tbody></table></div>`;
       return `<details class="ev glass${e.final ? ' done' : ''}" data-id="${E.id}" ${open.has(E.id) ? 'open' : ''}><summary><span class="en">${esc(E.name)}</span>${E.example ? '<span class="chip">EXAMPLE TEAMS</span>' : ''}
         <span class="chip ${e.final ? 'final' : ''}">${e.final ? 'JUDGED' : 'PENDING' + (multi ? ` · ${e.submitted} OF ${e.judges.length}` : '')}</span></summary><div class="body">${body}</div></details>`; }).join('');
@@ -1277,7 +1282,7 @@ function staffView(kind, startTab, R) {
         <div class="body"><div class="tscroll"><table class="res"><thead><tr><th>Team</th>${e.judges.map(j => `<th class="n">${esc(ROLE[j.id].label.split(' · ')[0])}</th>`).join('')}${multi ? '<th class="n">Average</th>' : ''}<th>Place</th></tr></thead><tbody>
           ${e.rows.map(r => `<tr class="${r.place ? 'r' + r.place : ''}" data-k="${E.id}|${esc(r.no)}"><td><b>${esc(r.team)}</b><div class="s">${where(r)}</div></td>
             ${r.per.map(p => `<td class="n big" data-c="${E.id}|${esc(r.no)}|${p.j}">${p.T ?? '–'}</td>`).join('')}${multi ? `<td class="n big" data-c="${E.id}|${esc(r.no)}|avg">${r.T ?? '–'}</td>` : ''}
-            <td class="big">${r.place ? ordn(r.place).toUpperCase() : '–'}${r.tie ? '<em class="chip tie">TIE</em>' : ''}</td></tr>`).join('')}</tbody></table>${E.manual ? '' : `<div class="s" style="padding:.5rem .8rem">Out of ${EMAX(E.id)}</div>`}</div></div></details>`; }).join('');
+            <td class="big">${plc(r)}${r.tie ? '<em class="chip tie">TIE</em>' : ''}</td></tr>`).join('')}</tbody></table>${E.manual ? '' : `<div class="s" style="padding:.5rem .8rem">Out of ${EMAX(E.id)}</div>`}</div></div></details>`; }).join('');
     const L = schools(m, false);
     return tog + `<div class="cert"><h3>STANDINGS<span class="num">${m.judged === EVENTS.length ? 'FINAL' : 'LIVE'}</span></h3><div class="glass" style="padding:.2rem 1rem">${schoolTable(L)}</div></div>`
       + L.map(x => { const k = norm(x.school);
@@ -1305,6 +1310,14 @@ function staffView(kind, startTab, R) {
       const e = model(scores, status).evs.find(x => x.E.id === ev), me = e.rows.find(r => r.no === no);
       const group = e.rows.filter(r => r.tie && r.place === me.place).map(r => r.no);
       api.save('status', 'tb_' + ev, { event: ev, order: [no, ...group.filter(x => x !== no)] }); });
+    $('#pane').querySelectorAll('[data-csv]').forEach(b => b.onclick = () => { const e = model(scores, status).evs.find(x => x.E.id === b.dataset.csv), E = e.E;
+      const q = v => /[",\n]/.test(String(v ?? '')) ? `"${String(v).replace(/"/g, '""')}"` : String(v ?? '');
+      const note = r => r.per.map(p => p.s?.comment).filter(Boolean).join(' / ');
+      const lines = [['Rank', 'No', E.csv ? 'Student' : 'Team', 'School', `Score / ${EMAX(E.id)}`, ...(E.csv ? ['Note'] : [])],
+        ...e.rows.map(r => [r.rank ? (r.eq ? '=' : '') + r.rank : '', r.no, r.team, r.school, r.T ?? '', ...(E.csv ? [note(r)] : [])])];
+      const url = URL.createObjectURL(new Blob(['\uFEFF' + lines.map(l => l.map(q).join(',')).join('\r\n')], { type: 'text/csv' }));
+      const a = document.createElement('a'); a.href = url; a.download = `ByteFest-${E.name.replace(/[^A-Za-z0-9]+/g, '-')}-ranking.csv`; a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000); });
     $('#pane').querySelectorAll('[data-cleartb]').forEach(b => b.onclick = () => api.del('status', 'tb_' + b.dataset.cleartb));
     $('#pane').querySelectorAll('[data-unlock]').forEach(b => b.onclick = () => confirm(`Let ${b.dataset.unlock} change their scores again?`) && api.save('status', b.dataset.unlock, { final: false }));
     $('#pane').querySelectorAll('[data-edit]').forEach(b => b.onclick = () => { const jid = b.dataset.edit; stopAll(); judgeView(EV[ROLE[jid].ev], jid, ROLE[jid], true); scrollTo(0, 0); });
