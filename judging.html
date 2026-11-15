@@ -344,6 +344,14 @@ table.res{width:100%;border-collapse:collapse;font-size:.86rem}
 
 /* judge: ranking */
 .rank{padding:1.1rem 1.1rem .6rem;margin-top:1rem}
+.imp{padding:1.1rem;margin-bottom:1rem}
+.imp .bar-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.imp h3{font-family:var(--px);font-weight:400;font-size:.8rem;letter-spacing:.07em;color:var(--teal)}
+.imp .tscroll{margin:.8rem 0;max-height:60vh;overflow:auto}
+.imp select.field{padding:.45rem .5rem;font-size:.8rem;min-width:12rem}
+.imp .chip.bad{border-color:var(--bad);color:var(--bad)}
+.imp .miss{margin:.4rem 0 .8rem;font-size:.82rem;color:var(--ash)}
+.imp .acts{display:flex;gap:.6rem;justify-content:flex-end;flex-wrap:wrap}
 .rank h3{margin-bottom:.4rem;font-family:var(--px);font-weight:400;font-size:.8rem;letter-spacing:.07em;color:var(--teal)}
 .rk{display:grid;grid-template-columns:2.2rem 1fr auto auto;gap:.8rem;align-items:center;padding:.75rem 0;border-top:1px dashed var(--line)}
 .rk .pos{font-family:var(--num);font-size:.7rem;color:var(--ash)}
@@ -561,19 +569,10 @@ const COL = {
       The database rules (firestore.rules) allow whole numbers 0 to 100 and up to 10 criteria.
    ===================================================================== */
 const EVENTS = [
-  { id: 'hackrush', name: 'HackRush', code: 'HR', arena: 'Code', grades: 'Grade 9–12', judges: 1,
-    // marks per question = marks × (test cases passed ÷ total test cases), worked out from the submitted code
-    tb: [[6, 7, 9], [3, 4, 5, 8]],   // handbook tie-break: more points on Hard questions, then on Medium ones
+  { id: 'hackrush', name: 'HackRush', code: 'HR', arena: 'Code', grades: 'Grade 9–12', judges: 1, csv: true,
+    // the contest platform marks every submission; its results file gives one total per student
     rub: [
-      { n: 'Q1 · Easy', max: 5, d: 'Marks for the share of test cases passed.' },
-      { n: 'Q2 · Easy', max: 5, d: 'Marks for the share of test cases passed.' },
-      { n: 'Q3 · Medium', max: 10, d: 'Marks for the share of test cases passed.' },
-      { n: 'Q4 · Medium', max: 10, d: 'Marks for the share of test cases passed.' },
-      { n: 'Q5 · Medium', max: 10, opt: true, d: 'Missing from the handbook table, but the main-round total of 80 needs a 10-mark Q5. Leave blank if there is no Q5.' },
-      { n: 'Q6 · Hard', max: 20, d: 'Marks for the share of test cases passed.' },
-      { n: 'Q7 · Hard', max: 20, d: 'Marks for the share of test cases passed.' },
-      { n: 'Bonus 1 · Medium', max: 5, opt: true, g: 'Bonus', d: 'Marks for the share of test cases passed.' },
-      { n: 'Bonus 2 · Hard', max: 5, opt: true, g: 'Bonus', d: 'Marks for the share of test cases passed.' },
+      { n: 'Points', max: 90, d: 'The total from the HackRush results file. Import the file, or type the points in.' },
     ] },
   { id: 'circuitriot', name: 'Circuit Riot', code: 'CR', arena: 'Robotics', grades: 'Grade 9–12', judges: 1,
     rub: [
@@ -959,7 +958,7 @@ function judgeView(E, me, R, override) {
   const team = no => E.teams.find(t => t.no === no);
   const tname = no => { const t = team(no); return t ? `${t.team} (${t.no})` : ''; };
   const sc = no => total(S[no]);
-  // total first, then any tie-break groups (HackRush: points on Hard questions, then on Medium)
+  // total first, then any tie-break groups the event defines
   const key = no => { const s = S[no], k = [total(s)];
     (E.tb || []).forEach(g => k.push(g.reduce((a, n) => a + (Number.isInteger(s?.['c' + n]) ? s['c' + n] : 0), 0))); return k; };
   const cmpKey = (a, b) => { for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return a[i] - b[i]; return 0; };
@@ -994,10 +993,13 @@ function judgeView(E, me, R, override) {
       <details class="guide glass"><summary>SCORING GUIDE</summary>
         <div class="rub">${C.map((c, i) => `${grp(C, i)}<div><small>${cmin(c) ? cmin(c) + ' TO ' : 'OUT OF '}${cmax(c)}${c.opt ? ' · OPTIONAL' : ''}</small><b>${esc(c.n)}</b>${c.d ? `<p>${esc(c.d)}</p>` : ''}
           ${c.lv ? `<ol class="lvl" start="${cmin(c) || 1}">${c.lv.map((t, k) => `<li><b>${k + (cmin(c) === 0 && c.lv.length === c.max ? 1 : cmin(c))}</b>${esc(t)}</li>`).join('')}</ol>` : ''}</div>`).join('')}</div></details>
+      ${E.csv ? `<section class="imp glass"><div class="bar-row"><h3>RESULTS FILE</h3>
+        <label class="btn small" for="csvIn">Import CSV</label><input type="file" id="csvIn" accept=".csv,text/csv" hidden></div>
+        <div id="impBox"></div></section>` : ''}
       <div class="teams">${E.teams.map(t => `
         <article class="team glass" data-no="${esc(t.no)}">
           <div class="th"><span class="no">${esc(t.no)}</span>
-            <div class="nm"><b>${esc(t.team)}</b>${t.team === t.school ? '' : `<div>${esc(t.school)}</div>`}${t.members ? `<div>${esc(t.members)}</div>` : ''}</div>
+            <div class="nm"><b>${esc(t.team)}</b>${t.team === t.school ? '' : `<div>${esc(t.school)}</div>`}${t.members ? `<div>${esc(t.members)}</div>` : ''}<div data-cm></div></div>
             <div class="tot"><div class="ringw"><svg class="ring" viewBox="0 0 36 36" aria-hidden="true"><circle class="rb" cx="18" cy="18" r="15.9"/><circle class="rf" cx="18" cy="18" r="15.9" pathLength="100" stroke-dasharray="0 100"/></svg><b>–</b></div><span>/ ${MX}</span></div></div>
           ${C.map((c, i) => `${grp(C, i, true)}<div class="cr"><label>${esc(c.n)}<small>${cmin(c) ? cmin(c) + ' to ' : '/ '}${cmax(c)}${c.opt ? ' · optional' : ''}</small></label>${control(t, c, i)}</div>`).join('')}
           <div class="st" data-st>NOT SCORED</div>
@@ -1023,14 +1025,86 @@ function judgeView(E, me, R, override) {
       const p = +b.dataset.p, no = b.dataset.no;
       if (pk[p] === no) pk[p] = ''; else { [1, 2, 3].forEach(q => { if (pk[q] === no) pk[q] = ''; }); pk[p] = no; }
       savePicks(); rank(); };
+    if (E.csv) $('#csvIn').onchange = e => { const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+      f.text().then(txt => imp.load(txt)).catch(() => imp.fail('Could not read that file.')); };
     E.teams.forEach(t => { if (S[t.no]) { fill(t.no, S[t.no]); paint(t.no, S[t.no], false); } });
     progress();
   }
+  // HackRush results file: Participant, # Questions Solved, RUN STAT, Points (one row per student)
+  const imp = (() => {
+    let rows = [];
+    const key = v => String(v || '').toLowerCase().normalize('NFKD').replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
+    const flat = v => key(v).replace(/ /g, '');
+    const bag = v => key(v).split(' ').sort().join(' ');
+    const dist = (a, b) => { const d = Array.from({ length: b.length + 1 }, (_, k) => k);
+      for (let x = 1; x <= a.length; x++) { let p = d[0]; d[0] = x;
+        for (let y = 1; y <= b.length; y++) { const t = d[y]; d[y] = Math.min(d[y] + 1, d[y - 1] + 1, p + (a[x - 1] === b[y - 1] ? 0 : 1)); p = t; } }
+      return d[b.length]; };
+    function parse(txt) {
+      const out = []; let row = [], cell = '', q = false;
+      for (let i = 0; i < txt.length; i++) { const ch = txt[i];
+        if (q) { if (ch === '"' && txt[i + 1] === '"') { cell += '"'; i++; } else if (ch === '"') q = false; else cell += ch; }
+        else if (ch === '"') q = true; else if (ch === ',') { row.push(cell); cell = ''; }
+        else if (ch === '\n' || ch === '\r') { if (ch === '\r' && txt[i + 1] === '\n') i++; row.push(cell); cell = ''; if (row.some(c => c.trim())) out.push(row); row = []; }
+        else cell += ch; }
+      row.push(cell); if (row.some(c => c.trim())) out.push(row); return out; }
+    // exact name (ignoring case, spaces, punctuation), then the same words in any order, then a near spelling
+    function match(name) {
+      const f = flat(name), b = bag(name);
+      let hit = E.teams.filter(t => flat(t.team) === f); if (hit.length === 1) return { no: hit[0].no, how: 'ok' };
+      hit = E.teams.filter(t => bag(t.team) === b); if (hit.length === 1) return { no: hit[0].no, how: 'ok' };
+      const near = E.teams.map(t => ({ t, d: dist(flat(t.team), f) })).sort((a, b) => a.d - b.d);
+      if (near.length && near[0].d <= Math.max(2, Math.floor(f.length / 8)) && (near.length < 2 || near[1].d > near[0].d)) return { no: near[0].t.no, how: 'check' };
+      return { no: '', how: 'none' }; }
+    function load(txt) {
+      const T = parse(txt.replace(/^\uFEFF/, '')); if (T.length < 2) return fail('That file has no rows.');
+      const H = T[0].map(key), col = re => H.findIndex(h => re.test(h));
+      const cN = col(/participant|name|student/), cP = col(/^points?$|score|total/), cQ = col(/solved|questions/), cR = col(/run|stat/);
+      if (cN < 0 || cP < 0) return fail('The file needs a Participant column and a Points column.');
+      rows = T.slice(1).map(r => { const name = (r[cN] || '').trim(), raw = (r[cP] || '').trim(), n = Number(raw), m = match(name);
+        const note = [cQ >= 0 && r[cQ]?.trim() ? r[cQ].trim() + ' solved' : '', cR >= 0 ? (r[cR] || '').trim() : ''].filter(Boolean).join(' · ');
+        const ok = raw !== '' && Number.isFinite(n) && n >= 0 && n <= 90;
+        return { name, raw, pts: ok ? Math.round(n) : null, round: ok && n !== Math.round(n), note: note.slice(0, 120), no: m.no, how: m.how }; })
+        .filter(r => r.name || r.raw);
+      draw(); }
+    function fail(msg) { rows = []; $('#impBox').innerHTML = `<div class="err" style="text-align:left">${esc(msg)}</div>`; }
+    function draw() {
+      const box = $('#impBox'); if (!rows.length) { box.innerHTML = ''; return; }
+      const used = {}; rows.forEach(r => { if (r.no) used[r.no] = (used[r.no] || 0) + 1; });
+      const opts = no => `<option value="">Not matched</option>` + E.teams.map(t => `<option value="${esc(t.no)}"${t.no === no ? ' selected' : ''}>${esc(t.team)} (${esc(t.no)})</option>`).join('');
+      const tag = r => r.pts === null ? '<em class="chip bad">BAD POINTS</em>' : !r.no ? '<em class="chip bad">NOT FOUND</em>'
+        : used[r.no] > 1 ? '<em class="chip bad">TWICE</em>' : r.how === 'check' ? '<em class="chip tie">CHECK NAME</em>'
+        : r.round ? '<em class="chip tie">ROUNDED</em>' : '<em class="chip done">MATCHED</em>';
+      const good = rows.filter(r => r.no && r.pts !== null && used[r.no] === 1);
+      const dup = rows.some(r => r.no && used[r.no] > 1), miss = E.teams.filter(t => !used[t.no]);
+      const over = good.filter(r => sc(r.no) !== null && sc(r.no) !== r.pts).length;
+      box.innerHTML = `<div class="tscroll"><table class="res"><thead><tr><th>In the file</th><th>Student</th><th class="n">Points</th><th></th></tr></thead><tbody>
+        ${rows.map((r, i) => `<tr><td>${esc(r.name || '(blank)')}${r.note ? `<div class="s">${esc(r.note)}</div>` : ''}</td>
+          <td><select class="field" data-i="${i}" aria-label="Student for ${esc(r.name)}">${opts(r.no)}</select></td>
+          <td class="n big">${esc(r.raw)}</td><td>${tag(r)}</td></tr>`).join('')}</tbody></table></div>
+        ${miss.length ? `<p class="miss">Not in the file (${miss.length}): ${miss.map(t => esc(t.team)).join(', ')}</p>` : ''}
+        ${dup ? '<div class="err" style="text-align:left">Two rows point to the same student. Fix that before applying.</div>' : ''}
+        <div class="acts"><button class="btn small" type="button" id="impNo">Cancel</button>
+          <button class="btn primary small" type="button" id="impGo"${dup || !good.length ? ' disabled' : ''}>Apply ${good.length}${over ? ` (replaces ${over})` : ''}</button></div>`;
+      box.querySelectorAll('select').forEach(sel => sel.onchange = () => { const r = rows[+sel.dataset.i]; r.no = sel.value; r.how = 'ok'; draw(); });
+      $('#impNo').onclick = () => { rows = []; draw(); };
+      $('#impGo').onclick = () => apply(good);
+    }
+    function apply(list) {
+      list.forEach(r => { const d = { event: E.id, judge: me, no: r.no, c1: r.pts, comment: r.note };
+        clearTimeout(timers[r.no]); delete timers[r.no]; delete pend[r.no];
+        S[r.no] = { ...(S[r.no] || {}), ...d }; fill(r.no, S[r.no]); paint(r.no, S[r.no], true);
+        const st = card(r.no)?.querySelector('[data-st]'); if (st) { st.className = 'st'; st.textContent = 'SAVING…'; }
+        api.save('scores', `${me}_${r.no}`, d).catch(err => { const st = card(r.no)?.querySelector('[data-st]'); if (st) { st.className = 'st err'; st.textContent = 'NOT SAVED: CHECK THE CONNECTION'; } console.error(err); }); });
+      rows = []; $('#impBox').innerHTML = `<div class="banner ok" style="margin:.8rem 0 0">${list.length} scores imported.</div>`;
+    }
+    return { load, fail };
+  })();
   const readCard = no => { const el = card(no), d = { event: E.id, judge: me, no };
     C.forEach((c, i) => { const k = 'c' + (i + 1);
       if (c.max <= 10) { const on = el.querySelector(`.lv[data-c="${k}"] button.on`); d[k] = on ? +on.dataset.v : null; }
       else { const inp = el.querySelector(`input[data-c="${k}"]`); d[k] = inp.value === '' ? null : Math.min(c.max, +inp.value); } });
-    d.comment = ''; return d; };
+    d.comment = S[no]?.comment || ''; return d; };
   function queue(no) {
     clearTimeout(timers[no]); const st = card(no).querySelector('[data-st]'); st.className = 'st'; st.textContent = 'SAVING…';
     const d = readCard(no); S[no] = { ...(S[no] || {}), ...d }; pend[no] = d; paint(no, S[no], true);
@@ -1047,7 +1121,7 @@ function judgeView(E, me, R, override) {
       const d = { event: E.id, judge: me, p1: pk[1], p2: pk[2], p3: pk[3] }; if (!override) d.final = false;   // a draft, so a refresh keeps the choice
       api.save('status', me, d).catch(console.error); }, 450);
   }
-  function fill(no, s) { const el = card(no);
+  function fill(no, s) { const el = card(no); const cm = el.querySelector('[data-cm]'); if (cm) cm.textContent = s.comment || '';
     C.forEach((c, i) => { const k = 'c' + (i + 1), v = s[k];
       if (c.max <= 10) el.querySelectorAll(`.lv[data-c="${k}"] button`).forEach(b => { const on = v != null && +b.dataset.v === v; b.classList.toggle('on', on); b.setAttribute('aria-checked', on); });
       else { const inp = el.querySelector(`input[data-c="${k}"]`); if (document.activeElement !== inp) inp.value = v ?? ''; } }); }
@@ -1080,7 +1154,7 @@ function judgeView(E, me, R, override) {
       box.innerHTML = L.map((r, i) => { const same = x => cmpKey(x.K, r.K) === 0, tie = L.filter(same).length > 1 && L.findIndex(same) < PN;
         const mine = [1, 2, 3].find(p => pk[p] === r.t.no);
         return `<div class="rk${mine ? ' pick' + mine : ''}"><span class="pos">${i + 1}</span>
-          <div class="nm"><b>${esc(r.t.team)}</b><div>${esc(subOf(r.t))}</div></div>
+          <div class="nm"><b>${esc(r.t.team)}</b><div>${esc(subOf(r.t))}${S[r.t.no]?.comment ? ' · ' + esc(S[r.t.no].comment) : ''}</div></div>
           <span class="pts">${r.T}${tie ? '<em class="chip tie">TIED</em>' : ''}</span>
           <div class="pk">${[1, 2, 3].slice(0, PN).map(p => `<button type="button" class="p${p}${pk[p] === r.t.no ? ' on' : ''}" data-p="${p}" data-no="${esc(r.t.no)}" aria-pressed="${pk[p] === r.t.no}">${ordn(p).toUpperCase()}</button>`).join('')}</div></div>`; }).join('')
         + (c.bad ? `<div class="err" style="text-align:left">${esc(c.bad)}</div>` : '');
