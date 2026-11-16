@@ -599,7 +599,8 @@ const EVENTS = [
         lv: ['Frequent stalls or stops.', 'Noticeable slowdowns and hesitation.', 'Mostly steady, with a few slowdowns.', 'Steady speed with rare hesitation.', 'Constant, smooth speed from start to finish.'] },
     ] },
   // pod = the judges mark Round 1 here; the Robot.IO battles run on paper and the event head enters the final top three
-  { id: 'codalo', name: 'Codalo', code: 'CD', arena: 'Robotics', grades: 'Grade 9–12', pod: true,
+  // drop: Codalo ended up with one judge; judge4 keeps its number (so later judges keep theirs) but is left out
+  { id: 'codalo', name: 'Codalo', code: 'CD', arena: 'Robotics', grades: 'Grade 9–12', pod: true, drop: ['judge4'],
     rub: [
       { n: 'Creativity', g: 'Round 1 · Titan', min: 1, max: 4,
         lv: ['Not at all creative, very few ideas.', 'Partially creative, few ideas.', 'Very creative, but details and ideas not implemented well.', 'Very creative, attention to detail and innovative ideas.'] },
@@ -715,7 +716,7 @@ const subOf = t => t.team === t.school ? t.no : `${t.no} · ${t.school}`;
 const ROLE = {}, JUDGES_OF = {};
 let jn = 0;   // judge1, judge2, … numbered in EVENTS order, each event taking its share
 EVENTS.forEach(E => { JUDGES_OF[E.id] = [];
-  for (let k = 0; k < (E.judges ?? 2); k++) { const id = 'judge' + (++jn); JUDGES_OF[E.id].push(id);
+  for (let k = 0; k < (E.judges ?? 2); k++) { const id = 'judge' + (++jn); if ((E.drop || []).includes(id)) continue; JUDGES_OF[E.id].push(id);
     ROLE[id] = { kind: 'judge', ev: E.id, grp: 'Judges', label: `Judge ${jn} · ${E.name}` }; } });
 // event heads (student and teacher leads share one login per event): live scores for their own event only
 [['hackrush', 'HackRush', ['hackrush']], ['circuitriot', 'Circuit Riot', ['circuitriot']], ['codalo', 'Codalo', ['codalo']],
