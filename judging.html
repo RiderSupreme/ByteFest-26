@@ -658,7 +658,7 @@ const TROPHY_BASIS = 'percent';
 const RUB = Object.fromEntries(EVENTS.map(E => [E.id, E.rub]));
 // REGISTERED SCHOOLS: one team per school, numbered in this order (VC-01, VC-02, …). Spell a school exactly the same
 // in every event: the rolling trophy adds a school's teams up by name (capital letters and spaces don't matter).
-// An event with no list yet keeps 4 example teams and is marked EXAMPLE TEAMS.
+// GameGrid has no player list, so its dropdowns list the schools.
 const SCHOOLS = {
   vybecode: ['GEMS Millennium School', 'GEMS Our Own English High School', 'Amity Dubai', 'Delhi Private School', 'The Millennium School, Dubai',
     'Our Own High School, Dubai', 'New Indian Model School, Sharjah', 'Credence High School, Dubai', 'GEMS International School',
@@ -696,15 +696,14 @@ const PEOPLE = {
     ['GEMS New Millennium School, Dubai Hills', ['Sriakshaj Devupalli', 'Calab Toji', 'Venkida Vishnu Pillai', 'Mohammed Fadil Narukkan Chira', 'Rudra Kumar']],
   ],
 };
+// GameGrid has no player list: its dropdowns list every school taking part in ByteFest, in A-Z order
+const ALL_SCHOOLS = [...new Map([...Object.values(SCHOOLS).flat(), ...Object.values(PEOPLE).flatMap(L => L.map(x => x[0]))]
+  .map(sc => [sc.trim().toLowerCase().replace(/\s+/g, ' '), sc])).values()].sort((a, b) => a.localeCompare(b));
 EVENTS.forEach(E => {
-  const L = SCHOOLS[E.id], Pp = PEOPLE[E.id]; E.example = !L && !Pp;
+  const L = SCHOOLS[E.id] || (E.manual ? ALL_SCHOOLS : null), Pp = PEOPLE[E.id]; E.example = false;
   const num = i => `${E.code}-${String(i + 1).padStart(2, '0')}`;
   E.teams = Pp ? Pp.flatMap(([sc, names]) => names.map(nm => ({ team: nm, school: sc, members: '' }))).map((t, i) => ({ no: num(i), ...t }))
-    : L ? L.map((sc, i) => ({ no: num(i), team: sc, school: sc, members: '' }))
-    : ['A', 'B', 'C', 'D'].map((l, i) => ({
-      no: `${E.code}-0${i + 1}`, team: `Example team ${l}`, school: i % 2 ? 'Example School Two' : 'Example School One',
-      members: `Student ${l}1, Student ${l}2`,
-    }));
+    : L.map((sc, i) => ({ no: num(i), team: sc, school: sc, members: '' }));
 });
 // the line under a team's name: its number, plus the school when the team has its own name
 const subOf = t => t.team === t.school ? t.no : `${t.no} · ${t.school}`;
