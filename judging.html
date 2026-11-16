@@ -598,7 +598,8 @@ const EVENTS = [
       { n: 'Speed consistency', g: 'Velocity run and precision circuit', max: 5, min: 0, d: 'DNF scores 0.',
         lv: ['Frequent stalls or stops.', 'Noticeable slowdowns and hesitation.', 'Mostly steady, with a few slowdowns.', 'Steady speed with rare hesitation.', 'Constant, smooth speed from start to finish.'] },
     ] },
-  { id: 'codalo', name: 'Codalo', code: 'CD', arena: 'Robotics', grades: 'Grade 9–12',
+  // pod = the judges mark Round 1 here; the Robot.IO battles run on paper and the event head enters the final top three
+  { id: 'codalo', name: 'Codalo', code: 'CD', arena: 'Robotics', grades: 'Grade 9–12', pod: true,
     rub: [
       { n: 'Creativity', g: 'Round 1 · Titan', min: 1, max: 4,
         lv: ['Not at all creative, very few ideas.', 'Partially creative, few ideas.', 'Very creative, but details and ideas not implemented well.', 'Very creative, attention to detail and innovative ideas.'] },
@@ -904,6 +905,8 @@ const total = s => { if (!s) return null; const R = RUB[s.event]; if (!R) return
   for (let i = 0; i < R.length; i++) { const v = s['c' + (i + 1)]; if (Number.isInteger(v)) t += v; else if (!R[i].opt) return null; } return t; };
 const time = t => { const d = t?.toDate ? t.toDate() : t ? new Date(t) : null; return d ? d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : ''; };
 const ordn = n => ['1st', '2nd', '3rd'][n - 1];
+// events whose winners are entered as a top three (GameGrid, Codalo) score no rolling-trophy points
+const noTrophy = E => !!(E.manual || E.pod);
 // the place column: 1ST-3RD on the podium, then plain ranks, with = where entrants share one
 const plc = r => r.place ? ordn(r.place).toUpperCase() : r.rank ? (r.eq ? '=' : '') + r.rank : '–';
 const norm = s => String(s || '').trim().toLowerCase().replace(/\s+/g, ' ');
@@ -920,11 +923,11 @@ function model(scores, status) {
   const lex = (a, b) => { for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return a[i] - b[i]; return 0; };
   const evs = EVENTS.map(E => {
     const J = JUDGES_OF[E.id], sts = J.map(j => status.find(x => x.id === j) || {});
-    const submitted = sts.filter(x => x.final).length, final = E.manual ? !!(status.find(x => x.id === 'pod_' + E.id) || {}).p1 : submitted === J.length;
+    const submitted = sts.filter(x => x.final).length, final = noTrophy(E) ? !!(status.find(x => x.id === 'pod_' + E.id) || {}).p1 : submitted === J.length;
     const order = (status.find(x => x.id === 'tb_' + E.id) || {}).order || [], dv = no => { const k = order.indexOf(no); return k < 0 ? 99 : k; };
-    const pod = E.manual ? (status.find(x => x.id === 'pod_' + E.id) || {}) : null;
+    const pod = noTrophy(E) ? (status.find(x => x.id === 'pod_' + E.id) || {}) : null;
     const borda = {}; if (pod) [pod.p1, pod.p2, pod.p3].forEach((no, k) => { if (no) borda[no] = 3 - k; });
-    sts.forEach(x => [x.p1, x.p2, x.p3].forEach((no, k) => { if (no) borda[no] = (borda[no] || 0) + 3 - k; }));
+    if (!E.pod) sts.forEach(x => [x.p1, x.p2, x.p3].forEach((no, k) => { if (no) borda[no] = (borda[no] || 0) + 3 - k; }));
     const rows = E.teams.map(t => {
       const per = J.map(j => { const s = scores.find(x => x.judge === j && x.no === t.no); return { j, s, T: total(s) }; });
       const got = per.filter(p => p.T !== null);
@@ -932,11 +935,13 @@ function model(scores, status) {
       const tbv = (E.tb || []).map(g => got.length ? got.reduce((a, p) => a + g.reduce((x, n) => x + (Number.isInteger(p.s['c' + n]) ? p.s['c' + n] : 0), 0), 0) / got.length : 0);
       return { ...t, per, T, tbv, borda: borda[t.no] || 0, full: got.length === J.length, place: 0, tie: false };
     });
-    rows.sort((a, b) => (b.T ?? -1) - (a.T ?? -1) || lex(b.tbv, a.tbv) || b.borda - a.borda || dv(a.no) - dv(b.no) || a.no.localeCompare(b.no));
+    rows.sort((a, b) => (E.pod ? b.borda - a.borda : 0) || (b.T ?? -1) - (a.T ?? -1) || lex(b.tbv, a.tbv) || b.borda - a.borda || dv(a.no) - dv(b.no) || a.no.localeCompare(b.no));
     if (final) { let pl = 0; rows.forEach((r, i) => { const p = rows[i - 1];
       const same = p && r.T !== null && r.T === p.T && lex(r.tbv, p.tbv) === 0 && r.borda === p.borda && dv(r.no) === dv(p.no);
       if (!same) pl = i + 1; r.place = pl <= 3 ? pl : 0; r.rank = r.T === null ? 0 : pl;
       if (same) { r.eq = p.eq = true; if (pl <= 3) { r.tie = true; p.tie = true; } } }); }
+    // Codalo: only the head's top three are placed; Round 1 marks alone don't rank anyone
+    if (E.pod) rows.forEach(r => { r.place = final && r.borda ? 4 - r.borda : 0; r.rank = r.place; r.tie = r.eq = false; });
     const judges = J.map((j, k) => ({ id: j, final: !!sts[k].final, entered: rows.filter(r => r.per[k].T !== null).length, started: rows.some(r => r.per[k].s) }));
     return { E, judges, final, submitted, pod, decided: order.length > 0, entered: rows.filter(r => r.full).length, started: judges.some(j => j.started), rows };
   });
@@ -946,9 +951,9 @@ function model(scores, status) {
 // finalOnly counts judged events only; otherwise whatever has been scored so far.
 function schools(m, finalOnly) {
   const map = new Map();
-  Object.values(TEAMS).filter(t => !t.ev.manual).forEach(t => { if (!map.has(norm(t.school)))   // GameGrid scores no trophy points
+  Object.values(TEAMS).filter(t => !noTrophy(t.ev)).forEach(t => { if (!map.has(norm(t.school)))   // GameGrid scores no trophy points
      map.set(norm(t.school), { school: t.school, total: 0, by: {} }); });
-  m.evs.forEach(e => { if (e.E.manual || (finalOnly && !e.final)) return;
+  m.evs.forEach(e => { if (noTrophy(e.E) || (finalOnly && !e.final)) return;
     e.rows.forEach(r => { if (r.T === null) return; const x = map.get(norm(r.school));
       const pts = TROPHY_BASIS === 'percent' ? Math.round(1000 * r.T / EMAX(e.E.id)) / 10 : r.T;
       x.total = Math.round(10 * (x.total + pts)) / 10; x.by[e.E.id] = Math.round(10 * ((x.by[e.E.id] || 0) + pts)) / 10; }); });
@@ -962,7 +967,7 @@ function schools(m, finalOnly) {
    (this settles any tie), then submits, which locks the login.
    override: the director editing this judge's marks and picks; nothing locks, and there's a way back */
 function judgeView(E, me, R, override) {
-  const C = RUB[E.id], MX = EMAX(E.id), PN = Math.min(3, E.teams.length);
+  const C = RUB[E.id], MX = EMAX(E.id), PN = E.pod ? 0 : Math.min(3, E.teams.length);
   $('#whoName').textContent = override ? 'Director' : R.label;
   $('#whoRole').textContent = override ? 'Editing ' + R.label : E.arena + ' arena';
   const S = {}, pk = { 1: '', 2: '', 3: '' }, timers = {}, pend = {};
@@ -979,6 +984,7 @@ function judgeView(E, me, R, override) {
   // the podium has to follow the points; the judge only decides between teams on equal points
   function check() {
     const want = [1, 2, 3].slice(0, PN), miss = want.filter(p => !team(pk[p]));
+    if (!PN) return { ok: true, need: '', bad: '' };
     if (miss.length) return { ok: false, need: 'Choose ' + miss.map(ordn).join(', '), bad: '' };
     let bad = '';
     for (let i = 1; i < PN && !bad; i++) if (cmpKey(key(pk[i]), key(pk[i + 1])) < 0) bad = `${tname(pk[i + 1])} ranks higher than ${tname(pk[i])}, so it has to place above it.`;
@@ -1191,7 +1197,7 @@ function judgeView(E, me, R, override) {
     $('#main').innerHTML = `
       <div class="hero"><div><span class="kicker">${esc(R.label.toUpperCase())}</span><h2>Submitted</h2></div></div>
       <div class="banner ok">Your scores and ranking are final. This login is now locked.${pending ? ' Syncing…' : ''}</div>
-      <div class="rank glass">${podium([1, 2, 3].slice(0, PN).filter(p => team(pk[p])).map(p => ({ ...team(pk[p]), place: p })), t => sc(t.no))}</div>`;
+      ${PN ? '' : '<!--'}<div class="rank glass">${podium([1, 2, 3].slice(0, PN).filter(p => team(pk[p])).map(p => ({ ...team(pk[p]), place: p })), t => sc(t.no))}</div>${PN ? '' : '-->'}`;
     swapIn($('#main'));
   }
   unsub.push(api.watch('scores', docs => {
@@ -1227,18 +1233,20 @@ function staffView(kind, startTab, R) {
     if (d.open) { open.add(d.dataset.id); if (!reduceM) { d.classList.add('opening'); setTimeout(() => d.classList.remove('opening'), 450); } } else open.delete(d.dataset.id); }, true);
   const where = r => esc(subOf(r));
 
+  // the top-three form: the director for GameGrid (Results), the Codalo head (Live scores)
+  const podForm = (E, e) => { const pod = e.pod || {}, dr = podDraft[E.id] || (podDraft[E.id] = { 1: pod.p1 || '', 2: pod.p2 || '', 3: pod.p3 || '' });
+  const sel = p => `<div><label class="lbl" for="pod${E.id}${p}">${ordn(p).toUpperCase()}</label><select class="field" id="pod${E.id}${p}" data-pod="${E.id}|${p}"><option value="">Choose…</option>
+          ${E.teams.map(t => `<option value="${esc(t.no)}"${dr[p] === t.no ? ' selected' : ''}>${esc(t.team)} (${esc(t.no)})${t.team === t.school ? '' : ' · ' + esc(t.school)}</option>`).join('')}</select></div>`;
+    return `<div class="form-grid glass">${[1, 2, 3].slice(0, Math.min(3, E.teams.length)).map(sel).join('')}
+          <button class="btn primary" type="button" data-savepod="${E.id}">Save placings</button></div>`; };
   function resultsHTML(m) {
     // the results logins see only the winner, and only once every event is judged; admin and director see the standings
     const winnerOnly = kind === 'results';
     const L = schools(m, true), done = m.judged === EVENTS.length, lead = L.filter(x => x.rank === 1 && x.total > 0);
     const evs = m.evs.map(e => { const E = e.E;
       const multi = e.judges.length > 1, tied = e.rows.some(r => r.tie);
-      if (E.manual) {
-        const pod = e.pod || {}, dr = podDraft[E.id] || (podDraft[E.id] = { 1: pod.p1 || '', 2: pod.p2 || '', 3: pod.p3 || '' });
-        const sel = p => `<div><label class="lbl" for="pod${E.id}${p}">${ordn(p).toUpperCase()}</label><select class="field" id="pod${E.id}${p}" data-pod="${E.id}|${p}"><option value="">Choose…</option>
-          ${E.teams.map(t => `<option value="${esc(t.no)}"${dr[p] === t.no ? ' selected' : ''}>${esc(t.team)} (${esc(t.no)})${t.team === t.school ? '' : ' · ' + esc(t.school)}</option>`).join('')}</select></div>`;
-        const form = kind === 'director' ? `<div class="form-grid glass">${[1, 2, 3].slice(0, Math.min(3, E.teams.length)).map(sel).join('')}
-          <button class="btn primary" type="button" data-savepod="${E.id}">Save placings</button></div>` : '';
+      if (noTrophy(E)) {
+        const form = kind === 'director' ? podForm(E, e) : '';
         const table = e.final ? `${podium(e.rows)}<div class="tscroll"><table class="res"><thead><tr><th>Place</th><th>Team</th></tr></thead><tbody>
           ${e.rows.filter(r => r.place).map(r => `<tr class="r${r.place}"><td class="big">${ordn(r.place).toUpperCase()}</td><td><b>${esc(r.team)}</b><div class="s">${where(r)}</div><div class="s">${esc(r.members)}</div></td></tr>`).join('')}</tbody></table></div>`
           : (kind === 'director' ? '' : '<p class="note" style="padding:.2rem 0 .5rem">Not decided yet.</p>');
@@ -1263,9 +1271,9 @@ function staffView(kind, startTab, R) {
         + schoolTable(L)}</section>`;
     return evs + trophy;
   }
-  const schoolTable = L => `<div class="tscroll"><table class="res"><thead><tr><th>#</th><th>School</th>${EVENTS.filter(E => !E.manual).map(E => `<th class="n hide-m">${esc(E.code)}</th>`).join('')}<th class="n">Points</th></tr></thead><tbody>
+  const schoolTable = L => `<div class="tscroll"><table class="res"><thead><tr><th>#</th><th>School</th>${EVENTS.filter(E => !noTrophy(E)).map(E => `<th class="n hide-m">${esc(E.code)}</th>`).join('')}<th class="n">Points</th></tr></thead><tbody>
     ${L.map(x => `<tr class="${x.total && x.rank === 1 ? 'r1' : ''}" data-k="sch|${esc(norm(x.school))}"><td class="big">${x.total ? x.rank : '–'}</td><td><b>${esc(x.school)}</b></td>
-      ${EVENTS.filter(E => !E.manual).map(E => `<td class="n hide-m">${x.by[E.id] ?? '–'}</td>`).join('')}<td class="n big" data-c="sch|${esc(norm(x.school))}">${x.total}</td></tr>`).join('')}</tbody></table></div>`;
+      ${EVENTS.filter(E => !noTrophy(E)).map(E => `<td class="n hide-m">${x.by[E.id] ?? '–'}</td>`).join('')}<td class="n big" data-c="sch|${esc(norm(x.school))}">${x.total}</td></tr>`).join('')}</tbody></table></div>`;
 
   function liveHTML(m) {
     const tog = `<div class="tabs seg mini"><button class="tab" type="button" data-mode="event" aria-selected="${mode === 'event'}">By event</button>
@@ -1277,8 +1285,8 @@ function staffView(kind, startTab, R) {
         <b class="pc" data-c="ring|${E.id}" aria-label="${pc}% marked">${pc}</b></div>`;
       return `<details class="ev lev glass${e.final ? ' done' : ''}" data-id="${E.id}" ${open.has(E.id) ? 'open' : ''}><summary>${ring}
         <div class="evt"><span class="en">${!E.manual && e.started && !e.final ? '<span class="live" aria-hidden="true"></span>' : ''}${esc(E.name)}</span><div class="jst">${E.example ? '<span class="chip">EXAMPLE TEAMS</span>' : ''}${E.manual ? '' : `<span class="chip ${e.entered === E.teams.length ? 'done' : ''}">${e.entered}/${E.teams.length} SCORED</span>`}
-        <span class="chip ${e.final ? 'final' : ''}">${E.manual ? (e.final ? 'DECIDED' : 'NOT DECIDED') : e.final ? 'SUBMITTED' : e.started ? `JUDGING${multi ? ` · ${e.submitted} OF ${e.judges.length} SUBMITTED` : ''}` : 'NOT STARTED'}</span></div></div></summary>
-        <div class="body"><div class="tscroll"><table class="res"><thead><tr><th>Team</th>${e.judges.map(j => `<th class="n">${esc(ROLE[j.id].label.split(' · ')[0])}</th>`).join('')}${multi ? '<th class="n">Average</th>' : ''}<th>Place</th></tr></thead><tbody>
+        <span class="chip ${e.final ? 'final' : ''}">${E.manual ? (e.final ? 'DECIDED' : 'NOT DECIDED') : E.pod ? (e.final ? 'DECIDED' : e.submitted === e.judges.length ? 'ROUND 1 SUBMITTED' : e.started ? 'JUDGING ROUND 1' : 'NOT STARTED') : e.final ? 'SUBMITTED' : e.started ? `JUDGING${multi ? ` · ${e.submitted} OF ${e.judges.length} SUBMITTED` : ''}` : 'NOT STARTED'}</span></div></div></summary>
+        <div class="body">${E.pod && (isHead || isDir) ? `<p class="note" style="margin:.2rem 0 .6rem">After the Robot.IO battles, enter the final top three.${e.final ? ' Saved.' : ''}</p>${podForm(E, e)}` : ''}<div class="tscroll"><table class="res"><thead><tr><th>Team</th>${e.judges.map(j => `<th class="n">${esc(ROLE[j.id].label.split(' · ')[0])}</th>`).join('')}${multi ? '<th class="n">Average</th>' : ''}<th>Place</th></tr></thead><tbody>
           ${e.rows.map(r => `<tr class="${r.place ? 'r' + r.place : ''}" data-k="${E.id}|${esc(r.no)}"><td><b>${esc(r.team)}</b><div class="s">${where(r)}</div></td>
             ${r.per.map(p => `<td class="n big" data-c="${E.id}|${esc(r.no)}|${p.j}">${p.T ?? '–'}</td>`).join('')}${multi ? `<td class="n big" data-c="${E.id}|${esc(r.no)}|avg">${r.T ?? '–'}</td>` : ''}
             <td class="big">${plc(r)}${r.tie ? '<em class="chip tie">TIE</em>' : ''}</td></tr>`).join('')}</tbody></table>${E.manual ? '' : `<div class="s" style="padding:.5rem .8rem">Out of ${EMAX(E.id)}</div>`}</div></div></details>`; }).join('');
@@ -1304,7 +1312,7 @@ function staffView(kind, startTab, R) {
       const picks = [1, 2, 3].slice(0, n).map(p => dr[p] || '');
       if (picks.some(x => !x)) return alert('Choose a team for every place.');
       if (new Set(picks).size < picks.length) return alert('The same team is chosen twice.');
-      api.save('status', 'pod_' + ev, { event: ev, p1: picks[0] || '', p2: picks[1] || '', p3: picks[2] || '' }); });
+      api.save('status', 'pod_' + ev, { event: ev, p1: picks[0] || '', p2: picks[1] || '', p3: picks[2] || '' }).catch(err => { alert('Could not save the placings. Check the connection and try again.'); console.error(err); }); });
     $('#pane').querySelectorAll('[data-first]').forEach(b => b.onclick = () => { const [ev, no] = b.dataset.first.split('|');
       const e = model(scores, status).evs.find(x => x.E.id === ev), me = e.rows.find(r => r.no === no);
       const group = e.rows.filter(r => r.tie && r.place === me.place).map(r => r.no);
